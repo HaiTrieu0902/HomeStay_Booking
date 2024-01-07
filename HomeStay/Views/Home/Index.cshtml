@@ -1,0 +1,827 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<link href="~/css/roomdetailcss.css" rel="stylesheet" />
+<link href="~/css/swiper.css" rel="stylesheet" />
+<link href="~/css/slider.css" rel="stylesheet" />
+<div class="mt-5">
+    <div class="container px-0">
+        <div class="py-5">
+            <!-- search home -->
+            <div class="d-flex search-home-containter mt-5  rounded-3 gap-2 w-100">
+                <div class="search_contain d-flex align-items-center col-5 rounded-3">
+                    <i class="ml-3 fa-solid fa-bed"></i>
+                    <input  placeholder="Bạn muốn đến đâu?" class="w-100 input_form-transperant px-2 "/>
+                </div>
+                <div class="search_contain d-flex align-items-center col-5 rounded-3">
+                    <i class="ml-3 fa-solid fa-bed"></i>
+                    <input placeholder="Nhập số lượng người đi?" class="w-100 input_form-transperant px-2 " />
+                </div>
+                <button class="btn bg-primary text-white w-100">Tìm kiếm</button>
+            </div>
+            <div class="space-top"></div>
+            <div class="swiper container_swiper rounded-16 col-12">
+              @*   swiper-wrapper *@
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="d-flex container_slider gap-4">
+                            <div class="col-6 item-slider rounded-16 ">
+                                <div class="d-flex w-full">
+                                    <div class="col-8 container_slider p-4">
+                                        <h3 class="fw-bold text-black fs-20">Tận hưởng kỳ nghỉ dài nhất của bạn</h3>
+                                        <p class="text-black fs-14">
+                                            Tìm kiếm các chỗ nghỉ cho phép lưu trú dài ngày với giá theo tháng ưu đãi.
+                                        </p>
+                                        <button class="btn bg-primary text-white mt-2">Tìm chỗ nghỉ</button>
+                                    </div>
+                                    <div class="col-4 container_slider">
+                                        <img class="img-100_right" src="~/img/miscellaneous/homestayBanner.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6  slieder-boxshadow">
+                                <div class="position-relative ">
+                                    <div class="rounded-16">
+                                        <img class="img-100 rounded-16" src="~/img/miscellaneous/bavi-annam-garden.jpg" alt="">
+                                    </div>
+                                    <div class="position-absolute banner_firstyear">
+                                        <h3 class="fw-bold text-primary fs-20">Năm mới, hành trình mới</h3>
+                                        <p class="text-primary fs-14">
+                                            Tiết kiệm từ 15% khi đặt và lưu trú trước 1/4/2024
+                                        </p>
+                                        <button class="btn bg-primary text-white mt-2">Tìm ưu đãi đầu năm 2024</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide slieder-boxshadow w-100">
+                        <a href="./product.html" class="w-100">
+                            <div class="container_slider">
+                                <img class="img-100" src="~/img/miscellaneous/homestayBanner.jpg" alt="">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide slieder-boxshadow">
+                        <a class ="w-100">
+                            <div class="container_slider">
+                                <img class="img-100" src="~/img/miscellaneous/homestayBanner.jpg" alt="">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="space-top"></div>
+
+            <!-- container Welcome -->
+            <div class="container-welcome">
+                <div class="container-welcome-list">
+                    <h3 class="welcome-heading">
+                        Chào mừng bạn đến với HomeStay
+                    </h3>
+                    <p class="welcome-title">
+                        Đặt phòng, Chỗ ở, Tìm ưu đãi khách sạn, chỗ nghỉ dạng nhà và nhiều hơn nữa...
+                    </p>
+                    <span class="welcome-title welcome_link">
+                        <a class="text-decoration-none text-primary" href="">Đăng nhập </a>
+                        hoặc
+                        <a class="text-decoration-none text-primary" href="">Đăng ký</a>
+                        để trải nghiệm !
+                    </span>
+                </div>
+            </div>
+
+            <!-- container HotPlace -->
+            <div class="container-section space-top">
+                <div class="container-section-list">
+                    <div class="container-section-item col-12">
+                        <div class="">
+                            <h4 class="section-title-heading">Điểm đến đang thịnh hành</h4>
+                            <p class="section-title-text">Du khách tìm kiếm cũng đặt chỗ ở những nơi này</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-section-item">
+                    <div class="row g-4">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="position-relative">
+                                <div class="location_ontrend-contain">
+                                    <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                </div>
+                                <div class="position-absolute absolute_hittle  ">
+                                    <h3 class="text-white ">
+                                       Hà Nội
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="position-relative">
+                                <div class="location_ontrend-contain">
+                                    <img src="~/img/miscellaneous/HCM.jpg" class="img-100" />
+                                </div>
+                                <div class="position-absolute absolute_hittle  ">
+                                    <h3 class="text-white ">
+                                       TP HCM
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="position-relative">
+                                <div class="location_ontrend-contain">
+                                    <img src="~/img/miscellaneous/HCM.jpg" class="img-100" />
+                                </div>
+                                <div class="position-absolute absolute_hittle  ">
+                                    <h3 class="text-white ">
+                                       Đà Nẵng
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="position-relative">
+                                <div class="location_ontrend-contain">
+                                    <img src="~/img/miscellaneous/HCM.jpg" class="img-100" />
+                                </div>
+                                <div class="position-absolute absolute_hittle  ">
+                                    <h3 class="text-white ">
+                                      Huế
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="position-relative">
+                                <div class="location_ontrend-contain">
+                                    <img src="~/img/miscellaneous/HCM.jpg" class="img-100" />
+                                </div>
+                                <div class="position-absolute absolute_hittle  ">
+                                    <h3 class="text-white ">
+                                       Hà Giang
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- container Tìm theo loại chỗ nghỉ lưu trú  -->
+            <div class="container-section mt-5">
+                <div class="container-section-list">
+                    <div class="container-section-item">
+                        <div class="section-title">
+                            <h3 class="section-title-heading">Tìm theo loại chỗ nghỉ lưu trú</h3>
+                            <p class="section-title-text">Chỉ có tại Homestay, hấp dẫn và hữu hạn, book ngay!</p>
+                        </div>
+                    </div>
+
+                    <div class="swiper categorySwiper mt-2">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none ">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Khách sạn</h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none ">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Căn hộ </h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none ">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Resort</h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none ">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Biệt Thự</h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Nhà nghỉ mát</h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block-arcile mt-2">
+                                            <h3 class="section-block-heading text-black fs-5">Gần trung tâm</h3>
+                                            <p class="section-block-title text-black fs-6">
+                                                10 tháng 1-11 tháng 1, 9 người lớn
+                                                Có 306 chỗ nghỉ còn trống
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-button swiper-button_suggest">
+                            <div class="swiper-button-next"></div>
+                        </div>
+
+                        <div class="swiper-button swiper-button_suggest">
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <!-- <div class="swiper-pagination"></div> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Container chỗ nghỉ độc đáo hàng đầu -->
+            <div class="container-section ">
+                <div class="space-top"></div>
+                <div class="container-section-list">
+                    <div class="container-section-item">
+                        <div class="section-title">
+                            <h3 class="section-title-heading">Lưu trú tại các chỗ nghỉ độc đáo hàng đầu</h3>
+                            <p class="section-title-text">Từ biệt thự, lâu đài cho đến nhà thuyền, igloo, chúng tôi đều có hết</p>
+                        </div>
+                    </div>
+
+                    <div class="swiper suggestSwiper mt-2">
+                        <div class="swiper-wrapper ">
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none ">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                               Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                              Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                               <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                   Bắt đầu từ:  
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                               </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                                Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                                Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                            <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                    Bắt đầu từ:
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                                Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                                Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                            <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                    Bắt đầu từ:
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                                Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                                Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                            <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                    Bắt đầu từ:
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                                Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                                Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                            <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                    Bắt đầu từ:
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide specical_item-contain">
+                                <div class="specical_item rounded-16">
+                                    <a href="./product.html" class="section-block_link text-decoration-none">
+                                        <div class="specical_item-production">
+                                            <img src="~/img/miscellaneous/HCM.jpg" class="img-100_haft" />
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2">
+                                            <h3 class="section-block-heading text-black fs-16 fw-bold">Hotond Sporthotel</h3>
+                                            <p class="section-block-title text-black fs-14">
+                                                Hà Nội,Việt Nam
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 my-2 d-flex align-items-center gap-2">
+                                            <button class="btn text-white btn-primary rounded-12">8.8</button>
+                                            <p class="section-block-title text-black fs-14">
+                                                Tuyệt vời,584 đánh giá
+                                            </p>
+                                        </div>
+                                        <div class="section-block-arcile px-2 mb-3 d-flex align-items-center gap-2">
+                                            <div style="flex: 1;"></div>
+                                            <div>
+                                                <span class="section-block-title text-black  fs-14">
+                                                    Bắt đầu từ:
+                                                </span>
+                                                <span class="fw-bold text-black  fs-14 font-weight-bold">
+                                                    2.565.000 VND
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="swiper-button swiper-button_suggest">
+                            <div class="swiper-button-next"></div>
+                        </div>
+
+                        <div class="swiper-button swiper-button_suggest">
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <!-- <div class="swiper-pagination"></div> -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- container khám phá -->
+            <div class="space-top"></div>
+            <div class="container-section">
+                <div class="container-section-list">
+                    <div class="container-section-item">
+                        <div class="section-title">
+                            <h3 class="section-title-heading">Gợi ý khám phá</h3>
+                            <p class="section-title-text">Để mỗi chuyến đi là một hành trình truyền cảm hứng, mỗi căn phòng là một khoảng trời an yên</p>
+                        </div>
+                    </div>
+
+                    <div class="container-section-item mt-2">
+                        <div class="section-block">
+                            <div class="row_flex mt_8">
+                                <div class="section-block-slider col-pading col-4 m-12">
+                                    <a href="./news.html" class="section-block_link text-decoration-none">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block_discover discover_background-1 mt-2">
+                                            <div>
+                                                <button class="section-discover_btn btn btn-secondary rounded-12">Thông tin chi tiết</button>
+                                            </div>
+                                            <p class="section-discover_title">
+                                                Mức chi phí cách ly tại khách sạn, resort ở <b>Hạ Long</b> cho khách hàng có nhu cầu
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="section-block-slider col-pading col-4 m-12">
+                                    <a href="./news.html" class="section-block_link text-decoration-none">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block_discover discover_background-2 mt-2">
+                                            <div>
+                                                <button class="section-discover_btn btn btn-secondary rounded-12">Thông tin chi tiết</button>
+                                            </div>
+                                            <p class="section-discover_title">
+                                                <b>Thủ đô Hà Nội</b> nằm trong danh sách thành phố đẹp nhất thế giớ
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="section-block-slider col-pading col-4 m-12">
+                                    <a href="./news.html" class="section-block_link text-decoration-none">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/HaNoi.jpg" class="img-100" />
+                                        </div>
+                                        <div class="section-block_discover discover_background-3 mt-2">
+                                            <div>
+                                                <button class="section-discover_btn btn btn-secondary rounded-12">Thông tin chi tiết</button>
+                                            </div>
+                                            <p class="section-discover_title">
+                                                Cách đặt phòng tại <b>Đà Lạt</b> cho chuyến đi du lịch an toàn ,vui vẻ ,tiết kiệm!
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- container hướng đãn sử dụng -->
+            <div class="container-section mt-5">
+                <div class="container-section-list">
+                    <div class="container-section-item">
+                        <div class="section-title">
+                            <h3 class="section-title-heading">Hướng dẫn sử dụng</h3>
+                            <p class="section-title-text">Đặt chỗ nhanh, thanh toán đơn giản, sử dụng dễ dàng chỉ với một click</p>
+                        </div>
+                    </div>
+
+                    <div class="container-section-item mt-2">
+                        <div class="section-block">
+                            <div class="d-flex g-4 gap-3">
+                                <div class="col-lg-3 col-md-6">
+                                    <a href="" class="section-block_link">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/theme1.png " alt="" class="rounded-16 img-100">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <a href="" class="section-block_link">
+                                        <div class="section-block-production"> 
+                                            <img src="~/img/miscellaneous/theme2.jpg " alt="" class="rounded-16 img-100">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <a href="" class="section-block_link">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/theme3.jpg " alt="" class="rounded-16 img-100">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <a href="" class="section-block_link">
+                                        <div class="section-block-production">
+                                            <img src="~/img/miscellaneous/theme4.jpg " alt="" class="rounded-16 img-100">
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- container QR - APP download -->
+            <div style="margin-top: 100px;" class="container-introduction">
+                <div class="space-top">
+                    <div class="d-flex gap-2">
+                        <div class="container-introduction-list col-6 m-12">
+                            <div class="contanier-introduction-block">
+                                <h2 class="introduction-heading">
+                                    TÌM KIẾM CHỖ Ở GIÁ TỐT NHẤT
+                                </h2>
+                                <span class="introduction-title">
+                                    <p class="font-italic fs-14 text-black">
+                                        HomeStay hiện là nền tảng đặt phòng trực tuyến rất có uy tín. Đồng hành cùng chúng tôi, bạn có những chuyến đi mang đầy trải nghiệm.
+                                        Với HomeStay, việc đặt chỗ ở, biệt thự nghỉ dưỡng, khách sạn, nhà riêng, chung cư... trở nên nhanh chóng, thuận tiện và dễ dàng.
+                                    </p>
+                                </span>
+                                <div class="introduction-app mt-4">
+                                    <div class="introduction-qr col-6 ">
+                                        <img src="~/img/miscellaneous/qr-code.png" alt="">
+                                    </div>
+                                    <div class="introduction-app_dowload col-6 m-12">
+                                        <div class="app_dowload-item">
+                                            <a href=""> <img src="~/img/miscellaneous/apple-store.svg" alt=""></a>
+                                        </div>
+                                        <div class="app_dowload-item mt-2">
+                                            <a href=""><img src="~/img/miscellaneous/google-play.svg" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container-introduction-img col-6">
+                            <div class="introduction-item-img">
+                                <img class="img-100" src="~/img/miscellaneous/mobile_bakcground.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/js/swiper.js"></script>
+<script>
+    // slider container
+    var container_swiper = new Swiper(".container_swiper", {
+        spaceBetween: 0,
+        centeredSlides: true,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false,
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        /*  navigation: {
+             nextEl: ".swiper-button-next",
+             prevEl: ".swiper-button-prev",
+         }, */
+
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            // when window width is >= 480px
+            480: {
+                slidesPerView: 1,
+                spaceBetween: 20
+            },
+            // when window width is >= 640px
+            640: {
+                slidesPerView: 1,
+                spaceBetween: 16
+            }
+        }
+    });
+    // slider-hotproduct
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        /*  pagination: {
+             el: ".swiper-pagination",
+             clickable: true,
+         }, */
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+
+        breakpoints: {
+            320: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+            },
+            // when window width is >= 480px
+            480: {
+                slidesPerView: 3,
+                spaceBetween: 20
+            },
+
+            880: {
+                slidesPerView: 4,
+                spaceBetween: 20
+            },
+            // when window width is >= 640px
+            1000: {
+                slidesPerView: 5,
+                spaceBetween: 10
+            }
+        }
+    });
+
+    // category-suggest
+    var category_swiper = new Swiper(".categorySwiper", {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        /* pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        }, */
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+
+            760: {
+                slidesPerView: 3,
+                spaceBetween: 20
+            },
+            // when window width is >= 640px
+            1000: {
+                slidesPerView: 4,
+                spaceBetween: 16
+            }
+        }
+    });
+
+
+    var suggest_swiper = new Swiper(".suggestSwiper", {
+        slidesPerView: 4,
+        spaceBetween: 20,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        /* pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        }, */
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+
+            480: {
+                slidesPerView: 2,
+                spaceBetween: 20
+            },
+
+            760: {
+                slidesPerView: 3,
+                spaceBetween: 20
+            },
+            // when window width is >= 640px
+            1000: {
+                slidesPerView: 4,
+                spaceBetween: 16
+            }
+        }
+    });
+
+
+</script>

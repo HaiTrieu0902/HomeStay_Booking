@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HomeStay</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="~/HomeStay.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/homeAdmin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.css"
+        integrity="sha512-tx5+1LWHez1QiaXlAyDwzdBTfDjX07GMapQoFTS74wkcPMsI3So0KYmFe6EHZjI8+eSG0ljBlAQc3PQ5BTaZtQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="container-fluid fixed-top shadow">
+        <div class="container px-0 ">
+            <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                <a asp-area="" asp-controller="" asp-action="" class="navbar-brand">
+                    <h1 class="text-primary fw-bold display-7">HomeStay</h1>
+                </a>
+                <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars text-primary"></span>
+                </button>
+                <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                    <div class="navbar-nav mx-auto">
+                        <a class="nav-item nav-link text-dark nav_active" asp-area="" asp-controller=""
+                            asp-action="">Trang Chủ</a>
+                        <a class="nav-item nav-link text-dark" asp-area="" asp-controller="Room" asp-action="Index">Lưu trú</a>
+                        <a class="nav-item nav-link text-dark" asp-area="" asp-controller="" asp-action="">Tin Tức</a>
+                        <a class="nav-item nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Liên Hệ</a>
+                       
+                    </div>
+                    <div class="d-flex m-3 align-content-center align-items-center gap-2 me-0">
+                       @*  <div class="btn-search btn">
+                            <input name="search" placeholder="search..." class="input_search" />
+                            <i class="fas fa-search text-primary"></i>
+                        </div> *@
+                        @* <button>
+                        <a asp-area="" asp-controller="" asp-action="" class="position-relative my-auto">
+                        <i class="fa-solid fa-heart text-primary"></i>
+                        <span
+                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center
+                        justify-content-center text-dark px-1"
+                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                        </a>
+                        </button> *@
+                        <button class="btn btn_transparent d-flex  align-content-center align-items-center font-weight-bold text-primary">
+                            VND
+                        </button >
+                       
+                        <button class="btn btn_transparent d-flex align-content-center align-items-center">
+                            <a asp-area="" asp-controller="" asp-action="" class="position-relative my-auto">
+                               <img src="~/img/vietnam.png" alt="VN" class="header_vietnam"></img>
+                            </a>
+                        </button>
+                        <button class=" btn btn_transparent d-flex  align-content-center align-items-center">
+                            <a class="nav-item text-decoration-none text-white" asp-area="" asp-controller="" asp-action="">
+                                <i class="fa-solid fa-circle-info text-warning fs-20"></i>
+                            </a>
+                        </button>
+                       
+                        <button class="btn btn-primary_config rounded-3 "><a class="nav-item text-decoration-none text-white" asp-area="" asp-controller="" asp-action="">Đăng Nhập</a></button>
+                        <button class="btn btn-primary_config rounded-3"><a class="nav-item text-decoration-none text-white" asp-area="" asp-controller="" asp-action="">Đăng ký</a></button>
+                        @* <a href="#" class="my-auto">
+                            <i class="fas fa-user text-primary"></i>
+                        </a> *@
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="">
+         @RenderBody()
+    </div>
+
+    <!-- Footer Start -->
+    <div class="footer_container text-white-50 footer pt-5 mt-5">
+        <div class="container py-5">
+            <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                <div class="row g-4">
+                    <div class="col-lg-3">
+                        <a asp-area="" asp-controller="" asp-action="" class="title_footer">
+                            HomeStay
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="position-relative mx-auto">
+                            <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number"
+                                placeholder="Nhập email của bạn">
+                            <button type="submit"
+                                class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white"
+                                style="top: 0; right: 0;">Gửi ngay</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="d-flex justify-content-end pt-3">
+                            <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i
+                                    class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i
+                                    class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i
+                                    class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i
+                                    class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-3">Tại sao chọn chúng tôi!</h4>
+                    <p class="liking_footer text-wrap text-break pt-4">Chúng tôi luôn mang tới sản phảm và cung cấp phòng ban lưu trú tốt nhất cho khách hàng!</p>
+                    <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Xem thêm</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex flex-column text-start ">
+                        <h4 class="text-light mb-3">HOMESTAY YÊU THÍCH </h4>
+                        <a class="btn-link_footer" href="">Homestay Ha Noi</a>
+                        <a class="btn-link_footer" href="">Homestay HCM City</a>
+                        <a class="btn-link_footer" href="">Homestay Da Lat Cityy</a>
+                        <a class="btn-link_footer" href="">Homestay Da Nang City</a>
+                        <a class="btn-link_footer" href="">Homestay Vung Tau Beach</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex flex-column text-start ">
+                        <h4 class="text-light mb-3">VỀ CHÚNG TÔI</h4>
+                        <a class="btn-link_footer" href="">Bài đăng</a>
+                        <a class="btn-link_footer" href="">Chính sách hoạt độn</a>
+                        <a class="btn-link_footer" href="">Chính sách</a>
+                        <a class="btn-link_footer" href="">Nhãn hiệu</a>
+                        <a class="btn-link_footer" href="">Giấy phép</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class=" d-flex flex-column ">
+                        <h4 class="text-light mb-3">LIÊN HỆ</h4>
+                        <p class="btn-text_footer">Địa chỉ: Ha Dong, Ha Noi</p>
+                        <p class="btn-text_footer">Email: homestay@gmail.com</p>
+                        <p class="btn-text_footer">Phone: +84 32 618 265</p>
+                        <p class="btn-text_footer">Phương thức thanh toán</p>
+                        <img src="img/payment.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

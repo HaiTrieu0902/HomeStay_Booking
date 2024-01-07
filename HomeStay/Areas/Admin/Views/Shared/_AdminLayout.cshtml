@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HomeStay</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/homeAdmin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HomeStay.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.css"
+          integrity="sha512-tx5+1LWHez1QiaXlAyDwzdBTfDjX07GMapQoFTS74wkcPMsI3So0KYmFe6EHZjI8+eSG0ljBlAQc3PQ5BTaZtQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="app">
+        <section>
+            <div>
+                @* header *@
+                <div class="container-layout-header">
+                    <div class="d-flex align-content-center align-items-center">
+                        <div class="flex-grow-1 d-flex align-items-center ">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="" asp-action="">
+                                <img class="header_logo" src="./img/dangreous.jpg" alt="alo" />
+                            </a>
+                            <a asp-area="" asp-controller="" asp-action="" class="navbar-brand">
+                                <h1 class="text-primary fw-bold display-7">HomeStay</h1>
+                            </a>
+                        </div>
+                        <div class="">
+                            <span class="fs-16 fw-bolder">Xin chào, Admin!</span>
+                        </div>
+                    </div>
+                </div>
+
+                @* container *@
+                <div class="d-flex">
+                    @* sidebar *@
+                    <div class="fixer-pt sidebar-layout fixed">
+                        <div class="manager_mt">
+                            <div class="">
+                                <h4 class="text-white">Quản lý</h4>
+                                <div class="d-flex flex-column gap-1">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="AdminRoles"
+                                       asp-action="Index">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-user col-2"></i>
+                                            <span class="text-light fs-14 col-10">Quản lý phân quyền</span>
+                                        </div>
+                                    </a>
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Accounts"
+                                       asp-action="Index">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-users col-2"></i>
+                                            <span class="text-light  fs-14 col-10">Quản lý tài khoản</span>
+                                        </div>
+                                    </a>
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-bed col-2"></i>
+                                            <span class="text-light  fs-14 col-10">Quản lý lưu trú</span>
+                                        </div>
+                                    </a>
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-receipt col-2"></i>
+                                            <span class="text-light  fs-14 col-10">Quản lý booking</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <h4 class="text-white">Thống kê</h4>
+                                <div class="d-flex flex-column gap-1">
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-chart-simple col-2"></i>
+                                            <span class="text-light  fs-14 col-10">Quản lý thống kê</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @* content *@
+                    <div class="content_admin ml-content">
+                        <main role="main" class="">
+                            @RenderBody()
+                        </main>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>

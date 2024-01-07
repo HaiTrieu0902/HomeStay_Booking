@@ -1,0 +1,94 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+}
+
+.root {
+  --bg-primary: #00AFDD;
+}
+.space-top {
+    margin-top : 50px;
+}
+
+.ml-content {
+    margin-left: 26px;
+    margin-top: 102px;
+    margin-right: 18px;
+    width: 100%;
+}
+.mt_90{
+    margin-top: 90px;
+}
+
+.text-primary {
+  color: #00AFDD !important;
+}
+
+.rounded-16 {
+   border-radius: 16px
+}
+
+.rounded-12 {
+    border-radius: 12px
+}
+
+.btn-primary_config {
+    background-color: #00AFDD;
+}
+
+.rounded-10 {
+    border-radius: 10px
+}
+
+.bg-primary {
+    background-color: #00AFDD !important;
+}
+
+.fs-16{
+    font-size: 16px;
+}
+
+.fs-14 {
+    font-size: 14px;
+}
+
+.fs-20 {
+    font-size : 22px;
+}
+
+
+html *::-webkit-scrollbar {
+    width: 8px !important;
+    height: 8px !important;
+    background-color: #fcfcfc;
+}
+
+html *::-webkit-scrollbar-thumb {
+    background-color: rgb(150, 150, 150);
+    border-radius: 8px;
+}
+
+html *::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+html *::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+}
+
+

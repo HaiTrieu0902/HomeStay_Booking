@@ -1,0 +1,127 @@
+﻿.container-layout-header {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    border-radius: 0;
+    margin: 0;
+    padding: 20px 20px 20px 20px;
+    z-index: 100;
+}
+
+.header_logo{
+    width: 20px;
+    height: 20px;
+}
+
+
+
+/* sidebar */
+.sidebar-layout {
+    max-width: 250px;
+    min-width: 250px;
+    width: 250px;
+    height: 120vh;
+    left: 0;
+    margin: 0;
+    overflow: auto;
+    padding: 10px 20px;
+    width: 250px;
+    z-index: 99;
+    background-color: #202D3A;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+
+/* Home page */
+.fixed-top {
+    transition: 0.5s;
+    background: var(--bs-white);
+    border: 0;
+}
+
+.shadow {
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+}
+
+.navbar {
+    height:100px;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.bg-white {
+    background-color: #fff !important;
+}
+
+.nav_active{
+  color:#00AFDD !important;
+  font-weight: 500;
+}
+
+.btn-square, .btn-sm-square, .btn-md-square, .btn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+}
+.btn-search {
+    height: 32px;
+    width: 235px;
+    border: 1px solid #00AFDD;
+    border-radius: 16px;
+    display: flex;
+    gap: 5px;
+}
+.input_search{
+    width: 90%;
+    border: none;
+    outline: none;
+}
+
+
+.btn-md-square {
+    width: 32px;
+    height: 32px;
+}
+
+.footer_container{
+ background-color: #45595b;
+}
+
+
+.title_footer{
+    font-size: 30px;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+
+}
+
+.liking_footer {
+    font-size: 14px;
+    line-height: 1.4;
+}
+.btn-link_footer {
+    text-decoration: none;
+    line-height: 40px;
+}
+.btn-text_footer {
+    line-height: 1.4;
+}
+.manager_mt {
+    margin-top : 120px;
+}
+/* About */
+.page-header {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/dangreous.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.footer_container {
+    bottom: auto !important;
+}

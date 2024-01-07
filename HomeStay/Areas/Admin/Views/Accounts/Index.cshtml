@@ -1,0 +1,153 @@
+﻿@model IEnumerable<HomeStay.Models.Account>
+
+@{
+    ViewData["Title"] = "Account";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="">
+
+    <div class="mt-4">
+        <h4>QUẢN LÝ TÀI KHOẢN</h4>
+        <div class="header_sub-title">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="account-actions-contain d-flex">
+        <div style="flex: 1;">
+            <div class="d-flex gap-3">
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label for="fruits">Active:</label>
+                        <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3"
+                                form="fruitform">
+                            <option value="">Default</option>
+                            <option value="saab">Popularity</option>
+                            <option value="opel">Organic</option>
+                            <option value="audi">Fantastic</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label for="fruits">Role:</label>
+                        <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3"
+                                form="fruitform">
+                            <option value="">Default</option>
+                            <option value="saab">Popularity</option>
+                            <option value="opel">Organic</option>
+                            <option value="audi">Fantastic</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-6"></div>
+        <div>
+            <button class="btn bg-primary text-white" >Thêm tài khoản</button>
+        </div>
+    </div>
+
+    <table class="table table-striped w-100 mt-2">
+        <thead>
+            <tr>
+              
+                <th scope="col">ID</th>
+                <th scope="col">Account Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Active</th>
+                <th scope="col">Password</th>
+                <th scope="col">CMND</th>
+                <th scope="col">Quyền</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.AccountName
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.PhoneNumber
+                    </td>
+                    <td>
+                        @if( item.Active)
+                        {
+                            <input type="checkbox" class="form-check-input" checked disabled>
+                        }else
+                        {
+                            <input type="checkbox" class="form-check-input"  disabled>
+                        }
+                    </td>
+                    <td>
+                        @item.Password
+                    </td>
+                    <td>
+                        @item.Cccd
+                    </td>
+                    <td>
+                        @item.Role.RoleName
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AccountId" class="btn btn-secondary rounded-3 ">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.AccountId" class="btn btn-info rounded-3">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AccountId" class="btn btn-danger rounded-3">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</section>
+<script src="~/js/popper.js"></script>
+
+@* <h1>Index</h1>
+
+<table class="table">
+    
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cccd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.RoleId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AccountId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AccountId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table> *@
