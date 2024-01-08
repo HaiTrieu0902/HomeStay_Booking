@@ -1,0 +1,128 @@
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Customer>
+
+@* @model IEnumerable<HomeStay.Models.Customer>  *@
+@* @model PagedList.Core.IPagedList<HomeStay.Models.Customer> *@
+
+@{
+   // int currentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Customers" ; 
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="">
+
+    <div class="mt-4">
+        <h4>QUẢN LÝ KHÁCH HÀNG</h4>
+        <div class="header_sub-title">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="account-actions-contain d-flex">
+        <div style="flex: 1;">
+            <div class="d-flex gap-3">
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label>Active:</label>
+                       @*  <select id="roles" class="border-0 form-select-sm bg-light me-3" class="form-control" asp-items="ViewBag.ListRole">
+                            <option value="">Default</option>
+                        </select> *@
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label>Role:</label>
+                       @*  <select id="status" class="border-0 form-select-sm bg-light me-3">
+                            <option value="">Default</option>
+                            <option value="0">Active</option>
+                            <option value="1">Deative</option>
+                        </select> *@
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-6"></div>
+        <div>
+            <button class="btn bg-primary text-white">Thêm Khách Hàng</button>
+        </div>
+    </div>
+
+    <table class="table table-striped w-100 mt-2">
+        <thead>
+            <tr>
+                <th scope="col">FullName</th>
+                <th scope="col">Birthday</th>
+                <th scope="col">Avatar</th>
+                <th scope="col">Address</th>
+                <th scope="col">PhoneNumber</th>
+                <th scope="col">Active</th>
+                <th scope="col">Password</th>
+                <th scope="col">Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model !=null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @item.FullName
+                        </td>
+                        <td>
+                            @item.Birthday.ToString("dd/MM/yyyy")
+                        </td>
+                        <td>
+                            @item.Avatar
+                        </td>
+                        <td>
+                            @item.Address
+                        </td>
+                        <td>
+                            @item.PhoneNumber
+                        </td>
+                        <td>
+                            @if (item.Active)
+                            {
+                                <input type="checkbox" class="form-check-input" checked disabled>
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="form-check-input" disabled>
+                            }
+                        </td>
+                        <td>
+                            @item.Password
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.CustomerId"> <i class="fa-solid fa-pen text-warning"></i> </a>
+                            <a asp-action="Details" asp-route-id="@item.CustomerId"><i class="fa-solid fa-eye"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa-solid fa-trash text-danger"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>
+
+<div class="col-12">
+    <div class="pagination d-flex justify-content-center mt-5">
+        @Html.PagedListPager(Model , page => Url.Action("Index" , new {page = page}))
+       
+    </div>
+</div>
+
+
+<script src="~/js/popper.js"></script>

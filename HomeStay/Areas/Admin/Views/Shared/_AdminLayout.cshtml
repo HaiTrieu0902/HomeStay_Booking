@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - HomeStay</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/homeAdmin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HomeStay.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/homeAdmin.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.css"
           integrity="sha512-tx5+1LWHez1QiaXlAyDwzdBTfDjX07GMapQoFTS74wkcPMsI3So0KYmFe6EHZjI8+eSG0ljBlAQc3PQ5BTaZtQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -47,14 +48,21 @@
                                        asp-action="Index">
                                         <div class="d-flex align-items-center gap-1">
                                             <i class="fa-solid fa-user col-2"></i>
-                                            <span class="text-light fs-14 col-10">Quản lý phân quyền</span>
+                                            <span class="text-light fs-14 col-10">Quản lý Quyền</span>
                                         </div>
                                     </a>
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="Accounts"
                                        asp-action="Index">
                                         <div class="d-flex align-items-center gap-1">
                                             <i class="fa-solid fa-users col-2"></i>
-                                            <span class="text-light  fs-14 col-10">Quản lý tài khoản</span>
+                                            <span class="text-light  fs-14 col-10">Quản lý Tài Khoản</span>
+                                        </div>
+                                    </a>
+                                    <a class="nav-link text-light" asp-area="Admin" asp-controller="Customers"
+                                       asp-action="Index">
+                                        <div class="d-flex align-items-center gap-1">
+                                            <i class="fa-solid fa-users col-2"></i>
+                                            <span class="text-light  fs-14 col-10">Quản lý Khách Hàng</span>
                                         </div>
                                     </a>
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">

@@ -31,7 +31,7 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 // Thực hiện truy vấn dữ liệu bằng SQL thuần
                 /*   var roles = await _context.Roles.FromSqlRaw("SELECT * FROM Roles Where RoleId = 1").ToListAsync();*/
-              /*  return _context.Roles != null ?
+                /*  return _context.Roles != null ?
                        View(await _context.Roles.ToListAsync()) :
                        Problem("Entity set 'HomestayDBContext.Roles'  is null.");*/
 
