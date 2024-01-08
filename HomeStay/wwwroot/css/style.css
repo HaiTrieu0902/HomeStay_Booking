@@ -54,17 +54,27 @@
 
 .pagination a {
     color: black;
-    padding: 10px 16px;
+    padding: 8px 10px;
     text-decoration: none;
     transition: 0.5s;
     border: 1px solid #4FAFDD;
     margin: 0 4px;
+    border-radius: 4px;
 }
 
+.pagination span {
+     color: black;
+    padding: 8px 10px;
+    text-decoration: none;
+    transition: 0.5s;
+    border: 1px solid #4FAFDD;
+    margin: 0 4px;
+    border-radius: 4px;
+
 /* HOME LAYOUT */
-.welcome-heading{
-    font-size : 28px;
-    font-weight :700;
+.welcome-heading {
+    font-size: 28px;
+    font-weight: 700;
 }
 
 .section-title-heading {

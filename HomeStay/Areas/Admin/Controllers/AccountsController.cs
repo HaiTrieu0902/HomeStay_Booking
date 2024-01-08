@@ -13,6 +13,7 @@ namespace HomeStay.Areas.Admin.Controllers
     public class AccountsController : Controller
     {
         private readonly HomestayDBContext _context;
+        HomestayDBContext db = new HomestayDBContext();
 
         public AccountsController(HomestayDBContext context)
         {
@@ -22,6 +23,8 @@ namespace HomeStay.Areas.Admin.Controllers
         // GET: Admin/Accounts
         public async Task<IActionResult> Index()
         {
+
+            ViewData["ListRole"] = new SelectList(db.Roles, "RoleId", "RoleName");
             var homestayDBContext = _context.Accounts.Include(a => a.Role);
             return View(await homestayDBContext.ToListAsync());
         }
