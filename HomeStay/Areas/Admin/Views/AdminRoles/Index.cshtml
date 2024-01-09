@@ -6,8 +6,11 @@
 }
 
 <div>
-    <div class="mt-4">
-        <h4>QUẢN LÝ QUYỀN</h4>
+    <div class="mt-4 w-100">
+        <div class="d-flex justify-content-between w-100">
+            <h4>QUẢN LÝ QUYỀN</h4>
+            <a asp-action="Create"  class="btn bg-primary rounded-3 text-white">Thêm quyền</a>
+        </div>
         <div class="header_sub-title">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
@@ -42,7 +45,31 @@
                             <div class="d-flex gap-2">
                                 <a asp-action="Details" asp-route-id="@role.RoleId" class="btn btn-secondary rounded-3 ">View</a>
                                 <a asp-action="Edit" asp-route-id="@role.RoleId" class="btn btn-info rounded-3">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@role.RoleId" class="btn btn-danger rounded-3">Delete</a>
+                                @* <a asp-action="Delete" asp-route-id="@role.RoleId" class="btn btn-danger rounded-3">Delete</a> *@
+                                <button type="button" class="btn btn-danger rounded-3" data-bs-toggle="modal" data-bs-target="#exampleModal-@role.RoleId">
+                                    Delete
+                                </button>
+                                <div class="modal fade rounded-16" id="exampleModal-@role.RoleId" tabindex="-1" aria-labelledby="exampleModal-@role.RoleId" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                Are you sure you want to delete @role.RoleName ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form method="post" action="@Url.Action("DeleteRoleNotView", "AdminRoles", new { id = role.RoleId })">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-danger rounded-3">Yes</button>
+                                                </form>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                  @*  /* DELETE USE MODAL*/ *@
+                              @*   <form method="post" action="@Url.Action("DeleteRoleNotView", "AdminRoles", new { id = role.RoleId })"
+                                      onsubmit="return confirm('Are you sure you want to delete @role.RoleName ?');">
+                                    <button type="submit" class="btn btn-danger rounded-3">Delete</button>
+                                </form> *@
                             </div>
                         </td>
                     </tr>
@@ -50,4 +77,6 @@
             }
         </tbody>
     </table>
+   
+
 </div>

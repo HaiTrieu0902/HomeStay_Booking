@@ -5,56 +5,66 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="mt-4">
+    <h4>QUẢN LÝ KHÁCH HÀNG</h4>
+    <div class="header_sub-title">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item "><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
 <div>
-    <h4>Customer</h4>
+    <h3>@Html.DisplayFor(model => model.FullName)</h3>
     <hr />
-    <dl class="row">
+    <dl class="row border_container">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FullName)
+            @Html.DisplayNameFor(model => model.FullName):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FullName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Birthday)
+            @Html.DisplayNameFor(model => model.Birthday):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Birthday)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Avatar)
+            @Html.DisplayNameFor(model => model.Avatar):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Avatar)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+            @Html.DisplayNameFor(model => model.Address):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Address)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
+            @Html.DisplayNameFor(model => model.PhoneNumber):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Active)
+            @Html.DisplayNameFor(model => model.Active):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Active)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
+            @Html.DisplayNameFor(model => model.Password):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Password)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+            @Html.DisplayNameFor(model => model.Email):
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Email)
@@ -62,6 +72,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.CustomerId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.CustomerId" class="text-decoration-none text-primary">Edit</a> |
+    <a asp-action="Index" class="text-decoration-none text-primary">Back to List</a>
 </div>

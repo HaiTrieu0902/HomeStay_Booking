@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using X.PagedList;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
