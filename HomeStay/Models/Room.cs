@@ -13,7 +13,7 @@ namespace HomeStay.Models
         public int RoomId { get; set; }
         public string Title { get; set; } = null!;
         public string Detail { get; set; } = null!;
-        public double Price { get; set; }
+        public double? Price { get; set; }
         public string Area { get; set; } = null!;
         public int Capacity { get; set; }
         public string Description { get; set; } = null!;

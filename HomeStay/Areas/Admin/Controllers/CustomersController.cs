@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
 using X.PagedList;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -14,23 +15,25 @@ namespace HomeStay.Areas.Admin.Controllers
     public class CustomersController : Controller
     {
         private readonly HomestayDBContext _context;
+        private  INotyfService _notifyService { get; }
 
-        public CustomersController(HomestayDBContext context)
+        public CustomersController(HomestayDBContext context , INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
+
         }
 
         // GET: Admin/Customers
         public async Task<IActionResult> Index(int? page)
         {
 
-            var pageNumber = page == null || page <  0 ? 1 : page.Value;
+            var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 10;
             var listCustomers = _context.Customers.AsNoTracking().OrderByDescending(item => item.CustomerId);
             PagedList<Customer> models = new PagedList<Customer>(listCustomers, pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
-          
-            var  customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
+            var customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
             return View(models);
         }
 
@@ -69,6 +72,7 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                _notifyService.Success("Create customer sucessfully");
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -108,6 +112,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 {
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
+                    _notifyService.Success("Update customer sucessfully");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -157,14 +162,37 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 _context.Customers.Remove(customer);
             }
-            
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+        /* handle delete view not View
+           Nao Ranh thi lam an no di thoi nha bo khong nen xoa luon nha bo 
+         */
+        public async Task<IActionResult> DeleteCustomerNotView(int? id)
+        {
+            if (_context.Customers == null)
+            {
+                return Problem("Entity set 'HomestayDBContext.Customers'  is null.");
+            }
+            var customer = await _context.Customers.FindAsync(id);
+            if (customer != null)
+            {
+                _context.Customers.Remove(customer);
+                _notifyService.Success("Delete customer sucessfully");
+
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-          return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
+            return (_context.Customers?.Any(e => e.CustomerId == id)).GetValueOrDefault();
         }
     }
 }

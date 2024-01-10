@@ -174,6 +174,26 @@ namespace HomeStay.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        /* Function hanlde delete value Not User View */
+        public async Task<IActionResult> DeleteRoleNotView(int id)
+        {
+            if (_context.Roles == null)
+            {
+                return Problem("Entity set 'HomestayDBContext.Roles'  is null.");
+            }
+            var role = await _context.Roles.FindAsync(id);
+            if (role != null)
+            {
+                _context.Roles.Remove(role);
+            }
+
+            await _context.SaveChangesAsync();
+            _notifyService.Success("Delete sucessfully");
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool RoleExists(int id)
         {
           return (_context.Roles?.Any(e => e.RoleId == id)).GetValueOrDefault();

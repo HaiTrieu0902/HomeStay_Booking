@@ -1,0 +1,198 @@
+﻿ @using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Room> 
+@* @model IEnumerable<HomeStay.Models.Room> *@
+
+@{
+    ViewData["Title"] = "Rooms";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section>
+    <div class="mt-4">
+        <h4>QUẢN LÝ LƯU TRÚ</h4>
+        <div class="header_sub-title">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="account-actions-contain d-flex">
+        <div style="flex: 1;">
+            <div class="d-flex gap-3">
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label>Category:</label>
+                       <select id="categoryId" name="categoryId" class="border-0 form-select-sm bg-light me-3" class="form-control" asp-items="ViewBag.ListCategory">
+                        <option value="">Default</option>
+                        </select>  
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                        <label>Active:</label>
+                        <select id="status" name="status" class="border-0 form-select-sm bg-light me-3" asp-items="ViewBag.ListActiveStatus">
+                            <option value="">Default</option>
+                          @*   <option value="1">Active</option>
+                            <option value="0">Deative</option> *@
+                        </select> 
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-6"></div>
+        <div>
+            <a asp-action="Create" class="text-decoration-none btn bg-primary text-white">Thêm Phòng</a>
+
+        </div>
+    </div>
+
+    <table class="table table-striped w-100 mt-2">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Area</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Status</th>
+                <th scope="col">Active</th>
+                <th scope="col">Category</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            @item.Title
+                        </td>
+                        <td>
+                            @item.Price
+                        </td>
+                        <td>
+                            @item.Area
+                        </td>
+                        <td>
+                            @item.Capacity
+                        </td>
+                        <td>
+                            @item.Status
+                        </td>
+                        <td>
+                            @if (item.Active)
+                            {
+                                <input type="checkbox" class="form-check-input" checked disabled>
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="form-check-input" disabled>
+                            }
+                        </td>
+                        <td>
+                            @item.Category.CategoryName
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.RoomId"> <i class="fa-solid fa-pen text-warning"></i> </a>
+                            <a asp-action="Details" asp-route-id="@item.RoomId"><i class="fa-solid fa-eye"></i></a>
+                            @*   <a asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa-solid fa-trash text-danger"></i></a> *@
+
+                            <button type="button" class="button_none" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.RoomId">
+                                <i class="fa-solid fa-trash text-danger"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade rounded-16" id="exampleModal-@item.RoomId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <!-- Modal content -->
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            Are you sure you want to delete @item.Title ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form method="post" action="@Url.Action("DeleteRoomNotView", "Rooms", new { id = item.RoomId })">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger rounded-3">Yes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+</section>
+ <div class="col-12">
+    <div class="pagination d-flex justify-content-center mt-5">
+        @Html.PagedListPager(Model , page => Url.Action("Index" , new {page = page}))
+
+    </div>
+</div> 
+
+@section Scripts {
+   @*  <script>
+        $(document).ready(function () {
+            $('#categoryId').change(function () {
+                var selectedCategory = $(this).val();
+                $.ajax({
+                    url: '/Admin/Rooms/FillterRoomsCategory',
+                    type: 'GET',
+                    data: { category: selectedCategory },
+                    success: function (result) {
+                        if (result.status === 'Success') {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                         
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        
+                    }
+                });
+            });
+        });
+    </script> *@
+    <script>
+        $(document).ready(function () {
+            $('#categoryId, #status').change(function () {
+                var selectedCategory = $('#categoryId').val();
+                var selectedStatus = $('#status').val();
+
+                $.ajax({
+                    url: '/Admin/Rooms/FillterRoomsCategory',
+                    type: 'GET',
+                    data: {
+                        categoryId: selectedCategory,
+                        status: selectedStatus
+                    },
+                    success: function (result) {
+                        if (result.status === 'Success') {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                       console.log("xhr" , xhr)
+                    }
+                });
+            });
+        });
+    </script>
+   
+}
+
+
