@@ -68,7 +68,9 @@ body {
 .fs-20 {
     font-size : 22px;
 }
-
+.-ml-10 {
+    margin-left : -10px;
+}
 
 .border_container {
     padding: 16px;

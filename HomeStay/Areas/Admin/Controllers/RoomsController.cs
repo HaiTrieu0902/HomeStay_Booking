@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using X.PagedList;
+using HomeStay.Helper;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -36,22 +37,25 @@ namespace HomeStay.Areas.Admin.Controllers
             };
             ViewData["ListActiveStatus"] = new SelectList(activeStatusList, "Value", "Text", status);
 
+            /* start logic */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
-             var pageSize = 10;
-             List<Room> listRooms = new List<Room>();
-            if(categoryID != 0)
+            var pageSize = 10;
+            IQueryable<Room> roomQuery = _context.Rooms.AsNoTracking().Include(r => r.Category);
+            if (categoryID != 0)
             {
-                listRooms = _context.Rooms.AsNoTracking().Where(item=>item.CategoryId ==categoryID).Include(r => r.Category).OrderByDescending(item => item.RoomId).ToList();
-            } else
-            {
-                listRooms = _context.Rooms.AsNoTracking().Include(r => r.Category).OrderByDescending(item => item.RoomId).ToList();
+                roomQuery = roomQuery.Where(item => item.CategoryId == categoryID);
             }
-            PagedList<Room> models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
 
+            if (status.HasValue)
+            {
+                bool isActive = status == 1;
+                roomQuery = roomQuery.Where(item => item.Active == isActive);
+            }
 
+            var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
+            var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
             ViewBag.CurrentCategory = categoryID;
-           
             ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName" , categoryID);
             var customer = await _context.Rooms.FromSqlRaw("SELECT * FROM Room").ToListAsync();
             return View(models);
@@ -86,8 +90,21 @@ namespace HomeStay.Areas.Admin.Controllers
         // POST: Admin/Rooms/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RoomId,Title,Detail,Price,Area,Capacity,Description,Active,Status,Avatar,CategoryId")] Room room)
+        public async Task<IActionResult> Create([Bind("RoomId,Title,Detail,Price,Area,Capacity,Description,Active,Status,Avatar,CategoryId")] Room room , Microsoft.AspNetCore.Http.IFormFile fthumb)
         {
+            if (fthumb != null)
+            {
+                string extention = Path.GetExtension(fthumb.FileName);
+                string originalFileName = Path.GetFileNameWithoutExtension(fthumb.FileName);
+                string fileName = $"{originalFileName}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{extention}";
+                room.Avatar = await utils.UploadImage(fthumb, @"rooms", fileName);
+            }
+
+            if (string.IsNullOrEmpty(room.Avatar))
+            {
+                room.Avatar = "default.jpg";
+            }
+
             _context.Add(room);
             await _context.SaveChangesAsync();
             _notifyService.Success($"Create rooms successfully");
@@ -231,15 +248,6 @@ namespace HomeStay.Areas.Admin.Controllers
 
             return Json(new { status = "Success", redirectUrl = url });
         }
-
-
-        public IActionResult FillterRoomsActive(int active = 0)
-        {
-            return View();
-        }
-
-
-
 
         private bool RoomExists(int id)
         {
