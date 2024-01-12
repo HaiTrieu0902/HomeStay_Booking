@@ -1,4 +1,4 @@
-﻿ @using X.PagedList.Mvc.Core;
+﻿@using X.PagedList.Mvc.Core;
 @model X.PagedList.IPagedList<Room> 
 @* @model IEnumerable<HomeStay.Models.Room> *@
 
@@ -21,9 +21,9 @@
 
 
     <div class="account-actions-contain d-flex">
-        <div style="flex: 1;">
+        <div  style="flex: 1;">
             <div class="d-flex gap-3">
-                <div class="col-6">
+                <div class="col-3">
                     <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
                         <label>Category:</label>
                        <select id="categoryId" name="categoryId" class="border-0 form-select-sm bg-light me-3" class="form-control" asp-items="ViewBag.ListCategory">
@@ -31,7 +31,7 @@
                         </select>  
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
                         <label>Active:</label>
                         <select id="status" name="status" class="border-0 form-select-sm bg-light me-3" asp-items="ViewBag.ListActiveStatus">
@@ -41,12 +41,18 @@
                         </select> 
                     </div>
                 </div>
+                <div class="col-3">
+                    <div class="bg-light ps-3 py-1  rounded-12 d-flex justify-content-between mb-4 ">
+                        <input id="searchValue" name="searchValue" value="@ViewBag.CurrentSearch" class="form-control" />
+                        <button class="ms-2 btn btn-primary rounded-10" onclick="filterRooms()"> <i class="fa-solid fa-magnifying-glass"></i> </button>
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
-        <div class="col-6"></div>
-        <div>
+        <div class="">
             <a asp-action="Create" class="text-decoration-none btn bg-primary text-white">Thêm Phòng</a>
 
         </div>
@@ -168,13 +174,14 @@
             $('#categoryId, #status').change(function () {
                 var selectedCategory = $('#categoryId').val();
                 var selectedStatus = $('#status').val();
-
+                var searchValue = $('#searchValue').val();
                 $.ajax({
                     url: '/Admin/Rooms/FillterRoomsCategory',
                     type: 'GET',
                     data: {
                         categoryId: selectedCategory,
-                        status: selectedStatus
+                        status: selectedStatus,
+                        searchValue: searchValue
                     },
                     success: function (result) {
                         if (result.status === 'Success') {
@@ -189,6 +196,34 @@
                 });
             });
         });
+    </script>
+
+    <script>
+        function filterRooms() {
+            var selectedCategory = $('#categoryId').val();
+            var selectedStatus = $('#status').val();
+            var searchValue = $('#searchValue').val();
+
+            $.ajax({
+                url: '/Admin/Rooms/FillterRoomsCategory',
+                type: 'GET',
+                data: {
+                    categoryId: selectedCategory,
+                    status: selectedStatus,
+                    searchValue: searchValue
+                },
+                success: function (result) {
+                    if (result.status === 'Success') {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        // Handle error
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("xhr", xhr);
+                }
+            });
+        }
     </script>
    
 }
