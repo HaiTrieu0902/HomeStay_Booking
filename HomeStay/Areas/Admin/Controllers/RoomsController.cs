@@ -24,7 +24,7 @@ namespace HomeStay.Areas.Admin.Controllers
         }
 
         // GET: Admin/Rooms
-        public async Task<IActionResult> Index(int? page , int? status, int? categoryID = 0   )
+        public async Task<IActionResult> Index(int? page , int? status, int? categoryID = 0 ,string searchValue =""  )
         {
             /* var homestayDBContext = _context.Rooms.Include(r => r.Category);
              return View(await homestayDBContext.ToListAsync());*/
@@ -36,6 +36,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 new SelectListItem { Value = "0", Text = "Inactive" }
             };
             ViewData["ListActiveStatus"] = new SelectList(activeStatusList, "Value", "Text", status);
+
 
             /* start logic */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
@@ -51,11 +52,15 @@ namespace HomeStay.Areas.Admin.Controllers
                 bool isActive = status == 1;
                 roomQuery = roomQuery.Where(item => item.Active == isActive);
             }
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue));
+            }
 
             var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
             var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
             ViewBag.CurrentPage = pageNumber;
-            ViewBag.CurrentCategory = categoryID;
+            ViewBag.CurrentSearch = searchValue;
             ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName" , categoryID);
             var customer = await _context.Rooms.FromSqlRaw("SELECT * FROM Room").ToListAsync();
             return View(models);
@@ -242,35 +247,45 @@ namespace HomeStay.Areas.Admin.Controllers
 
 
         /* handle filter category */
-        /*  public IActionResult FillterRoomsCategory(int category = 0)
-          {
-              var url = $"/Admin/Rooms?categoryId={category}";
-              if(category == 0)
-              {
-                  url = $"/Admin/Rooms";
-              }
-              return Json(new {status = "Success" , redirectUrl = url});
-          }*/
-        public IActionResult FillterRoomsCategory(int categoryId = 0, int status = -1)
+        /*       public IActionResult FillterRoomsCategory(int categoryId = 0, int status = -1)
+               {
+                   var url = $"/Admin/Rooms?categoryId={categoryId}";
+
+                   if (categoryId == 0 && status == -1)
+                   {
+                       url = $"/Admin/Rooms";
+                   }
+                   else if (categoryId != 0 && status != -1)
+                   {
+                       url = $"/Admin/Rooms?categoryId={categoryId}&status={status}";
+                   }
+                   else if (status != -1)
+                   {
+                       url = $"/Admin/Rooms?status={status}";
+                   }
+
+                   return Json(new { status = "Success", redirectUrl = url });
+               }*/
+        public IActionResult FillterRoomsCategory(int categoryId = 0, int status = -1, string searchValue = "")
         {
-            var url = $"/Admin/Rooms?categoryId={categoryId}";
-
-            if (categoryId == 0 && status == -1)
+            var url = "/Admin/Rooms";
+            if (categoryId != 0)
             {
-                url = $"/Admin/Rooms";
-            }
-            else if (categoryId != 0 && status != -1)
-            {
-                url = $"/Admin/Rooms?categoryId={categoryId}&status={status}";
-            }
-            else if (status != -1)
-            {
-                url = $"/Admin/Rooms?status={status}";
+                url += $"?categoryId={categoryId}";
             }
 
+            if (status != -1)
+            {
+                url += utils.AppendSeparator(url) + $"status={status}";
+            }
+
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                url += utils.AppendSeparator(url) + $"searchValue={searchValue}";
+            }
             return Json(new { status = "Success", redirectUrl = url });
         }
-
+      
         private bool RoomExists(int id)
         {
           return (_context.Rooms?.Any(e => e.RoomId == id)).GetValueOrDefault();
