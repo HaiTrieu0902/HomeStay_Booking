@@ -96,9 +96,9 @@
                         @item.Role.RoleName
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.AccountId" class="btn btn-secondary rounded-3 ">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.AccountId" class="btn btn-info rounded-3">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.AccountId" class="btn btn-danger rounded-3">Delete</a>
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.AccountId" class="btn btn-secondary rounded-3 ">Edit</a> |
+                        <a class="text-decoration-none" asp-action="Details" asp-route-id="@item.AccountId" class="btn btn-info rounded-3">Details</a> |
+                        <a class="text-decoration-none" asp-action="Delete" asp-route-id="@item.AccountId" class="btn btn-danger rounded-3">Delete</a>
                     </td>
                 </tr>
             }

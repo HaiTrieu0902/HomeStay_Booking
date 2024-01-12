@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/homeAdmin.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.css"
-          integrity="sha512-tx5+1LWHez1QiaXlAyDwzdBTfDjX07GMapQoFTS74wkcPMsI3So0KYmFe6EHZjI8+eSG0ljBlAQc3PQ5BTaZtQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/fontawesome.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -24,7 +23,6 @@
                     <div class="d-flex align-content-center align-items-center">
                         <div class="flex-grow-1 d-flex align-items-center ">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="" asp-action="">
-                                <img class="header_logo" src="./img/dangreous.jpg" alt="alo" />
                             </a>
                             <a asp-area="" asp-controller="" asp-action="" class="navbar-brand">
                                 <h1 class="text-primary fw-bold display-7">HomeStay</h1>
@@ -42,19 +40,19 @@
                     <div class="fixer-pt sidebar-layout fixed">
                         <div class="manager_mt">
                             <div class="">
-                                <h4 class="text-white">Quản lý</h4>
+                                <h5 class="text-primary">QUẢN LÝ</h5>
                                 <div class="d-flex flex-column gap-1">
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="AdminRoles"
                                        asp-action="Index">
                                         <div class="d-flex align-items-center gap-1">
-                                            <i class="fa-solid fa-user col-2"></i>
+                                            <i class="fa-solid fa-gear col-2"></i>
                                             <span class="text-light fs-14 col-10">Quản lý Quyền</span>
                                         </div>
                                     </a>
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="Accounts"
                                        asp-action="Index">
                                         <div class="d-flex align-items-center gap-1">
-                                            <i class="fa-solid fa-users col-2"></i>
+                                            <i class="fa-solid fa-circle-user col-2"></i>
                                             <span class="text-light  fs-14 col-10">Quản lý Tài Khoản</span>
                                         </div>
                                     </a>
@@ -68,19 +66,19 @@
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="Rooms" asp-action="">
                                         <div class="d-flex align-items-center gap-1">
                                             <i class="fa-solid fa-bed col-2"></i>
-                                            <span class="text-light  fs-14 col-10">Quản lý lưu trú</span>
+                                            <span class="text-light  fs-14 col-10">Quản lý Lưu Trú</span>
                                         </div>
                                     </a>
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">
                                         <div class="d-flex align-items-center gap-1">
                                             <i class="fa-solid fa-receipt col-2"></i>
-                                            <span class="text-light  fs-14 col-10">Quản lý booking</span>
+                                            <span class="text-light  fs-14 col-10">Quản lý Booking</span>
                                         </div>
                                     </a>
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <h4 class="text-white">Thống kê</h4>
+                                <h5 class="text-primary">THỐNG KÊ</h5>
                                 <div class="d-flex flex-column gap-1">
                                     <a class="nav-link text-light" asp-area="Admin" asp-controller="" asp-action="">
                                         <div class="d-flex align-items-center gap-1">
@@ -106,6 +104,7 @@
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/fontawesome.js" ></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
