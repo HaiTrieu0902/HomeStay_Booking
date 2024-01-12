@@ -70,18 +70,22 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Category):
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Category.CategoryName)
+        </dd>
+
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Avatar):
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Avatar)
+            @* @Html.DisplayFor(model => model.Avatar) *@
+            <img id="imagePreview" class="img-preview rounded-12" src="@Url.Content("~/img/rooms/" + @Model.Avatar)" alt="Preview" style="max-width: 100%; max-height: 200px;" />
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Category):
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Category.CategoryName)
-        </dd>
+       
     </dl>
 </div>
 <div>

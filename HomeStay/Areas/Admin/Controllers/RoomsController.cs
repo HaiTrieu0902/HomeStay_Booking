@@ -102,7 +102,7 @@ namespace HomeStay.Areas.Admin.Controllers
 
             if (string.IsNullOrEmpty(room.Avatar))
             {
-                room.Avatar = "default.jpg";
+                room.Avatar = "default.png";
             }
 
             _context.Add(room);
@@ -132,20 +132,40 @@ namespace HomeStay.Areas.Admin.Controllers
         // POST: Admin/Rooms/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RoomId,Title,Detail,Price,Area,Capacity,Description,Active,Status,Avatar,CategoryId")] Room room)
+        public async Task<IActionResult> Edit(int id, [Bind("RoomId,Title,Detail,Price,Area,Capacity,Description,Active,Status,Avatar,CategoryId")] Room room , Microsoft.AspNetCore.Http.IFormFile fthumb)
         {
             if (id != room.RoomId)
             {
                 return NotFound();
             }
             try
+
             {
-                _context.Update(room);
-                await _context.SaveChangesAsync();
-                _notifyService.Success($"Update rooms successfully");
+                var roomOlder = _context.Rooms.FromSqlRaw($"SELECT * FROM Room Where RoomId = {id}").AsNoTracking().FirstOrDefault();
+                if (fthumb != null)
+                {
+                    string extention = Path.GetExtension(fthumb.FileName);
+                    string originalFileName = Path.GetFileNameWithoutExtension(fthumb.FileName);
+                    string fileName = $"{originalFileName}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{extention}";
+                    room.Avatar = await utils.UploadImage(fthumb, @"rooms", fileName);
+                }
+
+                if (string.IsNullOrEmpty(room.Avatar))
+                {
+                    if(roomOlder.Avatar != "")
+                    {
+                        room.Avatar = roomOlder.Avatar;
+                    } else
+                    {
+                        room.Avatar = "default.png";
+                    }
+                }
+               _context.Update(room);
+               await _context.SaveChangesAsync();
+               _notifyService.Success($"Update rooms successfully ");
             }
             catch (DbUpdateConcurrencyException)
-            {
+            {   
                 if (!RoomExists(room.RoomId))
                 {
                     return NotFound();
@@ -157,6 +177,8 @@ namespace HomeStay.Areas.Admin.Controllers
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", room.CategoryId);
             return RedirectToAction(nameof(Index));
+         
+
         }
 
         // GET: Admin/Rooms/Delete/5

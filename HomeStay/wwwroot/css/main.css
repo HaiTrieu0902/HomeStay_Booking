@@ -71,6 +71,9 @@ body {
 .-ml-10 {
     margin-left : -10px;
 }
+.col-4-3 {
+    width : 32.5%;
+}
 
 .border_container {
     padding: 16px;

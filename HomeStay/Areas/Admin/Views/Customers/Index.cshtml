@@ -107,8 +107,8 @@
                             @item.Email
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.CustomerId"> <i class="fa-solid fa-pen text-warning"></i> </a>
-                            <a asp-action="Details" asp-route-id="@item.CustomerId"><i class="fa-solid fa-eye"></i></a>
+                            <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.CustomerId"> <i class="fa-solid fa-pen text-warning"></i> </a>
+                            <a class="text-decoration-none" asp-action="Details" asp-route-id="@item.CustomerId"><i class="fa-solid fa-eye"></i></a>
                           @*   <a asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa-solid fa-trash text-danger"></i></a> *@
 
                             <button type="button" class="button_none" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.CustomerId">

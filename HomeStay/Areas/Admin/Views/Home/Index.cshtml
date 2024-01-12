@@ -3,6 +3,159 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Home ADmin nha car nhaf nyeeu
-    khoong anh dung noi nua em met lam r
-</h1>
+<div>
+    <div class="mt-4 col-12">
+        <div class="d-flex flex-row flex-wrap gap-3">
+            @*  bố *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#F4F8FD">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2 bg-primary rounded-10">
+                        <i class="fa-solid fa-briefcase text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold text-primary m-0">Workplace setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các công việc của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14 text-primary">Tổng công việc quản lý</p>
+                        <h5 class="m-0 text-primary fw-bold">1101</h5>
+                    </div>  
+                    <div class="vr text-primary" ></div>
+                    <div>
+                        <p class="mt-0 fs-14 text-primary">Tổng số khác hàng mới</p>
+                        <h5 class="m-0 text-primary fw-bold">3212</h5>
+                    </div>
+                </div>
+            </div>
+
+           @*  tài khoản *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#F8F6FA">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2  rounded-10" style="background-color : #d1c6db">
+                        <i class="fa-solid fa-circle-user text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold m-0" style="color : #d1c6db">Account setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các tài khoản cho trang web của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14" style="color : #d1c6db">Tổng tài khoản quản lý</p>
+                        <h5 class="m-0  fw-bold" style="color : #d1c6db">1101</h5>
+                    </div>
+                    <div class="vr" style="background-color: #d1c6db"></div>
+                    <div>
+                        <p class="mt-0 fs-14 " style="color : #d1c6db">Tổng số tài khoản mới</p>
+                        <h5 class="m-0 fw-bold" style="color : #d1c6db">3212</h5>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @*  khách hàng *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#F3FBF8">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2 rounded-10" style="background-color : #62cfa7">
+                        <i class="fa-solid fa-users text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold  m-0" style="color: #62cfa7">Customer setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các khách hàng của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #62cfa7">Tổng công việc quản lý</p>
+                        <h5 class="m-0 fw-bold" style="color: #62cfa7">1101</h5>
+                    </div>
+                    <div class="vr" style="background-color: #62cfa7"></div>
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #62cfa7">Tổng số khác hàng mới</p>
+                        <h5 class="m-0  fw-bold" style="color: #62cfa7">3212</h5>
+                    </div>
+                </div>
+            </div>
+
+            @*  lưu trú *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#F2FAF9">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2  rounded-10" style="background-color:#90e1d8">
+                        <i class="fa-solid fa-bed text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold  m-0" style="color: #90e1d8">Room setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các phòng lưu trú của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #90e1d8">Tổng công việc quản lý</p>
+                        <h5 class="m-0  fw-bold" style="color: #90e1d8">1101</h5>
+                    </div>
+                    <div class="vr" style="background-color: #90e1d8"></div>
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #90e1d8">Tổng số khác hàng mới</p>
+                        <h5 class="m-0  fw-bold" style="color: #90e1d8">3212</h5>
+                    </div>
+                </div>
+            </div>
+
+            @* booking *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#FFF8F4">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2  rounded-10" style="background-color: #f3c8af">
+                        <i class="fa-solid fa-receipt text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold  m-0" style="color: #f3c8af">Workplace setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các công việc của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #f3c8af">Tổng công việc quản lý</p>
+                        <h5 class="m-0 fw-bold" style="color: #f3c8af">1101</h5>
+                    </div>
+                    <div class="vr" style="background-color : #f3c8af"></div>
+                    <div>
+                        <p class="mt-0 fs-14 " style="color: #f3c8af">Tổng số khác hàng mới</p>
+                        <h5 class="m-0 fw-bold" style="color: #f3c8af">3212</h5>
+                    </div>
+                </div>
+            </div>
+
+            @* tin tức *@
+            <div class="col-4-3 rounded-12 p-3" style="background-color:#fdf5fb">
+                <div class="d-flex align-items-center gap-3">
+                    <button class="button_none px-3 py-2  rounded-10" style="background-color: #f58bdd">
+                        <i class="fa-solid fa-briefcase text-white"></i>
+                    </button>
+                    <div>
+                        <h4 class="fs-20 fw-bold m-0" style="color: #f58bdd">News setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các công việc của bạn</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <div>
+                        <p class="mt-0 fs-14 " style="color:#f58bdd">Tổng công việc quản lý</p>
+                        <h5 class="m-0  fw-bold" style="color: #f58bdd">1101</h5>
+                    </div>
+                    <div class="vr" style="color:#f58bdd"></div>
+                    <div>
+                        <p class="mt-0 fs-14 " style="color:#f58bdd">Tổng số khác hàng mới</p>
+                        <h5 class="m-0  fw-bold" style="color: #f58bdd">3212</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  @*   Bóng ma anh quốc *@
+    <div class="mt-5">
+        <img src="~/img/miscellaneous/hrm.jpg" href="" class="img-100 rounded-12 " style="height : 500px"></img>
+
+    </div>
+</div>
