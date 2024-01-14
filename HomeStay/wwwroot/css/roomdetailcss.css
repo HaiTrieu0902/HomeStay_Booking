@@ -183,7 +183,7 @@ button {
 
 .bot-btn:hover {
     background-color: var(--hover-color);
-    color: #fff;
+    color: black;
 }
 
 .bot-btn-icon {
@@ -2189,7 +2189,7 @@ ul {
     }
     /*detail_gallery*/
     .detail_gallery {
-        height: 200px;
+        room-slide height: 200px;
     }
 
     .slider-item {

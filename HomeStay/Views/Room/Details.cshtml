@@ -7,7 +7,6 @@
 }
 
 <link href="~/css/roomdetailcss.css" rel="stylesheet" />
-
 <div class="mt-5 detail_room-container">
     <div class="detail_gallery">
         <div class="slider-wrap">
@@ -18,32 +17,32 @@
                 <div class="slider-track">
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg"  alt="" lazy="loaded">
                         </div>
                     </div>
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_1.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg" alt="" lazy="loaded">
                         </div>
                     </div>
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_2.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg"  alt="" lazy="loaded">
                         </div>
                     </div>
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_3.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg" alt="" lazy="loaded">
                         </div>
                     </div>
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_4.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg" alt="" lazy="loaded">
                         </div>
                     </div>
                     <div class="slider-item col-pading-2-5">
                         <div class="room-slide">
-                            <img src="./assets/img/details/img_5.jpg" alt="" lazy="loaded">
+                            <img src="~/img/moutain.jpg"  alt="" lazy="loaded">
                         </div>
                     </div>
                 </div>
@@ -59,14 +58,6 @@
                 <i class="fas fa-ellipsis-v bot-btn-icon"></i>
                 <span style="margin-left: 10px;">Khám phá chỗ ở</span>
             </button>
-        </div>
-        <div class="room-id">
-            <div class="room-id_content">
-                <p class="room-id_desc">
-                    Mã chỗ ở
-                    <br>66666
-                </p>
-            </div>
         </div>
     </div>
     <div class="container py-5">
@@ -89,7 +80,7 @@
                                                             <div class="col-2 text-right d-none-mb">
                                                                 <div class="host-intro">
                                                                     <a href="" class="img-box">
-                                                                        <img src="./assets/img/details/host-avatar.png" alt="">
+                                                                        <i class="fa-solid fa-face-smile fa-2x text-primary"></i>
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -391,109 +382,72 @@
                                 </button>
                             </div>
                             <div class="room-slidebar">
-                                <div class="room-slidebar_content space-bottom-16">
-                                    <div class="room-slide_wrap">
-                                        <p class="room-slidebar_price">
-                                            <span style="font-weight: bold;">850,000₫</span>
-                                            <span>/đêm</span>
-                                        </p>
-                                        <div class="booking-time space-bottom-18">
-                                            <div class="booking-time_mode booking-time_input">
-                                                <span class="booking-time_title bk-title-1">
-                                                    dd/mm/yyyy
-                                                </span>
-                                                <span>đến</span>
-                                                <span class="booking-time_title bk-title-2">
-                                                    dd/mm/yyyy
-                                                </span>
-                                            </div>
-                                            <div class="asd_wrapper asd_wrap-active asd_active-last">
-                                                <div class="asd_datepicker-head">
-                                                    <div class="asd_change-Month--btn asd_change-Month--prev" style="padding-left: 15px;">
-                                                        <button type="button" class="asd_change-Month--btn-child">
-                                                            <i class="fas fa-arrow-left"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="asd_change-Month--btn asd_change-Month--next" style="padding-right: 15px;">
-                                                        <button type="button" class="asd_change-Month--btn-child">
-                                                            <i class="fas fa-arrow-right"></i>
-                                                        </button>
-                                                    </div>
+                                <form asp-action="">
+                                    <div class="room-slidebar_content space-bottom-16">
+                                        <div class="room-slide_wrap">
+                                            <p class="room-slidebar_price">
+                                                <span class="text-primary" style="font-weight: bold;">850,000₫</span>
+                                                <span class="text-primary " style="font-weight: bold;">/ đêm</span>
+                                            </p>
+                                            <div class="booking-time space-bottom-18">
+                                                <div class="form-group col-12">
+                                                    <label for="CheckIn">Ngày nhận phòng</label>
+                                                    <input class="form-control mt-1" id="CheckIn" name="CheckIn" type="date">
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="space-top-12 space-bottom-16 customer">
-                                            <div class="booking-time_input booking-customer">
-                                                <span class="booking-time_title">
-                                                    <p>1 khách</p>
-                                                </span>
+                                            
+                                            <div class="booking-time space-bottom-18 mt-3">
+                                                <div class="form-group col-12">
+                                                    <label for="CheckOut">Ngày trả phòng</label>
+                                                    <input class="form-control mt-1" id="CheckOut" name="CheckOut" type="date">
+                                                </div>
                                             </div>
-                                            <div class="el-popover el-popper customer-quantity">
-                                                <div id="adults" class="select-number row_flex">
-                                                    <div class="select-number_title">
-                                                        <p>Người lớn</p>
-                                                    </div>
-                                                    <div class="select-number-input">
-                                                        <span class="select-number-input_decrease number_is-disabled">
-                                                            <i class="fas fa-minus"></i>
-                                                        </span>
-                                                        <span class="select-number-input_increase">
-                                                            <i class="fas fa-plus"></i>
-                                                        </span>
-                                                        <div class="select-number-input_text">
-                                                            <input type="text" value="1" max="3" min="1" class="select-number-input_inner">
 
-                                                        </div>
-                                                    </div>
-                                                </div>
 
-                                                <div id="young" class="select-number row_flex space-top-18">
-                                                    <div class="select-number_title">
-                                                        <p>Trẻ em</p>
-                                                        <p style="font-size: 12px; color: #555; font-weight: 500;">Tuổi từ 2–12</p>
-                                                    </div>
-                                                    <div class="select-number-input">
-                                                        <span class="select-number-input_decrease number_is-disabled">
-                                                            <i class="fas fa-minus"></i>
-                                                        </span>
-                                                        <span class="select-number-input_increase">
-                                                            <i class="fas fa-plus"></i>
-                                                        </span>
-                                                        <div class="select-number-input_text">
-                                                            <input type="text" value="0" max="2" min="0" class="select-number-input_inner">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div id="infant" class="select-number row_flex space-top-18">
-                                                    <div class="select-number_title">
-                                                        <p>Trẻ sơ sinh</p>
-                                                        <p style="font-size: 12px; color: #555; font-weight: 500;">Dưới 2 tuổi</p>
-                                                    </div>
-                                                    <div class="select-number-input">
-                                                        <span class="select-number-input_decrease number_is-disabled">
-                                                            <i class="fas fa-minus"></i>
-                                                        </span>
-                                                        <span class="select-number-input_increase">
-                                                            <i class="fas fa-plus"></i>
-                                                        </span>
-                                                        <div class="select-number-input_text">
-                                                            <input type="number" value="0" max="2" min="0" class="select-number-input_inner">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="asd_action-btn space-top-30">
-                                                    <button type="button">Xoá</button>
-                                                    <button type="button" class="Apply">Áp dụng</button>
+                                            <div class="booking-time space-bottom-18 mt-3">
+                                                <div class="form-group col-12">
+                                                    <label for="AmountOfPeople">Số người dự kiến: </label>
+                                                    <input class="form-control mt-1" id="AmountOfPeople" name="AmountOfPeople" type="number">
                                                 </div>
                                             </div>
+
+
+                                            <div class="booking-time space-bottom-18 mt-3">
+                                                <div class="form-group col-12">
+                                                    <label>Tổng số đêm ở: <span class="text-primary fst-italic">5 đêm</span></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="booking-time space-bottom-18 mt-2">
+                                                <div class="form-group col-12">
+                                                    <label>Số tiền bạn cần thành toán: <span class="text-danger fst-italic">3.000.000 VNĐ</span> </label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="booking-time space-bottom-18 mt-3">
+                                                <div class="form-group col-12">
+                                                    <label for="AmountOfPeople">Chọn phương thức thanh toán </label>
+                                                    <select  class="form-control" >
+                                                        <option value="">Select value option</option>
+                                                        <option value="">CC MO</option>
+                                                        <option value="">CC 2</option>
+                                                        <option value="">CC 3</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn bg-primary  w-100 mt-3 ">
+                                                <i class="fas fa-bolt text-white "></i>
+                                                <span class="text-white fw-bold fs-16">Đặt ngay</span>
+                                            </button>
+                                            <div class="space-bottom-16 "></div>
                                         </div>
-                                        <button class="btn btn--md btn-full btn-grad-primary btn-primary--shadow space-bottom-16 ">
-                                            <i class="fas fa-bolt "></i>
-                                            <span>Đặt ngay</span>
-                                        </button>
-                                        <div class="space-bottom-16 "></div>
                                     </div>
-                                </div>
+
+                                </form>
+
+
                                 <div class="room-slidebar_content ">
                                     <div class="room-slide_wrap ">
                                         <div class="room-slide_advise ">
