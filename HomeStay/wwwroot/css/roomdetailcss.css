@@ -2,6 +2,8 @@
 /*Slider*/
 
 
+
+
 .detail_gallery {
     height: 425px;
     background: #000000;
@@ -183,7 +185,7 @@ button {
 
 .bot-btn:hover {
     background-color: var(--hover-color);
-    color: #fff;
+    color: black;
 }
 
 .bot-btn-icon {
@@ -387,16 +389,15 @@ p {
 .click-short {
     margin: 8px 0 0 0;
     cursor: pointer;
-    color: var(--hover-color) !important;
     font-size: 16px;
     display: inline-block;
     transition: all .3s;
     text-align: center;
 }
 
-    .click-short:hover {
-        color: var(--text-color) !important;
-    }
+.click-short:hover {
+    color: darkred;
+}
 
 
 /*convenient*/
@@ -2189,7 +2190,7 @@ ul {
     }
     /*detail_gallery*/
     .detail_gallery {
-        height: 200px;
+        room-slide height: 200px;
     }
 
     .slider-item {
