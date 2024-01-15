@@ -16,6 +16,7 @@ html {
 body {
 }
 
+
 .root {
   --bg-primary: #00AFDD;
 }
@@ -88,6 +89,11 @@ body {
     background-color: transparent;
     border: none;
     padding: 0;
+}
+
+.icon_person-detail-room {
+    top: 40px !important;
+    right: 16px !important;
 }
 
 

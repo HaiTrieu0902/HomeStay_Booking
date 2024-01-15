@@ -59,7 +59,7 @@ namespace HomeStay.Areas.Admin.Controllers
 
             var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
             var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
-            ViewBag.CurrentPage = pageNumber;
+           /* ViewBag.CurrentPage = pageNumber;*/
             ViewBag.CurrentSearch = searchValue;
             ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName" , categoryID);
             var customer = await _context.Rooms.FromSqlRaw("SELECT * FROM Room").ToListAsync();
