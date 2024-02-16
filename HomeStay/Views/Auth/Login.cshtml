@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+<div class="mt-5 ">
+    <div class="container px-0 py-5">
+        <div class="welcome mt-5">
+            <div class="welcome-items col-7 m-12">
+                <h1 class="welcome-title_heading">
+                    Đăng ký thành viên HomeStay - Tích điểm thưởng và nhận ưu đãi
+                </h1>
+                <p class="welcome-subtext">
+                    Nhanh chóng, tiện lợi và an toàn. Đăng ký liền tay, rinh ngay quyền lợi.
+                </p>
+             </div>
+        </div>
+        <div class="section mt-5">
+           <div class="row g-3">
+                <div class="col-8 ">
+                     <div class="w-100 row gap-3">
+                        <div class="container-section-auth-item col-6-half ">
+                            <div>
+                                <div class="pad_r-l">
+                                    <h3 class="container-section-heading">
+                                        Tích điểm nhanh chóng
+                                    </h3>
+                                    <p class="container-section-title">
+                                        Tích điểm đối với mỗi lượt đặt chỗ thành công. Quy đổi thành Home Credit để du lịch nhiều hơn nữa.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-section-auth-item col-6-half">
+                            <div>
+                                <div class="pad_r-l">
+                                    <h3 class="container-section-heading">
+                                        Tiện ích thông minh
+                                    </h3>
+                                    <p class="container-section-title">
+                                        Check-in và kiểm tra hóa đơn thanh toán kể cả khi không có kết nối mạng. Hoàn tiền nhanh gọn. Đổi lịch dễ dàng.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-section-auth-item col-6-half ">
+                            <div>
+                                <div class="pad_r-l">
+                                    <h3 class="container-section-heading">
+                                        Thanh toán đơn giản
+                                    </h3>
+                                    <p class="container-section-title">
+                                        Phương thức thanh toán tiện lợi, an toàn. Tích hợp chức năng lưu thẻ để đặt phòng lần sau.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-section-auth-item col-6-half">
+                            <div>
+                                <div class="pad_r-l">
+                                    <h3 class="container-section-heading">
+                                        Ưu đãi mỗi ngày
+                                    </h3>
+                                    <p class="container-section-title">
+                                        Nhận thông báo ưu đãi từ Homestay khi có kế hoạch du lịch để lựa chọn và đặt ngay cho mình một chỗ ở phù hợp, tiện nghi với giá tốt nhất.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                   
+                </div>
+                <div class="col-4 ">
+                    <div class="container-section-account">
+                        <h3 id="container-account-heading" class="text-primary fw-bold">
+                            Đăng nhập
+                        </h3>
+                        <span class="fs-14 ">
+                            Đăng nhập HomeStay để trải nghiệm
+                        </span>
+                        <form class="container-account-form" id="container-account-form" method="post">
+                            <div class="account-form_input">
+                                <input type="text" id="email" class="input" name="username" placeholder="Địa chỉ email" autocomplete="username">
+                                <span class="form-message" id="notification-email">
+
+                                </span>
+                            </div>
+                            <div class="account-form_input">
+                                <input type="password" id="password" class="input" name="password" placeholder="Mật khẩu">
+                                <span class="form-message" id="notification-password">
+
+                                </span>
+                            </div>
+                            <div class="account-form_button">
+                                <input type="button" value="Đăng Nhập" class="acount-form--btn_primary" id="account-form__submit"></input>
+                            </div>
+
+                            <div class="container-account-support">
+                                <div>
+                                    <span>
+                                        Quên mật khẩu?
+                                        <a href="">Bấm vào đây</a>
+                                    </span>
+                                </div>
+
+                                <div>
+                                    <span>
+                                        Bạn chưa có tài khoản HomeStay?
+                                        <a asp-controller="Auth" asp-action="Register" >Đăng ký</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="container-account__login">
+                            <div>
+                                Hoặc
+                            </div>
+                            <div class="account__login--app">
+                                <span>Đăng nhập với Facebook</span>
+                            </div>
+
+                            <div class="account__login--app">
+                                <span>Đăng nhập với Google</>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+           </div>
+
+                  
+        </div>
+    </div>
+</div>
+  

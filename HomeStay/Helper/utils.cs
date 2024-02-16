@@ -35,7 +35,6 @@
 
         }
 
-
         public static string AppendSeparator(string url)
         {
             return url.Contains("?") ? "&" : "?";

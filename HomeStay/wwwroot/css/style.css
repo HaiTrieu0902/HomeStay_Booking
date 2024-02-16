@@ -1,4 +1,12 @@
 ﻿
+:root {
+    --text-color: #222222;
+    --hover-color: #f65e39;
+    --background-color: #fff;
+    --border-color: #e9e8e8;
+    --outline-color: #00afdd;
+}
+
 .room_title {
     color: #4FAFDD;
     font-size : 16px;
@@ -172,4 +180,210 @@
 .banner_firstyear{
     top: 26px;
     left : 16px;
+}
+
+/* =================================LOGIN===================================== */
+
+/* container Welcome */
+.welcome {
+    background: linear-gradient(90deg,#00AFDD 0,#519bad 51%,#269999);
+    padding: 26px 16px ;
+    border-radius : 10px;
+    color: #fff;
+}
+
+.welcome-title_heading {
+    font-size: 23px;
+    line-height: 30px;
+}
+
+.welcome-subtext {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.container_rsm {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.container-section-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 60px;
+    width: 100%;
+}
+
+
+
+.section-ittem__register {
+    margin-top: -32% !important;
+}
+
+.container-section-img {
+    width: 100%;
+    height: 80px;
+}
+
+    .container-section-img img {
+        width: 13%;
+    }
+
+.container-section-heading {
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+.container-section-title {
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--text-color);
+    display: block;
+}
+
+
+
+.container-section-auth-item {
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    padding: 26px 26px;
+    border-radius: 12px;
+}
+
+.col-6-half {
+    flex: 0 0 auto;
+    width : 49%;
+}
+.container-section-account {
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    border-radius: 12px;
+    padding: 35px;
+    display: block;
+    color: var(--text-color);
+}
+
+
+.container-account-heading {
+    font-size: 24px;
+    margin-top: 5px;
+}
+
+.container-account-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 40px;
+    display: block;
+}
+
+.account-form_input {
+    margin-top: 35px;
+}
+
+.account-form_input input {
+    height: 32px;
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid var(--border-color);
+    padding: 22px 15px;
+}
+
+.account-form_input input:focus {
+    border-color: var(--outline-color);
+    box-shadow: 0 0 5px 0 rgb(246 94 57 / 50%);
+    outline: none;
+}
+
+.account-form_button {
+    margin-top: 35px;
+}
+
+.acount-form--btn_primary {
+    width: 100%;
+    height: 50px;
+    background-size: 200% auto;
+    background: linear-gradient(90deg,#00AFDD 0,#519bad 51%,#269999);
+    border: none;
+    border-radius: 25px;
+    color: var(--background-color);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+}
+
+.container-account-support div {
+    margin-top: 30px;
+    text-align: center;
+}
+
+    .container-account-support div > span {
+        font-size: 15px;
+        color: var(--text-color);
+    }
+
+        .container-account-support div > span a {
+            text-decoration: none;
+            color: var(--outline-color);
+        }
+
+            .container-account-support div > span a:hover {
+                text-decoration: none;
+                color: var(--hover-color);
+            }
+
+.account__login--app span {
+    text-align: center;
+    text-align: center;
+}
+
+.container-account__login div:first-child {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 14px;
+    color: var(--text-color);
+    text-align: center;
+}
+
+.container-account__login .account__login--app {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 35px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.account__login--app > span {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+    .account__login--app > p:hover {
+        cursor: pointer;
+        color: var(--hover-color);
+    }
+
+.container-account__login .account__login--app:not(:first-child) {
+    margin-top: 20px;
+}
+
+.op-08 {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.form__mt {
+    margin-top: -15px;
+}
+
+.phone-input {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
 }
