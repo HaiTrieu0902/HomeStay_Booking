@@ -24,7 +24,7 @@
                             <div class="input-group w-100 mx-auto d-flex">
                                 <input value="@ViewBag.CurrentSearch" id="searchValue" name="searchValue" type="search" class="form-control  rounded-12 p-2" placeholder="Tìm kiếm..."
                                        aria-describedby="search-icon-1">
-                                <span onclick="filterRooms()" id="search-icon-1" class="input-group-text p-2 rounded-12 pointer-event">
+                                <span onclick="searchRooms()" id="search-icon-1" class="input-group-text p-2 rounded-12 pointer-event">
                                     <i class="fa fa-search"></i>
                                 </span>
                             </div>
@@ -54,6 +54,11 @@
                                                 <label for="Categories-@category.Value" class="category-label"> @category.Text</label>
                                             </div>
                                         }
+                                        <div class="mb-2">
+                                            <input type="radio"  class="me-2" id="Categories-empty" name="Categories-1" value="0" onchange="categoryChanged('0')">
+                                            <label for="Categories-empty" class="category-label">Tất cả</label>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -161,8 +166,6 @@
                                                         @item.Detail
                                                     </p>
                                                     <div class="d-flex justify-content-between flex-lg-wrap">
-
-
                                                         @{
                                                             if (@item.Price is decimal || @item.Price is int || @item.Price is double)
                                                             {
@@ -184,8 +187,6 @@
                                                                 </a>
                                                             }
                                                         }
-
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -221,15 +222,79 @@
 
 @section Scripts {
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("filterRooms").addEventListener("change", function () {
+                var selectedFilter = document.getElementById("filterRooms").value;
+                var searchValue = document.getElementById("searchValue").value;
+                var selectedCategory = $('#categoryId').data('value');
+               
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "/Room/FillterRoomsCategory?filter=" + selectedFilter + "&categoryId=" + selectedCategory + "&searchValue=" + searchValue, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.status === 'Success') {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            // Handle other cases if needed
+                        }
+                    }
+                };
+                xhr.send();
+            });
+        });
+
+        function searchRooms() {
+            var selectedFilter = document.getElementById("filterRooms").value;
+            var searchValue = document.getElementById("searchValue").value;
+            var selectedCategory = $('#categoryId').data('value');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/Room/FillterRoomsCategory?filter=" + selectedFilter + "&categoryId=" + selectedCategory + "&searchValue=" + searchValue, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === 'Success') {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        // Handle other cases if needed
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function categoryChanged(categoryId) {
+            var selectedFilter = document.getElementById("filterRooms").value;
+            var searchValue = document.getElementById("searchValue").value;
+            $('#categoryId').data('value', categoryId);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/Room/FillterRoomsCategory?filter=" + selectedFilter + "&categoryId=" + categoryId + "&searchValue=" + searchValue, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === 'Success') {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        // Handle other cases if needed
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>
+}
+
+
+
+@* DÙNG QUERY NẾU CẦN NHA
+     <script>
         $(document).ready(function () {
             $('#filterRooms').change(function () {
                 var selectedFilter = $('#filterRooms').val();
                 var searchValue = $('#searchValue').val();
                 var selectedCategory = $('#categoryId').data('value');
-
-
-                console.log("select category", selectedCategory)
-
                 $.ajax({
                     url: '/Room/FillterRoomsCategory',
                     type: 'GET',
@@ -252,15 +317,11 @@
             });
         });
     </script>
-
-    <script>
+     <script>
         function filterRooms() {
             var selectedFilter = $('#filterRooms').val();
             var searchValue = $('#searchValue').val();
             var selectedCategory = $('#categoryId').data('value');
-
-            
-
             $.ajax({
                 url: '/Room/FillterRoomsCategory',
                 type: 'GET',
@@ -281,9 +342,6 @@
             });
         }
     </script>
-
-
-   @*  hadnle category Changed *@
     <script>
         function categoryChanged(categoryId) {
             var selectedFilter = $('#filterRooms').val();
@@ -311,6 +369,4 @@
             });
         }
     </script>
-
-
-}
+*@

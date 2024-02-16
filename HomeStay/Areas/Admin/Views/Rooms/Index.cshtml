@@ -147,29 +147,38 @@
 </div> 
 
 @section Scripts {
-   @*  <script>
-        $(document).ready(function () {
-            $('#categoryId').change(function () {
-                var selectedCategory = $(this).val();
-                $.ajax({
-                    url: '/Admin/Rooms/FillterRoomsCategory',
-                    type: 'GET',
-                    data: { category: selectedCategory },
-                    success: function (result) {
-                        if (result.status === 'Success') {
-                            window.location.href = result.redirectUrl;
-                        } else {
-                         
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        
+    <script>
+        function filterRooms() {
+            var selectedCategory = document.getElementById("categoryId").value;
+            var selectedStatus = document.getElementById("status").value;
+            var searchValue = document.getElementById("searchValue").value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/Admin/Rooms/FillterRoomsCategory?categoryId=" + selectedCategory + "&status=" + selectedStatus + "&searchValue=" + searchValue, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === 'Success') {
+                        window.location.href = result.redirectUrl;
+                    } else {
+                        // show lỗi nếu có
                     }
-                });
+                }
+            };
+            xhr.send();
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("categoryId").addEventListener("change", function () {
+                filterRooms();
+            });
+
+            document.getElementById("status").addEventListener("change", function () {
+                filterRooms();
             });
         });
-    </script> *@
-    <script>
+    </script>
+   @*  <script>
         $(document).ready(function () {
             $('#categoryId, #status').change(function () {
                 var selectedCategory = $('#categoryId').val();
@@ -224,8 +233,7 @@
                 }
             });
         }
-    </script>
-   
+    </script> *@
 }
 
 

@@ -29,7 +29,7 @@ namespace HomeStay.Controllers
 
             /* start func */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
-            var pageSize = 12;
+            var pageSize = 9;
             IQueryable<Room> roomQuery = _context.Rooms.AsNoTracking().Include(r => r.Category).Where(item => item.Active == true).OrderByDescending(item => item.RoomId);
             if (categoryId != 0)
             {
