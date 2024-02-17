@@ -97,6 +97,11 @@ body {
 }
 
 
+
+.section-block-production {
+    height:210px;
+}
+
 html *::-webkit-scrollbar {
     width: 8px !important;
     height: 8px !important;
