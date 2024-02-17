@@ -37,7 +37,7 @@ namespace HomeStay.Controllers
             }
             if (!string.IsNullOrEmpty(searchValue))
             {
-                roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue));
+                roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue) || item.Area.Contains(searchValue))  ;
             }
             if (!string.IsNullOrEmpty(filter))
             {
