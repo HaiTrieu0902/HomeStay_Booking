@@ -11,8 +11,6 @@ namespace HomeStay.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly HomestayDBContext _context;
         HomestayDBContext db = new HomestayDBContext();
-
-
         public HomeController(ILogger<HomeController> logger , HomestayDBContext context)
         {
             _logger = logger;
