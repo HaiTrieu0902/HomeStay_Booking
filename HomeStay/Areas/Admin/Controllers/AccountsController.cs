@@ -59,7 +59,6 @@ namespace HomeStay.Areas.Admin.Controllers
 
         // POST: Admin/Accounts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("AccountId,RoleId,AccountName,Email,PhoneNumber,Active,Password,Cccd")] Account account)
@@ -93,7 +92,6 @@ namespace HomeStay.Areas.Admin.Controllers
 
         // POST: Admin/Accounts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("AccountId,RoleId,AccountName,Email,PhoneNumber,Active,Password,Cccd")] Account account)
