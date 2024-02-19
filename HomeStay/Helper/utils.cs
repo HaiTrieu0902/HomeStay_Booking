@@ -41,7 +41,6 @@ namespace HomeStay.Helper
         {
             return url.Contains("?") ? "&" : "?";
         }
-    
 
         public static void Set<T>(this ISession session, string key, T value)
         {
@@ -52,6 +51,25 @@ namespace HomeStay.Helper
         {
            var value = session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+
+
+        public static bool IsValidEmail(string email)
+        {
+            if(email.Trim().EndsWith("."))
+            {
+                return false;
+            }
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+
+
+            }catch
+            {
+                return false;
+            }
         }
 
     }

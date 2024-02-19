@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HomeStay.Models.RegisterViewModel
+@{
     ViewData["Title"] = "Register";
 }
 <div class="mt-5 ">
@@ -76,21 +77,52 @@
                         <span class="fs-14 ">
                             Đăng ký để trải nghiệm dịch vụ tốt nhất của chúng tôi
                         </span>
-                        <form class="container-account-form" id="container-account-form" method="post">
+                        <form class="container-account-form" id="container-account-form" asp-action="Register" method="post">
                             <div class="account-form_input">
-                                <input type="text" id="email" class="input" name="username" placeholder="Địa chỉ email" autocomplete="username">
-                                <span class="form-message" id="notification-email">
-
-                                </span>
+                                <label asp-for="Email" class="control-label mb-1"></label>
+                                <input asp-for="Email" type="text" id="FullName" class="input" placeholder="Nhập email...">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                               @*  <span class="form-message" id="notification-email"></span> *@
                             </div>
-                            <div class="account-form_input">
-                                <input type="password" id="password" class="input" name="password" placeholder="Mật khẩu">
-                                <span class="form-message" id="notification-password">
+                            <div class="account-form_input mt-2">
+                                <label asp-for="FullName" class="control-label mb-1"></label>
+                                <input asp-for="FullName" type="text" id="FullName" class="input" placeholder="Nhập tên...">
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
 
-                                </span>
+                            <div class="account-form_input mt-2">
+                                <label asp-for="Address" class="control-label mb-1"></label>
+                                <input asp-for="Address" type="text" id="FullName" class="input" placeholder="Nhập địa chỉ...">
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="account-form_input mt-2">
+                                <label asp-for="Birthday" class="control-label mb-1"></label>
+                                <input asp-for="Birthday" type="date" id="FullName" class="input">
+                                <span asp-validation-for="Birthday" class="text-danger"></span>
+                            </div>
+
+                            <div class="account-form_input mt-2">
+                                <label asp-for="PhoneNumber" class="control-label mb-1"></label>
+                                <input asp-for="PhoneNumber" type="number" id="FullName" class="input" placeholder="Nhập số điện thoại...">
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+
+                            <div class="account-form_input mt-2">
+                                <label asp-for="Password" class="control-label mb-1"></label>
+                                <input asp-for="Password" type="password" id="FullName" class="input" placeholder="Nhập mật khẩu...">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            
+                             <div class="account-form_input mt-2">
+                                <label asp-for="ConfirmPassword" class="control-label mb-1"></label>
+                                <input asp-for="ConfirmPassword" type="password" id="FullName" class="input" placeholder="Xác nhận mật khẩu...">
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                             <div class="account-form_button">
-                                <input type="submit" value="Đăng Ký" class="acount-form--btn_primary" id="account-form__submit"></input>
+                                <input type="submit" value="Đăng Ký" class="acount-form--btn_primary" id="account-form__submit" />
                             </div>
 
                             <div class="container-account-support">

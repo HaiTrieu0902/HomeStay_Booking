@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 /*builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();*/
-
+builder.Services.AddSession();
 var connectionString = builder.Configuration.GetConnectionString("connectDB");
 builder.Services.AddDbContext<HomestayDBContext>(x => x.UseSqlServer(connectionString));
 /*builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));*/
@@ -36,8 +36,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
-
+app.UseSession();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
