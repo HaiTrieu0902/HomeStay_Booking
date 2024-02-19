@@ -33,7 +33,7 @@ namespace HomeStay.Models
 
 
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
-        [Display(Name = "Ngày sin")]
+        [Display(Name = "Ngày sinh")]
         public DateTime Birthday { get; set; }
 
 
