@@ -2,19 +2,16 @@
 using HomeStay.Helper;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using System.Security.Principal;
 
 namespace HomeStay.Controllers
 {
     public class AuthController : Controller
     {
-
-        private readonly ILogger<HomeController> _logger;
         private readonly HomestayDBContext _context;
         HomestayDBContext db = new HomestayDBContext();
         private INotyfService _notifyService { get; }
@@ -31,7 +28,7 @@ namespace HomeStay.Controllers
         }
 
         /* Validate Phone */
-        [HttpGet]
+        [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
         public IActionResult ValidatePhone(string Phone)
         {
@@ -49,41 +46,41 @@ namespace HomeStay.Controllers
         }
 
         /* Validate Email */
-        [HttpGet]
+        [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
-        public IActionResult ValidateEmail(string Email)
+        public JsonResult ValidateEmail(string Email)
         {
             try
             {
-                var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.PhoneNumber.ToLower() == Email.ToLower());
+                Console.WriteLine("Received Email: " + Email);
+                var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == Email.ToLower());
                 if (customer != null)
-                    return Json(data: "Email: " + Email + "đã được sử dụng");
-                return Json(data: true);
+                    return Json("Email " + Email + " đã được sử dụng.");
+                return Json( data : true);
             }
             catch (Exception ex)
             {
-                return Json(data: true);
+                return Json(data : true);
             }
         }
-
 
         /* Get Login */
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
             var accountId = HttpContext.Session.GetString("CustomerId");
-            if(accountId != null)
+            if (accountId != null)
             {
+                _notifyService.Success("Đăng nhập thành công");
                 return RedirectToAction("Index", "Home");
             }
             return View();
         }
 
-
         /* Post Login */
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(LoginViewModel customer , string returnUrl = null)
+        public async Task<IActionResult> Login(LoginViewModel customer)
         {
            try
            {
@@ -99,29 +96,46 @@ namespace HomeStay.Controllers
                     if(customer.Password.Trim() != localCustomer.Password.Trim())
                     {
                         _notifyService.Error("Mật khẩu không đúng!");
-                        return View();
+                        return View(customer);
                     }
 
                     // check xem có bị disable hay không
                     if(localCustomer.Active == false)
                     {
                         _notifyService.Error("Tài khoản hiện tại đang không có quyền truy cập, vui lòng liên hệ admin");
-                        return View();
+                        return View(customer);
                     }
 
                     HttpContext.Session.SetString("CustomerId", localCustomer.CustomerId.ToString());
                     var accountId = HttpContext.Session.GetString("CustomerId");
 
                     // nhận diện
-                    var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, localCustomer.Email),
-                            new Claim("CustomerId" , localCustomer.CustomerId.ToString()),
-                        };
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Login");
+                  /*  var claims = new List<Claim>
+                         {
+                             new Claim(ClaimTypes.Name, localCustomer.FullName),
+                             new Claim("CustomerId" , localCustomer.CustomerId.ToString()),
+                         };
+                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
                     ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    await HttpContext.SignInAsync(claimsPrincipal);*/
 
-                    await HttpContext.SignInAsync(claimsPrincipal);
+                    List<Claim> claims = new List<Claim>()
+                     {
+                         new Claim(ClaimTypes.NameIdentifier, localCustomer.Email),
+                         new Claim("CustomerId",localCustomer.CustomerId.ToString()),
+                         new Claim("FullName",localCustomer.FullName),
+                         new Claim("Email",localCustomer.Email),
+
+                     };
+                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                     AuthenticationProperties properties = new AuthenticationProperties()
+                     {
+                         AllowRefresh = true,
+                         IsPersistent = true,
+                     };
+                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+
+                    /* await HttpContext.SignInAsync(claimsPrincipal);*/
                     _notifyService.Success("Đăng nhập thành công");
                     return RedirectToAction("Index", "Home");
                 }
@@ -172,30 +186,35 @@ namespace HomeStay.Controllers
                         var accountId = HttpContext.Session.GetString("CustomerId");
 
                         // nhận diện
-                        var claims = new List<Claim>
+                       /* List<Claim> claims = new List<Claim>()
+                         {
+                             new Claim(ClaimTypes.NameIdentifier, newCustomer.Email),
+                             new Claim("CustomerId",newCustomer.CustomerId.ToString()),
+                             new Claim("FullName",newCustomer.FullName),
+                             new Claim("Email",newCustomer.Email),
+
+                         };
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        AuthenticationProperties properties = new AuthenticationProperties()
                         {
-                            new Claim(ClaimTypes.Name, newCustomer.Email),
-                            new Claim("CustomerId" , newCustomer.CustomerId.ToString()),
+                            AllowRefresh = true,
+                            IsPersistent = true,
                         };
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims , "Login");
-                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-
-                        await HttpContext.SignInAsync(claimsPrincipal);
-
-                        _notifyService.Success("Đăng ký thành công");
-                        return RedirectToAction("Index", "Home");
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);*/
+                        return RedirectToAction("Login", "Auth");
                     }
                     catch (Exception ex)
                     {
                         return RedirectToAction("Register", "Auth");
                     }
                 }
-                return RedirectToAction(nameof(Index));
+               
             }
             catch (Exception ex)
             {
                 return RedirectToAction("Register", "Auth");
             }
+            return View(customer);
         }
     }
 }
