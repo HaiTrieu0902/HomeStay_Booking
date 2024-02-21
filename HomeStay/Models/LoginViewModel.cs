@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace HomeStay.Models
 {
@@ -6,8 +7,9 @@ namespace HomeStay.Models
     {
         [MaxLength(100)]
         [Required(ErrorMessage = "Email không được để trống!")]
-        [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessage = "Địa chỉ email không hợp lệ")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = null!;
 
 

@@ -1,8 +1,10 @@
-﻿using HomeStay.Models;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace HomeStay.Controllers
 {
@@ -10,26 +12,44 @@ namespace HomeStay.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly HomestayDBContext _context;
+        private INotyfService _notifyService { get; }
         HomestayDBContext db = new HomestayDBContext();
-        public HomeController(ILogger<HomeController> logger , HomestayDBContext context)
+        public HomeController(ILogger<HomeController> logger , HomestayDBContext context, INotyfService notifyService)
         {
             _logger = logger;
             _context = context;
+            _notifyService = notifyService;
         }
 
         public async Task<IActionResult> Index()
         {
-           /* string sqlQuery = @"
-                SELECT TOP 10 * 
-                FROM Room
-                WHERE Active = 1 
-                ORDER BY RoomId DESC";
-            var listRooms = await _context.Rooms
-                                        .FromSqlRaw(sqlQuery)
-                                        .Include(r => r.Category)
-                                        .AsNoTracking()
-                                        .ToListAsync();
-            */
+            /* string sqlQuery = @"
+                 SELECT TOP 10 * 
+                 FROM Room
+                 WHERE Active = 1 
+                 ORDER BY RoomId DESC";
+             var listRooms = await _context.Rooms
+                                         .FromSqlRaw(sqlQuery)
+                                         .Include(r => r.Category)
+                                         .AsNoTracking()
+                                         .ToListAsync();
+             */
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                var usernameClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier);
+                var idLogin = userClaims.FindFirst("CustomerId");
+                var useLogin = userClaims.FindFirst("FullName");
+                var emailLogin = userClaims.FindFirst("Email");
+
+                if (usernameClaim != null)
+                {
+                    TempData["IdAccount"] = idLogin.Value;
+                    TempData["NameAccount"] = useLogin.Value;
+                    TempData["EmailAccount"] = emailLogin.Value;
+                }
+              
+            }
             IQueryable<Room> roomQuery = _context.Rooms
                                                 .AsNoTracking()
                                                 .Include(r => r.Category)
@@ -38,7 +58,7 @@ namespace HomeStay.Controllers
                                                 .Take(10);
             var listRooms = await roomQuery.ToListAsync();
             ViewBag.ListRooms = listRooms;
-            return View();
+            return View(listRooms);
         }
 
         /* View  Privacy */
