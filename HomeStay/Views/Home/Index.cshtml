@@ -86,14 +86,23 @@
                         Chào mừng bạn đến với HomeStay
                     </h3>
                     <p class="welcome-title">
-                        Đặt phòng, Chỗ ở, Tìm ưu đãi khách sạn, chỗ nghỉ dạng nhà và nhiều hơn nữa...
+                        Đặt phòng, chỗ ở, Tìm ưu đãi khách sạn, chỗ nghỉ dạng nhà và nhiều hơn nữa...
                     </p>
-                    <span class="welcome-title welcome_link">
-                        <a class="text-decoration-none text-primary" href="">Đăng nhập </a>
-                        hoặc
-                        <a class="text-decoration-none text-primary" href="">Đăng ký</a>
-                        để trải nghiệm !
-                    </span>
+                    @if (TempData["EmailAccount"] == null)
+                    {
+                        <span class="welcome-title welcome_link">
+                            <a class="text-decoration-none text-primary" href="">Đăng nhập </a>
+                            hoặc
+                            <a class="text-decoration-none text-primary" href="">Đăng ký</a>
+                            để trải nghiệm !
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="welcome-title welcome_link">
+                            Chào mừng đến <b class="text-decoration-none text-primary">@TempData["NameAccount"]</b> đến với trải nghiệm homestay
+                        </span>
+                    }
                 </div>
             </div>
 

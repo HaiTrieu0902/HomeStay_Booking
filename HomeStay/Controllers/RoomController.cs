@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using X.PagedList;
 
 namespace HomeStay.Controllers
@@ -26,6 +27,13 @@ namespace HomeStay.Controllers
                 new SelectListItem { Value = "increase", Text = "Giá tăng đần" }
             };
             ViewData["ListActiveFilter"] = new SelectList(activeStatusList, "Value", "Text", filter);
+
+            /* get người dùng login */
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
 
             /* start func */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
