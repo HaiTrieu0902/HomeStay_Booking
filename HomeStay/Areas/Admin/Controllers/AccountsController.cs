@@ -26,7 +26,7 @@ namespace HomeStay.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
 
-            ViewData["ListRole"] = new SelectList(db.Roles, "RoleId", "RoleName");
+            ViewData["ListRole"] = new SelectList(_context.Roles, "RoleId", "RoleName");
             var homestayDBContext = _context.Accounts.Include(a => a.Role);
             return View(await homestayDBContext.ToListAsync());
         }

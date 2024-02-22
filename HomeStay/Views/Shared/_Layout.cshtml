@@ -37,17 +37,7 @@
                        
                     </div>
                     <div class="d-flex m-3 align-content-center align-items-center gap-2 me-0">
-                        @* <button>
-                        <a asp-area="" asp-controller="" asp-action="" class="position-relative my-auto">
-                        <i class="fa-solid fa-heart text-primary"></i>
-                        <span
-                        class="position-absolute bg-secondary rounded-circle d-flex align-items-center
-                        justify-content-center text-dark px-1"
-                        style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
-                        </a>
-                        </button> *@
-
-                        <button class="btn btn_transparent d-flex  align-content-center align-items-center font-weight-bold text-primary">
+                        <button class="btn btn_transparent d-flex  align-content-center align-items-center fw-bold text-primary">
                             VND
                         </button >
                        
@@ -58,11 +48,10 @@
                         </button>
                         <button class=" btn btn_transparent d-flex  align-content-center align-items-center">
                             <a class="nav-item text-decoration-none text-white" asp-area="" asp-controller="" asp-action="">
-                                <i class="fa-solid fa-circle-info text-warning fs-20"></i>
+                                <i class="fa-solid fa-circle-info text-warning " style="font-size : 26px;"></i>
                             </a>
                         </button>
-
-
+                        <!-- check điều kiện nếu mà đang login thì hiện thị giao diện login -->
                         @if (TempData["EmailAccount"] == null)
                         {
                             <button class="btn btn-primary_config rounded-3 "><a class="nav-item text-decoration-none text-white" asp-area="" asp-controller="Auth" asp-action="Login">Đăng Nhập</a></button>
@@ -70,13 +59,31 @@
                         }
                         else
                         {
-                            <span>Xin chào:<i class="fa fa-user"></i> @TempData["EmailAccount"]</span>
-                            <div class="header__cart__price"><a asp-controller="Home" asp-action="LogOut" class="text-decoration-none"> <i class="fa fa-sign-out"></i> Log out</a></div>
-
+                            <div class="fw-bolder fst-italic fs-16 text-black">Xin chào</div>
+                            <div style="border: 1px solid #00AFDD;" class="btn-group pointer p-1 ms-2 rounded-3">
+                                <button class="btn_transparent btn_transparent_cuise align-items-center d-flex dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img id="imagePreview" class="img-preview rounded-circle" src="~/img/default.png" alt="Preview" style="width: 28px; height: 28px;border: 1px solid #ffb700;" />
+                                    <span class="ms-2 text-primary fw-bold">@TempData["NameAccount"]</span>
+                                </button>
+                                <ul class="dropdown-menu p-3 rounded-10" style="width : 240px;margin-top :6px; margin-left : 0%">
+                                    <li class="btn_transparent  p-1 rounded-3">
+                                        <a>
+                                            <i class="fa-regular fa-user me-2"></i> <span class="fs-16">Quản lý Tài khoản</span>
+                                        </a>
+                                    </li>
+                                    <li class="btn_transparent p-1 rounded-3"><i class="fa-regular fa-bookmark me-2"></i>  <span class="fs-16">Quản lý Booking</span></li>
+                                    <li class="btn_transparent p-1 rounded-3"> <i class="fa-regular fa-heart me-1"></i>  <span class="fs-16">Yêu thích</span></li>
+                                    <li class="btn_transparent p-1 rounded-3"><i class="fa-solid fa-gear me-1"></i>   <span class="fs-16">Cài đặt</span></li>
+                                    <li class="btn_transparent  p-1 rounded-3">
+                                        <a asp-controller="Auth" asp-action="Logout" class="text-decoration-none text-danger">
+                                            <i class="fa-solid fa-right-from-bracket me-1"></i>
+                                            <span class="fs-16">Đăng xuất</span>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </div>
                         }
-                        @* <a href="#" class="my-auto">
-                            <i class="fas fa-user text-primary"></i>
-                        </a> *@
                     </div>
                 </div>
             </nav>

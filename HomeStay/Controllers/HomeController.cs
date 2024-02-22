@@ -1,7 +1,9 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using HomeStay.Helper;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -34,21 +36,26 @@ namespace HomeStay.Controllers
                                          .AsNoTracking()
                                          .ToListAsync();
              */
+            /* var userClaims = User.Identity as ClaimsIdentity;
+             if (userClaims != null)
+             {
+                 var usernameClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier);
+                 var idLogin = userClaims.FindFirst("CustomerId");
+                 var useLogin = userClaims.FindFirst("FullName");
+                 var emailLogin = userClaims.FindFirst("Email");
+
+                 if (usernameClaim != null)
+                 {
+                     TempData["IdAccount"] = idLogin?.Value;
+                     TempData["NameAccount"] = useLogin?.Value;
+                     TempData["EmailAccount"] = emailLogin?.Value;
+                 }
+
+             }*/
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
-                var usernameClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier);
-                var idLogin = userClaims.FindFirst("CustomerId");
-                var useLogin = userClaims.FindFirst("FullName");
-                var emailLogin = userClaims.FindFirst("Email");
-
-                if (usernameClaim != null)
-                {
-                    TempData["IdAccount"] = idLogin.Value;
-                    TempData["NameAccount"] = useLogin.Value;
-                    TempData["EmailAccount"] = emailLogin.Value;
-                }
-              
+                userClaims.SetUserClaims(TempData);
             }
             IQueryable<Room> roomQuery = _context.Rooms
                                                 .AsNoTracking()
@@ -63,13 +70,24 @@ namespace HomeStay.Controllers
 
         /* View  Privacy */
         public IActionResult Privacy()
+
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             return View();
         }
 
         /* View  Contact */
         public IActionResult Contact()
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             return View();
         }
 

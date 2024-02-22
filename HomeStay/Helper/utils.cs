@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace HomeStay.Helper
 {
@@ -69,6 +71,22 @@ namespace HomeStay.Helper
             }catch
             {
                 return false;
+            }
+        }
+
+
+        public static void SetUserClaims(this ClaimsIdentity userClaims, ITempDataDictionary tempData)
+        {
+            var usernameClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier);
+            var idLogin = userClaims.FindFirst("CustomerId");
+            var useLogin = userClaims.FindFirst("FullName");
+            var emailLogin = userClaims.FindFirst("Email");
+
+            if (usernameClaim != null)
+            {
+                tempData["IdAccount"] = idLogin?.Value;
+                tempData["NameAccount"] = useLogin?.Value;
+                tempData["EmailAccount"] = emailLogin?.Value;
             }
         }
 

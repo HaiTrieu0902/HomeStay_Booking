@@ -29,7 +29,14 @@
                             </a>
                         </div>
                         <div class="">
-                            <span class="fs-16 fw-bolder">Xin chào, Admin!</span>
+                            @if (TempData["EmailAccount"] == null)
+                            {
+                                <span class="fs-16 fw-bolder">Xin chào, Admin!</span>
+                            }
+                            else
+                            {
+                                <span class="fs-16 fw-bolder">Xin chào, @TempData["NameAccount"]!</span>
+                            }
                         </div>
                     </div>
                 </div>

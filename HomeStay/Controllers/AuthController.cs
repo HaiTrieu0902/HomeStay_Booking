@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Web.Helpers;
 
 namespace HomeStay.Controllers
 {
@@ -20,11 +21,6 @@ namespace HomeStay.Controllers
             _context = context;
             _notifyService = notifyService;
 
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         /* Validate Phone */
@@ -52,7 +48,6 @@ namespace HomeStay.Controllers
         {
             try
             {
-                Console.WriteLine("Received Email: " + Email);
                 var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == Email.ToLower());
                 if (customer != null)
                     return Json("Email " + Email + " đã được sử dụng.");
@@ -68,8 +63,15 @@ namespace HomeStay.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
-            var accountId = HttpContext.Session.GetString("CustomerId");
+/*            var accountId = HttpContext.Session.GetString("CustomerId");
             if (accountId != null)
+            {
+                _notifyService.Success("Đăng nhập thành công");
+                return RedirectToAction("Index", "Home");
+            }
+            return View();*/
+            ClaimsPrincipal claims = HttpContext.User;
+            if (claims.Identity.IsAuthenticated)
             {
                 _notifyService.Success("Đăng nhập thành công");
                 return RedirectToAction("Index", "Home");
@@ -82,69 +84,100 @@ namespace HomeStay.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel customer)
         {
-           try
-           {
+            try
+            {
                 if (ModelState.IsValid)
                 {
                     bool isEmail = utils.IsValidEmail(customer.Email);
-                    if(!isEmail) return View(customer);
+                    if (!isEmail) return View(customer);
 
-                    var localCustomer = _context.Customers.AsNoTracking().SingleOrDefault(item =>item.Email.Trim() == customer.Email.Trim());
-                    if(localCustomer == null) return RedirectToAction("Register", "Auth");
+                    var localCustomer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.Trim() == customer.Email.Trim());
+                    var localAccountAdmin = _context.Accounts.AsNoTracking().SingleOrDefault(item => item.Email.Trim() == customer.Email.Trim());
 
-
-                    if(customer.Password.Trim() != localCustomer.Password.Trim())
+                    if (localCustomer != null)
                     {
-                        _notifyService.Error("Mật khẩu không đúng!");
-                        return View(customer);
-                    }
+                        // Đăng nhập với tài khoản khách hàng
+                        if (customer.Password.Trim() != localCustomer.Password.Trim())
+                        {
+                            _notifyService.Error("Mật khẩu không đúng!");
+                            return View(customer);
+                        }
 
-                    // check xem có bị disable hay không
-                    if(localCustomer.Active == false)
+                        if (!localCustomer.Active)
+                        {
+                            _notifyService.Error("Tài khoản hiện tại đang không có quyền truy cập, vui lòng liên hệ admin");
+                            return View(customer);
+                        }
+
+                        // Lưu thông tin đăng nhập vào session
+                        HttpContext.Session.SetString("CustomerId", localCustomer.CustomerId.ToString());
+                        var accountId = HttpContext.Session.GetString("CustomerId");
+
+                        // Tạo danh sách claims
+                        List<Claim> claims = new List<Claim>()
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, localCustomer.Email),
+                            new Claim("CustomerId", localCustomer.CustomerId.ToString()),
+                            new Claim("FullName", localCustomer.FullName),
+                            new Claim("Email", localCustomer.Email),
+                        };
+
+                        // Tạo identity và authentication properties
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        AuthenticationProperties properties = new AuthenticationProperties()
+                        {
+                            AllowRefresh = true,
+                            IsPersistent = true,
+                        };
+                        
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+                        _notifyService.Success("Đăng nhập thành công");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else if (localAccountAdmin != null)
                     {
-                        _notifyService.Error("Tài khoản hiện tại đang không có quyền truy cập, vui lòng liên hệ admin");
-                        return View(customer);
+                        // Đăng nhập với tài khoản admin
+                        if (customer.Password.Trim() != localAccountAdmin.Password.Trim())
+                        {
+                            _notifyService.Error("Mật khẩu không đúng!");
+                            return View(customer);
+                        }
+
+                        if (!localAccountAdmin.Active)
+                        {
+                            _notifyService.Error("Tài khoản hiện tại đang không có quyền truy cập, vui lòng liên hệ superAdmin");
+                            return View(customer);
+                        }
+                       
+                        HttpContext.Session.SetString("CustomerId", localAccountAdmin.AccountId.ToString());
+                        var accountId = HttpContext.Session.GetString("CustomerId");
+                        List<Claim> claims = new List<Claim>()
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, localAccountAdmin.Email),
+                            new Claim("CustomerId", localAccountAdmin.AccountId.ToString()),
+                            new Claim("FullName", localAccountAdmin.AccountName),
+                            new Claim("Email", localAccountAdmin.Email),
+                        };
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        AuthenticationProperties properties = new AuthenticationProperties()
+                        {
+                            AllowRefresh = true,
+                            IsPersistent = true,
+                        };
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
-
-                    HttpContext.Session.SetString("CustomerId", localCustomer.CustomerId.ToString());
-                    var accountId = HttpContext.Session.GetString("CustomerId");
-
-                    // nhận diện
-                  /*  var claims = new List<Claim>
-                         {
-                             new Claim(ClaimTypes.Name, localCustomer.FullName),
-                             new Claim("CustomerId" , localCustomer.CustomerId.ToString()),
-                         };
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await HttpContext.SignInAsync(claimsPrincipal);*/
-
-                    List<Claim> claims = new List<Claim>()
-                     {
-                         new Claim(ClaimTypes.NameIdentifier, localCustomer.Email),
-                         new Claim("CustomerId",localCustomer.CustomerId.ToString()),
-                         new Claim("FullName",localCustomer.FullName),
-                         new Claim("Email",localCustomer.Email),
-
-                     };
-                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                     AuthenticationProperties properties = new AuthenticationProperties()
-                     {
-                         AllowRefresh = true,
-                         IsPersistent = true,
-                     };
-                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);
-
-                    /* await HttpContext.SignInAsync(claimsPrincipal);*/
-                    _notifyService.Success("Đăng nhập thành công");
-                    return RedirectToAction("Index", "Home");
+                    else
+                    {
+                        return RedirectToAction("Register", "Auth");
+                    }
                 }
-              
-           }
-           catch(Exception ex)
-           {
+
+            }
+            catch (Exception ex)
+            {
                 return RedirectToAction("Login", "Auth");
-           }
+            }
             return View(customer);
         }
 
@@ -153,6 +186,11 @@ namespace HomeStay.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            ClaimsPrincipal claims = HttpContext.User;
+            if (claims.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -168,9 +206,9 @@ namespace HomeStay.Controllers
                 {
                     Customer newCustomer = new Customer { 
                         Email = customer.Email.Trim().ToLower(),
-                        FullName = customer.FullName.Trim().ToLower(),
+                        FullName = customer.FullName.Trim(),
                         Password = customer.Password.Trim().ToLower(),
-                        Address = customer.Address.Trim().ToLower(),
+                        Address = customer?.Address?.Trim().ToLower(),
                         PhoneNumber = customer.PhoneNumber.Trim().ToLower(),
                         Birthday = customer.Birthday,
                         Avatar = "default.png",
@@ -179,13 +217,23 @@ namespace HomeStay.Controllers
                     };
                     try
                     {
+                        var duplicateEmail = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == customer.Email.Trim().ToLower());
+                        var duplicateEmailAccount = _context.Accounts.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == customer.Email.Trim().ToLower());
+                        var duplicatePhoneNumber = _context.Customers.AsNoTracking().SingleOrDefault(item => item.PhoneNumber== customer.PhoneNumber.Trim());
+
+                        if(duplicateEmail != null || duplicateEmailAccount !=null) {
+                            _notifyService.Warning($"Email: {customer.Email} đã tồn tại vui lòng điền email khác!");
+                         /*   ModelState.AddModelError("Email", "Email đã tồn tại vui lòng nhập email khác");*/
+                            return View(customer);
+                          
+                        }
+                        if (duplicatePhoneNumber != null)
+                        {
+                            _notifyService.Warning($"SDT: {customer.PhoneNumber} đã tồn tại vui lòng điền số điện thoại khác!");
+                            return View(customer);
+                        }
                         _context.Add(newCustomer);
                         await _context.SaveChangesAsync();
-                        // Lưu session mã khách hàng
-                        HttpContext.Session.SetString("CustomerId", newCustomer.CustomerId.ToString());
-                        var accountId = HttpContext.Session.GetString("CustomerId");
-
-                        // nhận diện
                        /* List<Claim> claims = new List<Claim>()
                          {
                              new Claim(ClaimTypes.NameIdentifier, newCustomer.Email),
@@ -216,5 +264,17 @@ namespace HomeStay.Controllers
             }
             return View(customer);
         }
+
+
+        /* Logout */
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("CustomerId"); 
+            return RedirectToAction("Login", "Auth"); 
+        }
     }
+
+   
 }
