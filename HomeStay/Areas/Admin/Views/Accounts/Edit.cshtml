@@ -1,58 +1,78 @@
 ﻿@model HomeStay.Models.Account
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Account";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+<div class="mt-4">
+    <h4>QUẢN LÝ TÀI KHOẢN</h4>
+    <div class="header_sub-title">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item "><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+        </nav>
+    </div>
+</div>
 
-<h1>Edit</h1>
-
-<h4>Account</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AccountId" />
-            <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
-                <span asp-validation-for="RoleId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AccountName" class="control-label"></label>
-                <input asp-for="AccountName" class="form-control" />
-                <span asp-validation-for="AccountName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cccd" class="control-label"></label>
-                <input asp-for="Cccd" class="form-control" />
-                <span asp-validation-for="Cccd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-12 border_container">
+        <div style="height : 70vh;overflow-y: auto;overflow-x: hidden;" class="px-1">
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="AccountId" />
+                <div class="row g-4">
+                    <div class="form-group col-6">
+                        <label asp-for="RoleId" class="control-label"></label>
+                        <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+                        <span asp-validation-for="RoleId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="AccountName" class="control-label"></label>
+                        <input asp-for="AccountName" class="form-control" />
+                        <span asp-validation-for="AccountName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                        </label>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-check form-switch mt-5 col-6 ">
+                        <input class="ms-2 form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" asp-for="Active">
+                        <label class="ms-2  form-check-label" for="flexSwitchCheckDefault">Active</label>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label asp-for="Cccd" class="control-label"></label>
+                        <input asp-for="Cccd" class="form-control" />
+                        <span asp-validation-for="Cccd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 

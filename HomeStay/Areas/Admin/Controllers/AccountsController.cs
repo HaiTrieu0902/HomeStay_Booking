@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using X.PagedList;
+using System.Security.Claims;
+using HomeStay.Helper;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -23,12 +25,24 @@ namespace HomeStay.Areas.Admin.Controllers
         }
 
         // GET: Admin/Accounts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+            var pageNumber = page == null || page < 0 ? 1 : page.Value;
+            var pageSize = 10;
+            var listAccounts =  _context.Accounts.AsNoTracking().Include(item => item.Role).OrderByDescending(item => item.AccountId);
+            PagedList<Account> models = new PagedList<Account>(listAccounts, pageNumber, pageSize);
+            var customer = await _context.Accounts.FromSqlRaw("SELECT * FROM Account").ToListAsync();
 
-            ViewData["ListRole"] = new SelectList(_context.Roles, "RoleId", "RoleName");
-            var homestayDBContext = _context.Accounts.Include(a => a.Role);
-            return View(await homestayDBContext.ToListAsync());
+
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+          
+
+            return View(models);
         }
 
         // GET: Admin/Accounts/Details/5
@@ -53,7 +67,7 @@ namespace HomeStay.Areas.Admin.Controllers
         // GET: Admin/Accounts/Create
         public IActionResult Create()
         {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId");
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
             return View();
         }
 
@@ -69,7 +83,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
             return View(account);
         }
 
@@ -86,7 +100,7 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
             return View(account);
         }
 
@@ -121,7 +135,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleId", account.RoleId);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
             return View(account);
         }
 
@@ -132,7 +146,6 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
             var account = await _context.Accounts
                 .Include(a => a.Role)
                 .FirstOrDefaultAsync(m => m.AccountId == id);

@@ -9,6 +9,7 @@ using HomeStay.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using X.PagedList;
 using HomeStay.Helper;
+using System.Security.Claims;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -26,6 +27,11 @@ namespace HomeStay.Areas.Admin.Controllers
         // GET: Admin/Rooms
         public async Task<IActionResult> Index(int? page , int? status, int? categoryID = 0 ,string searchValue =""  )
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             /* var homestayDBContext = _context.Rooms.Include(r => r.Category);
              return View(await homestayDBContext.ToListAsync());*/
 

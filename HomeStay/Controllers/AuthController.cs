@@ -28,35 +28,25 @@ namespace HomeStay.Controllers
         [AllowAnonymous]
         public IActionResult ValidatePhone(string Phone)
         {
-            try
+            var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.PhoneNumber.ToLower() == Phone.ToLower());
+            if (customer != null)
             {
-                var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.PhoneNumber.ToLower() == Phone.ToLower());
-                if (customer != null)
-                    return Json(data: "Số điện thoại: " + Phone + "đã được sử dụng");
-                return Json(data: true);
+                return Json($"PhoneNumber '{Phone}' đã được sử dụng.");
             }
-            catch(Exception ex)
-            {
-                return Json(data: true);
-            }
+            return Json(true);
         }
 
         /* Validate Email */
         [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
-        public JsonResult ValidateEmail(string Email)
+        public IActionResult ValidateEmail(string Email)
         {
-            try
+            var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == Email.ToLower());
+            if (customer != null)
             {
-                var customer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == Email.ToLower());
-                if (customer != null)
-                    return Json("Email " + Email + " đã được sử dụng.");
-                return Json( data : true);
+                return Json($"Email '{Email}' đã được sử dụng.");
             }
-            catch (Exception ex)
-            {
-                return Json(data : true);
-            }
+            return Json(true);
         }
 
         /* Get Login */
@@ -202,6 +192,7 @@ namespace HomeStay.Controllers
         {
            try
             {
+              
                 if (ModelState.IsValid)
                 {
                     Customer newCustomer = new Customer { 
@@ -221,7 +212,10 @@ namespace HomeStay.Controllers
                         var duplicateEmailAccount = _context.Accounts.AsNoTracking().SingleOrDefault(item => item.Email.ToLower() == customer.Email.Trim().ToLower());
                         var duplicatePhoneNumber = _context.Customers.AsNoTracking().SingleOrDefault(item => item.PhoneNumber== customer.PhoneNumber.Trim());
 
-                        if(duplicateEmail != null || duplicateEmailAccount !=null) {
+                      
+
+
+                        if (duplicateEmail != null || duplicateEmailAccount !=null) {
                             _notifyService.Warning($"Email: {customer.Email} đã tồn tại vui lòng điền email khác!");
                          /*   ModelState.AddModelError("Email", "Email đã tồn tại vui lòng nhập email khác");*/
                             return View(customer);
@@ -232,24 +226,32 @@ namespace HomeStay.Controllers
                             _notifyService.Warning($"SDT: {customer.PhoneNumber} đã tồn tại vui lòng điền số điện thoại khác!");
                             return View(customer);
                         }
-                        _context.Add(newCustomer);
-                        await _context.SaveChangesAsync();
-                       /* List<Claim> claims = new List<Claim>()
-                         {
-                             new Claim(ClaimTypes.NameIdentifier, newCustomer.Email),
-                             new Claim("CustomerId",newCustomer.CustomerId.ToString()),
-                             new Claim("FullName",newCustomer.FullName),
-                             new Claim("Email",newCustomer.Email),
 
-                         };
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        AuthenticationProperties properties = new AuthenticationProperties()
+                        int yearDay = DateTime.Today.Year;
+                        if (yearDay - customer.Birthday.Year < 18)
                         {
-                            AllowRefresh = true,
-                            IsPersistent = true,
-                        };
-                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);*/
+                            ModelState.AddModelError("Birthday", "Ít nhất phải 18 tuổi mới được đăng ký");
+                            return View(customer);
+                        }
+                         _context.Add(newCustomer);
+                         await _context.SaveChangesAsync();
+                        /* List<Claim> claims = new List<Claim>()
+                          {
+                              new Claim(ClaimTypes.NameIdentifier, newCustomer.Email),
+                              new Claim("CustomerId",newCustomer.CustomerId.ToString()),
+                              new Claim("FullName",newCustomer.FullName),
+                              new Claim("Email",newCustomer.Email),
+
+                          };
+                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                         AuthenticationProperties properties = new AuthenticationProperties()
+                         {
+                             AllowRefresh = true,
+                             IsPersistent = true,
+                         };
+                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), properties);*/
                         return RedirectToAction("Login", "Auth");
+                      
                     }
                     catch (Exception ex)
                     {

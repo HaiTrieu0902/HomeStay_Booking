@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using System.Security.Claims;
+using HomeStay.Helper;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -36,6 +38,11 @@ namespace HomeStay.Areas.Admin.Controllers
                        Problem("Entity set 'HomestayDBContext.Roles'  is null.");*/
 
                 var roles = await _context.Roles.FromSqlRaw("SELECT * FROM Roles").ToListAsync();
+                var userClaims = User.Identity as ClaimsIdentity;
+                if (userClaims != null)
+                {
+                    userClaims.SetUserClaims(TempData);
+                }
                 return View (roles);
             }
             catch (Exception ex)

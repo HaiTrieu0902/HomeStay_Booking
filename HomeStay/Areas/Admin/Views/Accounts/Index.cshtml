@@ -1,5 +1,5 @@
-﻿@model IEnumerable<HomeStay.Models.Account>
-
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Account>
 @{
     ViewData["Title"] = "Account";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -45,7 +45,7 @@
         </div>
         <div class="col-6"></div>
         <div>
-            <button class="btn bg-primary text-white" >Thêm tài khoản</button>
+            <a asp-action="Create" class="text-decoration-none btn bg-primary text-white">Thêm Tài Khoản</a>
         </div>
     </div>
 
@@ -68,6 +68,9 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td>
+                        @item.AccountId
+                    </td>
                     <td>
                         @item.AccountName
                     </td>
@@ -96,9 +99,28 @@
                         @item.Role.RoleName
                     </td>
                     <td>
-                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.AccountId" class="btn btn-secondary rounded-3 ">Edit</a> |
-                        <a class="text-decoration-none" asp-action="Details" asp-route-id="@item.AccountId" class="btn btn-info rounded-3">Details</a> |
-                        <a class="text-decoration-none" asp-action="Delete" asp-route-id="@item.AccountId" class="btn btn-danger rounded-3">Delete</a>
+                        <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.AccountId"> <i class="fa-solid fa-pen text-warning"></i> </a>
+                        <a class="text-decoration-none" asp-action="Details" asp-route-id="@item.AccountId"><i class="fa-solid fa-eye"></i></a>
+
+                        <button type="button" class="button_none" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.AccountId">
+                            <i class="fa-solid fa-trash text-danger"></i>
+                        </button>
+                        <div class="modal fade rounded-16" id="exampleModal-@item.AccountId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        Are you sure you want to delete @item.AccountName ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post" action="@Url.Action("DeleteCustomerNotView", "Customers", new { id = item.AccountId })">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-danger rounded-3">Yes</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                   
                 </tr>
@@ -107,42 +129,12 @@
         </tbody>
     </table>
 </section>
+<div class="col-12">
+    <div class="pagination d-flex justify-content-center mt-5">
+        @Html.PagedListPager(Model , page => Url.Action("Index" , new {page = page}))
+
+    </div>
+</div>
 <script src="~/js/popper.js"></script>
 
-@* <h1>Index</h1>
 
-<table class="table">
-    
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AccountName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Password)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cccd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Role.RoleId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AccountId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AccountId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AccountId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table> *@
