@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - HomeStay</title>
+    <title>@ViewData["Title"] - Admin</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/HomeStay.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
@@ -36,6 +36,12 @@
                             else
                             {
                                 <span class="fs-16 fw-bolder">Xin chào, @TempData["NameAccount"]!</span>
+                                <div class="btn_transparent  p-1 rounded-3">
+                                    <a asp-area="Admin" asp-controller="Home" asp-action="Logout" class="text-decoration-none text-danger">
+                                        <i class="fa-solid fa-right-from-bracket me-1"></i>
+                                        <span class="fs-16">Đăng xuất</span>
+                                    </a>
+                                </div>
                             }
                         </div>
                     </div>

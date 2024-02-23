@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using HomeStay.Models;
 using X.PagedList;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using System.Security.Claims;
+using HomeStay.Helper;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -32,8 +34,15 @@ namespace HomeStay.Areas.Admin.Controllers
             var pageSize = 10;
             var listCustomers = _context.Customers.AsNoTracking().OrderByDescending(item => item.CustomerId);
             PagedList<Customer> models = new PagedList<Customer>(listCustomers, pageNumber, pageSize);
-            ViewBag.CurrentPage = pageNumber;
+           /* ViewBag.CurrentPage = pageNumber;*/
             var customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+
             return View(models);
         }
 

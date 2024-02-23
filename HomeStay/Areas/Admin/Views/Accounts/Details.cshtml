@@ -1,61 +1,71 @@
 ﻿@model HomeStay.Models.Account
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details Account";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Account</h4>
-    <hr />
-    <div class="row border_container">
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AccountName)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.AccountName)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Active)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.Active)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cccd)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cccd)
-        </div>
-        <div class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Role)
-        </div>
-        <div class = "col-sm-10">
-            @Html.DisplayFor(model => model.Role.RoleId)
-        </div>
+<div class="mt-4">
+    <h4>QUẢN LÝ TÀI KHOẢN</h4>
+    <div class="header_sub-title">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item "><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Detail</li>
+            </ol>
+        </nav>
     </div>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.AccountId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <h4>@Html.DisplayFor(model => model.AccountName)</h4>
+    <hr />
+    <dl class="row border_container">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AccountName):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AccountName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Active):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Password):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cccd):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cccd)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role):
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role.RoleName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.AccountId" class="text-decoration-none text-primary">Edit</a> |
+    <a asp-action="Index" class="text-decoration-none text-primary">Back to List</a>
 </div>

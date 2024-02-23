@@ -80,45 +80,45 @@
                         <form class="container-account-form" id="container-account-form" asp-action="Register" method="post">
                             <div class="account-form_input">
                                 <label asp-for="Email" class="control-label mb-1"></label>
-                                <input asp-for="Email" type="text" id="FullName" class="input" placeholder="Nhập email...">
+                                <input asp-for="Email" type="text"  class="input" placeholder="Nhập email...">
                                 <span asp-validation-for="Email" class="text-danger"></span>
                                @*  <span class="form-message" id="notification-email"></span> *@
                             </div>
                             <div class="account-form_input mt-2">
                                 <label asp-for="FullName" class="control-label mb-1"></label>
-                                <input asp-for="FullName" type="text" id="FullName" class="input" placeholder="Nhập tên...">
+                                <input asp-for="FullName" type="text"  class="input" placeholder="Nhập tên...">
                                 <span asp-validation-for="FullName" class="text-danger"></span>
                             </div>
 
                             <div class="account-form_input mt-2">
                                 <label asp-for="Address" class="control-label mb-1"></label>
-                                <input asp-for="Address" type="text" id="FullName" class="input" placeholder="Nhập địa chỉ...">
+                                <input asp-for="Address" type="text"  class="input" placeholder="Nhập địa chỉ...">
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
 
 
                             <div class="account-form_input mt-2">
                                 <label asp-for="Birthday" class="control-label mb-1"></label>
-                                <input asp-for="Birthday" type="date" id="FullName" class="input">
+                                <input asp-for="Birthday" type="date" class="input" value="@DateTime.Today.ToString("yyyy-MM-dd")" >
                                 <span asp-validation-for="Birthday" class="text-danger"></span>
                             </div>
 
                             <div class="account-form_input mt-2">
                                 <label asp-for="PhoneNumber" class="control-label mb-1"></label>
-                                <input asp-for="PhoneNumber" type="number" id="FullName" class="input" placeholder="Nhập số điện thoại...">
+                                <input asp-for="PhoneNumber" type="number"  class="input" placeholder="Nhập số điện thoại...">
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
 
                             <div class="account-form_input mt-2">
                                 <label asp-for="Password" class="control-label mb-1"></label>
-                                <input asp-for="Password" type="password" id="FullName" class="input" placeholder="Nhập mật khẩu...">
+                                <input asp-for="Password" type="password"  class="input" placeholder="Nhập mật khẩu...">
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
 
                             
                              <div class="account-form_input mt-2">
                                 <label asp-for="ConfirmPassword" class="control-label mb-1"></label>
-                                <input asp-for="ConfirmPassword" type="password" id="FullName" class="input" placeholder="Xác nhận mật khẩu...">
+                                <input asp-for="ConfirmPassword" type="password" class="input" placeholder="Xác nhận mật khẩu...">
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                             <div class="account-form_button">
