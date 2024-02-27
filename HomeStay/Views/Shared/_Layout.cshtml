@@ -29,11 +29,11 @@
                 </button>
                 <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                     <div class="navbar-nav mx-auto">
-                        <a class="nav-item nav-link text-dark nav_active" asp-area="" asp-controller=""
+                        <a class="nav-item nav-link text-dark " asp-area="" asp-controller=""
                             asp-action="">Trang Chủ</a>
-                        <a class="nav-item nav-link text-dark" asp-area="" asp-controller="Room" asp-action="Index">Lưu trú</a>
+                        <a class="nav-item nav-link text-dark nav_active" asp-area="" asp-controller="Room" asp-action="Index">Lưu trú</a>
                         <a class="nav-item nav-link text-dark" asp-area="" asp-controller="" asp-action="">Tin Tức</a>
-                        <a class="nav-item nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contact">Liên Hệ</a>
+                        <a class="nav-item nav-link text-dark  " asp-area="" asp-controller="Home" asp-action="Contact">Liên Hệ</a>
                        
                     </div>
                     <div class="d-flex m-3 align-content-center align-items-center gap-2 me-0">
@@ -65,6 +65,7 @@
                                     <img id="imagePreview" class="img-preview rounded-circle" src="~/img/default.png" alt="Preview" style="width: 28px; height: 28px;border: 1px solid #ffb700;" />
                                     <span class="ms-2 text-primary fw-bold">@TempData["NameAccount"]</span>
                                 </button>
+                               
                                 <ul class="dropdown-menu p-3 rounded-10" style="width : 240px;margin-top :6px; margin-left : 0%">
                                     <li class="btn_transparent  p-1 rounded-3">
                                         <a>
@@ -72,7 +73,11 @@
                                         </a>
                                     </li>
                                     <li class="btn_transparent p-1 rounded-3"><i class="fa-regular fa-bookmark me-2"></i>  <span class="fs-16">Quản lý Booking</span></li>
-                                    <li class="btn_transparent p-1 rounded-3"> <i class="fa-regular fa-heart me-1"></i>  <span class="fs-16">Yêu thích</span></li>
+                                    <li class="btn_transparent p-1 rounded-3">
+                                        <a asp-area="" asp-controller="Room" asp-action="FavoriteRooms" class="text-decoration-none text-black">
+                                            <i class="fa-regular fa-heart me-1"></i>  <span class="fs-16">Yêu thích</span>
+                                        </a>
+                                    </li>
                                     <li class="btn_transparent p-1 rounded-3"><i class="fa-solid fa-gear me-1"></i>   <span class="fs-16">Cài đặt</span></li>
                                     <li class="btn_transparent  p-1 rounded-3">
                                         <a asp-controller="Auth" asp-action="Logout" class="text-decoration-none text-danger">

@@ -60,13 +60,22 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             return View(customer);
         }
 
         // GET: Admin/Customers/Create
         public IActionResult Create()
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             return View();
         }
 
@@ -97,6 +106,12 @@ namespace HomeStay.Areas.Admin.Controllers
             if (customer == null)
             {
                 return NotFound();
+            }
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
             }
             return View(customer);
         }

@@ -102,6 +102,13 @@ namespace HomeStay.Controllers
         public IActionResult Details(int id)
         {
            try {
+
+                /* get người dùng login */
+                var userClaims = User.Identity as ClaimsIdentity;
+                if (userClaims != null)
+                {
+                    userClaims.SetUserClaims(TempData);
+                }
                 var room = _context.Rooms.FirstOrDefault(item => item.RoomId == id);
                 if (room != null)
                 {
@@ -117,9 +124,17 @@ namespace HomeStay.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult FavoriteRooms()
+        {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+            return View();
+        }
 
-
-        
         /* hadnle fillter rooms category */
         public IActionResult FillterRoomsCategory(string filter = "", string searchValue = "" , int? categoryId =0)
         {

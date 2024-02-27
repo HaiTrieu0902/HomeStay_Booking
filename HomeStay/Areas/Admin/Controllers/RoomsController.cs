@@ -88,12 +88,23 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+
             return View(room);
         }
 
         // GET: Admin/Rooms/Create
         public IActionResult Create()
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName");
             return View();
         }
@@ -135,6 +146,12 @@ namespace HomeStay.Areas.Admin.Controllers
             if (room == null)
             {
                 return NotFound();
+            }
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", room.CategoryId);
             return View(room);
@@ -206,6 +223,12 @@ namespace HomeStay.Areas.Admin.Controllers
             if (room == null)
             {
                 return NotFound();
+            }
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
             }
 
             return View(room);
