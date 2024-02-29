@@ -171,21 +171,17 @@
                                                             if (@item.Price is decimal || @item.Price is int || @item.Price is double)
                                                             {
                                                                 var formattedPrice = Convert.ToDecimal(@item.Price).ToString("N0");
-                                                                <p class=" fs-16 fw-bold mb-0 text-danger">@formattedPrice VNĐ / Đêm</p>
-                                                                <a href=""
-                                                                   class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary">
-                                                                    <i class="fa-solid fa-heart me-2 text-primary"></i> Add to
-                                                                    favourite
-                                                                </a>
+                                                                    <p class=" fs-16 fw-bold mb-0 text-danger">@formattedPrice VNĐ / Đêm</p>
+                                                                    <button data-room-id="@item.RoomId" data-image="@item.Avatar" data-price="@item.Price" data-area="@item.Area" data-title="@item.Title" data-detail="@item.Detail" class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary" onclick="onClickAddFavorite(this)">
+                                                                        <i class="fa-solid fa-heart me-2 text-primary"></i> Thêm vào yêu thích
+                                                                    </button>
                                                             }
                                                             else
                                                             {
-                                                                <p class="fs-16 fw-bold mb-0 text-danger">@item.Price VNĐ / Đêm</p>
-                                                                <a href=""
-                                                                   class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary">
-                                                                    <i class="fa-solid fa-heart me-2 text-primary"></i> Add to
-                                                                    favourite
-                                                                </a>
+                                                                    <p class="fs-16 fw-bold mb-0 text-danger">@item.Price VNĐ / Đêm</p>
+                                                                    <button data-room-id="@item.RoomId" data-image="@item.Avatar" data-price="@item.Price" data-area="@item.Area" data-title="@item.Title" data-detail="@item.Detail" class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary" onclick="onClickAddFavorite(this)">
+                                                                        <i class="fa-solid fa-heart me-2 text-primary"></i> Thêm vào yêu thích
+                                                                    </button>
                                                             }
                                                         }
                                                     </div>
@@ -200,16 +196,6 @@
                                             @Html.PagedListPager(Model , page => Url.Action("Index" , new {page = page}))
                                         </div>
                                     </div>
-                                    @*  <div class="pagination d-flex justify-content-center mt-5">
-                                        <a href="#" class="rounded">&laquo;</a>
-                                        <a href="#" class="active rounded">1</a>
-                                        <a href="#" class="rounded">2</a>
-                                        <a href="#" class="rounded">3</a>
-                                        <a href="#" class="rounded">4</a>
-                                        <a href="#" class="rounded">5</a>
-                                        <a href="#" class="rounded">6</a>
-                                        <a href="#" class="rounded">&raquo;</a>
-                                    </div> *@
                                 </div>
                             </div>
                         </div>
@@ -283,6 +269,60 @@
                 }
             };
             xhr.send();
+        }
+
+        // Thực hiện ajax thêm vào giỏ hàng
+        function onClickAddFavorite(button) {
+            var image = button.getAttribute("data-image");
+            var roomId = parseInt(button.getAttribute("data-room-id"));
+            var price = parseInt(button.getAttribute("data-price"));
+            var area = button.getAttribute("data-area");
+            var detail = button.getAttribute("data-detail");
+            var title = button.getAttribute("data-title");
+            var data = {
+                RoomId: roomId,
+                Title: title,
+                Avatar: image,
+                Price: price,
+                Area: area,
+                Detail: detail,
+                CustomerId: @TempData["IdAccount"],
+            };
+            console.log(JSON.stringify(data))
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Room/AddFavoriteRoomsByUser", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === 'Success') {
+                       // location.reload();
+                    } else {
+                      //  location.reload();
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
+            /*
+           
+            $.ajax({
+                url: '/Room/AddFavoriteRoomsByUser',
+                type: 'POST',
+                data: JSON.stringify(data),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.status === 'Success') {
+                        location.reload();
+                    } else {
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log("xhr", xhr)
+                }
+             }); */
+
         }
     </script>
 }

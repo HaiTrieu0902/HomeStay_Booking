@@ -15,63 +15,53 @@
         </ol>
     </div>
 
-    <div class="container-fluid fruite py-4">
+    <div class="container-fluid fruite py-3">
         <div class="container py-5">
             <h1 class="mb-2 fs-4 room_title">Cho chuyến đi sắp tới của tôi</h1>
             <div class="d-flex align-items-center align-content-center">
                 <i class="fa-solid fa-heart text-danger"></i>
                 <i class="ms-2"> Đã lưu 1 chỗ nghỉ</i>
             </div>
+            <hr />
 
             <div class="row g-4 mt-2">
                 <div class="col-md-6 col-lg-4 col-xl-4">
                     <div class="rounded-10 position-relative fruite-item ">
-                        <a asp-controller="Room" asp-action="Details" class="fruite-img text-decoration-none">
+                        <a asp-controller="Room" asp-action="Details" class="fruite-img text-decoration-none ">
                             <img src="~/img/rooms/SP015_20240115164521813.jpg" class="img-fluid w-100 rounded-top" style="height : 300px;" alt="">
                         </a>
                         <div class="text-white bg-warning px-3 py-1 rounded-3 position-absolute"
                              style="top: 10px; left: 10px;">
                             Favored
                         </div>
-                        <div class="p-4 border-top-0 content_room-item">
-                            <h4 class="fw-bold fs-20 text-truncate">Palm Hotel Thanh Hoa</h4>
-                            <p class="d-inline-block text-truncate" style="max-width: 100%;">
-                                Phòng Deluxe Có Giường Cỡ Queen , Suite Junior Có Sân Hiên, Phòng Deluxe Giường Đôi Có Vòi Sen, Suite Executive, Phòng cho 3 người có Ban Công
-                            </p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="fs-16 fw-bold mb-0 text-danger">999,999 VNĐ / Đêm</p>
-                                <a href=""
-                                    class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary">
-                                    <i class="fa-solid fa-heart me-2 text-primary"></i> Xem chỗ nghỉ
+                        <div class=" border-top-0 content_room-item">
+                            <div class="py-2 px-3">
+                                <h4 class="fw-bold fs-20 text-truncate">Palm Hotel Thanh Hoa</h4>
+                                <p class="d-inline-block text-truncate" style="max-width: 100%;">
+                                    Phòng Deluxe Có Giường Cỡ Queen , Suite Junior Có Sân Hiên, Phòng Deluxe Giường Đôi Có Vòi Sen, Suite Executive, Phòng cho 3 người có Ban Công
+                                </p>
+                            </div>
+                            <div class="border-top border-bottom py-2 px-3">
+                                <p class="m-0 text-primary fs-16 fw-bold">Hà Tây, Hà Nội</p>
+                            </div>
+                            <div class="d-flex justify-content-between flex-lg-wrap py-2 px-3">
+                                <div style="flex : 1"></div>
+                                <div class="d-flex flex-column justify-content-end align-items-end " dir="ltr">
+                                    <p class="fs-14 fw-light mb-1 ">1 đêm, 2 người lớn</p>
+                                    <p class="fs-16 fw-bold mb-0 text-danger">999,999 VNĐ / Đêm </p>
+                                    <p class="fs-14 fw-light mt-1  ">Đã bao gồm thuế và phí</p>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class=" d-flex align-items-center justify-content-center mb-2 px-2">
+                                <a href="" class="w-100 btn btn_transparent bg-primary text-white text-decoration-none">
+                                    Xem chỗ nghỉ
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-4 col-xl-4">
-                    <div class="rounded-10 position-relative fruite-item ">
-                        <a asp-controller="Room" asp-action="Details" class="fruite-img text-decoration-none">
-                            <img src="~/img/rooms/SP019_20240115164614510.jpg" class="img-fluid w-100 rounded-top" style="height : 300px;" alt="">
-                        </a>
-                        <div class="text-white bg-warning px-3 py-1 rounded-3 position-absolute"
-                             style="top: 10px; left: 10px;">
-                            Favored
-                        </div>
-                        <div class="p-4 border-top-0 content_room-item">
-                            <h4 class="fw-bold fs-20 text-truncate">Luidcn</h4>
-                            <p class="d-inline-block text-truncate" style="max-width: 100%;">
-                                Phòng Deluxe Có Giường Cỡ Queen , Suite Junior Có Sân Hiên, Phòng Deluxe Giường Đôi Có Vòi Sen, Suite Executive, Phòng cho 3 người có Ban Công
-                            </p>
-                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                <p class="fs-16 fw-bold mb-0 text-danger">200,000 VNĐ / Đêm</p>
-                                <a href=""
-                                   class="text-decoration-none btn room_favoried rounded-pill px-3 mt-1 text-primary">
-                                    <i class="fa-solid fa-heart me-2 text-primary"></i> Xem chỗ nghỉ
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>

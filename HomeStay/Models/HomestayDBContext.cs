@@ -20,6 +20,7 @@ namespace HomeStay.Models
         public virtual DbSet<Booking> Bookings { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<FavouriteRoom> FavouriteRooms { get; set; } = null!;
         public virtual DbSet<Payment> Payments { get; set; } = null!;
         public virtual DbSet<Rating> Ratings { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
@@ -109,6 +110,31 @@ namespace HomeStay.Models
                 entity.Property(e => e.Password).HasMaxLength(100);
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(20);
+            });
+
+            modelBuilder.Entity<FavouriteRoom>(entity =>
+            {
+                entity.ToTable("FavouriteRoom");
+
+                entity.Property(e => e.Area).HasMaxLength(255);
+
+                entity.Property(e => e.Avatar).HasMaxLength(100);
+
+                entity.Property(e => e.Detail).HasMaxLength(255);
+
+                entity.Property(e => e.Title).HasMaxLength(255);
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.FavouriteRooms)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FavouriteRoom_Customer");
+
+                entity.HasOne(d => d.Room)
+                    .WithMany(p => p.FavouriteRooms)
+                    .HasForeignKey(d => d.RoomId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_FavouriteRoom_Booking");
             });
 
             modelBuilder.Entity<Payment>(entity =>

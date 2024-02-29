@@ -1,11 +1,14 @@
-﻿using HomeStay.Helper;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using HomeStay.Helper;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Security.Policy;
 using X.PagedList;
+
 
 namespace HomeStay.Controllers
 {
@@ -14,9 +17,11 @@ namespace HomeStay.Controllers
 
         private readonly HomestayDBContext _context;
         HomestayDBContext db = new HomestayDBContext();
-        public RoomController(HomestayDBContext context)
+        private INotyfService _notifyService { get; }
+        public RoomController(HomestayDBContext context , INotyfService notifyService)
         {
             _context = context;
+            _notifyService = notifyService;
         }
         public async Task<IActionResult> Index(int? page, int? categoryId = 0, string searchValue = "", string filter ="")
         {
@@ -70,6 +75,8 @@ namespace HomeStay.Controllers
 
 
 
+        /* get ListRoom Room */
+        [HttpGet]
         public async Task<IActionResult> ListRoom(int? page, int? categoryID = 0, string searchValue = "")
         {
             try
@@ -99,6 +106,9 @@ namespace HomeStay.Controllers
 
             }
         }
+
+        /* get Details Room */
+        [HttpGet]
         public IActionResult Details(int id)
         {
            try {
@@ -124,6 +134,8 @@ namespace HomeStay.Controllers
             }
         }
 
+
+        /* get FavoriteRooms */
         [HttpGet]
         public IActionResult FavoriteRooms()
         {
@@ -135,7 +147,8 @@ namespace HomeStay.Controllers
             return View();
         }
 
-        /* hadnle fillter rooms category */
+        /* handle fillter rooms category */
+        [HttpGet]
         public IActionResult FillterRoomsCategory(string filter = "", string searchValue = "" , int? categoryId =0)
         {
             var url = "/Room";
@@ -156,5 +169,68 @@ namespace HomeStay.Controllers
         }
 
 
+        // class data when add 
+       
+
+
+        /* handle add to favorite room */
+        [HttpPost]
+        [Route("Room/AddFavoriteRoomsByUser")]
+        public async Task<IActionResult> AddFavoriteRoomsByUser([FromBody] FavouriteClone favouriteRoom)
+        {
+            try {
+                FavouriteRoom newFavourite = new FavouriteRoom
+                 {
+                    CustomerId = favouriteRoom.CustomerId,
+                      RoomId = favouriteRoom.RoomId,
+                      Area = favouriteRoom.Area,
+                      Avatar = favouriteRoom.Avatar,
+                      Detail = favouriteRoom.Detail,
+                      Price = favouriteRoom.Price,
+                      Title = favouriteRoom.Title,
+                       /* CustomerId = 19,
+                        RoomId =44,
+                        Area = "Cà Mau city",
+                        Avatar = "SP020_20240115164812529.jpeg",
+                        Detail = "detail nha hihiihi",
+                        Price = 950000,
+                        Title = "Buon ngu qua",*/
+                };
+
+                var duplicateRoomId = _context.FavouriteRooms.AsNoTracking().SingleOrDefault(item => item.RoomId == favouriteRoom.RoomId && item.CustomerId == favouriteRoom.CustomerId);
+                if (duplicateRoomId != null )
+                {
+                     return Json(new { status = "Error", redirectUrl = "/Room" , message = "Phòng này bạn đã lưu nó vào danh sách yêu thích!!" } );
+                }
+                else
+                  {
+                    _context.FavouriteRooms.Add(newFavourite);
+                    await _context.SaveChangesAsync();
+                    _notifyService.Success($"Create customer sucessfully ");
+                    
+                    return Json(new { status = "Success", redirectUrl = "/Room" });
+
+                  }
+              
+            }
+            catch (Exception ex)
+            {
+                _notifyService.Error($"Lỗi khi thêm vào yêu thích");
+                return Json(new { status = "Error", redirectUrl = "/Room" , message = "Đã có lỗi xảy ra ở đây" });
+            }
+        }
+
+        public class FavouriteClone
+        {
+            public int CustomerId { get; set; }
+            public int RoomId { get; set; }
+            public string Title { get; set; } = null!;
+            public double Price { get; set; }
+            public string Detail { get; set; } = null!;
+            public string Area { get; set; } = null!;
+            public string Avatar { get; set; } = null!;
+        }
+
     }
+   
 }
