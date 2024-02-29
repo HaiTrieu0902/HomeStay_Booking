@@ -59,13 +59,19 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
               
             }
-
+           
             var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.RoleId == id);
             if (role == null)
             {
                 return NotFound();
             }
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+
 
             return View(role);
         }
@@ -73,6 +79,11 @@ namespace HomeStay.Areas.Admin.Controllers
         // GET: Admin/AdminRoles/Create
         public IActionResult Create()
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             return View();
         }
 
@@ -105,6 +116,13 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+
             return View(role);
         }
 

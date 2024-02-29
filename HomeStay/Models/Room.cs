@@ -8,6 +8,7 @@ namespace HomeStay.Models
         public Room()
         {
             Bookings = new HashSet<Booking>();
+            FavouriteRooms = new HashSet<FavouriteRoom>();
         }
 
         public int RoomId { get; set; }
@@ -25,5 +26,6 @@ namespace HomeStay.Models
         public virtual Category Category { get; set; } = null!;
         public virtual RoomImagesDetail? RoomImagesDetail { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<FavouriteRoom> FavouriteRooms { get; set; }
     }
 }

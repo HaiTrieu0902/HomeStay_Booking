@@ -61,12 +61,23 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+
             return View(account);
         }
 
         // GET: Admin/Accounts/Create
         public IActionResult Create()
         {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
             return View();
         }
@@ -99,6 +110,11 @@ namespace HomeStay.Areas.Admin.Controllers
             if (account == null)
             {
                 return NotFound();
+            }
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
             return View(account);
