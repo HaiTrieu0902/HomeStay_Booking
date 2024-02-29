@@ -65,6 +65,12 @@
     border-color: #4FAFDD;
     border: 1px solid #4FAFDD;
 }
+
+.room_favoried_warning {
+    border-width: 1px;
+    border-color: #db3444;
+    border: 1px solid #db3444;
+}
 .fruite .fruite-item .fruite-img img:hover {
     transform: scale(1.3);
 }

@@ -296,15 +296,16 @@
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var result = JSON.parse(xhr.responseText);
                     if (result.status === 'Success') {
-                       // location.reload();
+                     location.reload();
+                       // window.location.href = result.redirectUrl;
                     } else {
-                      //  location.reload();
+                      location.reload();
+                        //window.location.href = result.redirectUrl;
                     }
                 }
             };
             xhr.send(JSON.stringify(data));
             /*
-           
             $.ajax({
                 url: '/Room/AddFavoriteRoomsByUser',
                 type: 'POST',

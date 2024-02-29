@@ -1,8 +1,9 @@
-﻿@model HomeStay.Models.Room
-
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<FavouriteRoom>
 @{
     ViewData["Title"] = "Room Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int CountFavorite = ViewBag.CountFavorite;
 
 }
 
@@ -20,52 +21,97 @@
             <h1 class="mb-2 fs-4 room_title">Cho chuyến đi sắp tới của tôi</h1>
             <div class="d-flex align-items-center align-content-center">
                 <i class="fa-solid fa-heart text-danger"></i>
-                <i class="ms-2"> Đã lưu 1 chỗ nghỉ</i>
+                <i class="ms-2"> Đã lưu @CountFavorite chỗ nghỉ</i>
             </div>
             <hr />
 
             <div class="row g-4 mt-2">
-                <div class="col-md-6 col-lg-4 col-xl-4">
-                    <div class="rounded-10 position-relative fruite-item ">
-                        <a asp-controller="Room" asp-action="Details" class="fruite-img text-decoration-none ">
-                            <img src="~/img/rooms/SP015_20240115164521813.jpg" class="img-fluid w-100 rounded-top" style="height : 300px;" alt="">
-                        </a>
-                        <div class="text-white bg-warning px-3 py-1 rounded-3 position-absolute"
-                             style="top: 10px; left: 10px;">
-                            Favored
-                        </div>
-                        <div class=" border-top-0 content_room-item">
-                            <div class="py-2 px-3">
-                                <h4 class="fw-bold fs-20 text-truncate">Palm Hotel Thanh Hoa</h4>
-                                <p class="d-inline-block text-truncate" style="max-width: 100%;">
-                                    Phòng Deluxe Có Giường Cỡ Queen , Suite Junior Có Sân Hiên, Phòng Deluxe Giường Đôi Có Vòi Sen, Suite Executive, Phòng cho 3 người có Ban Công
-                                </p>
-                            </div>
-                            <div class="border-top border-bottom py-2 px-3">
-                                <p class="m-0 text-primary fs-16 fw-bold">Hà Tây, Hà Nội</p>
-                            </div>
-                            <div class="d-flex justify-content-between flex-lg-wrap py-2 px-3">
-                                <div style="flex : 1"></div>
-                                <div class="d-flex flex-column justify-content-end align-items-end " dir="ltr">
-                                    <p class="fs-14 fw-light mb-1 ">1 đêm, 2 người lớn</p>
-                                    <p class="fs-16 fw-bold mb-0 text-danger">999,999 VNĐ / Đêm </p>
-                                    <p class="fs-14 fw-light mt-1  ">Đã bao gồm thuế và phí</p>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-6 col-lg-4 col-xl-4">
+                            <div class="rounded-10 position-relative fruite-item ">
+                                <a asp-controller="Room" asp-action="Details" class="fruite-img text-decoration-none ">
+                                    <img src="@Url.Content("~/img/rooms/" + item.Avatar)" class="img-fluid w-100 rounded-top" style="height : 300px;" alt="">
+                                </a>
+                                <div class="text-white bg-warning px-3 py-1 rounded-3 position-absolute"
+                                     style="top: 10px; left: 10px;">
+                                    Favored
+                                    
+                                </div>
+                                <button class="btn_transparent position-absolute"
+                                        style="top: 10px; right: 10px;" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal-@item.FavouriteRoomId">
+                                    <i class="fa-solid fa-delete-left fs-20 text-danger"></i>
+                                </button>
+
+                                <div class=" border-top-0 content_room-item">
+                                    <div class="py-2 px-3">
+                                        <h4 class="fw-bold fs-20 text-truncate">@item.Title</h4>
+                                        <p class="d-inline-block text-truncate" style="max-width: 100%;">
+                                            @item.Detail
+                                        </p>
+                                    </div>
+                                    <div class="border-top border-bottom py-2 px-3">
+                                        <p class="m-0 text-primary fs-16 fw-bold">@item.Area</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between flex-lg-wrap py-2 px-3">
+                                        <div style="flex : 1"></div>
+                                        <div class="d-flex flex-column justify-content-end align-items-end " dir="ltr">
+                                            <p class="fs-14 fw-light mb-1 ">1 đêm, 2 người lớn</p>
+                                            @{
+                                                if (@item.Price is decimal || @item.Price is int || @item.Price is double)
+                                                {
+                                                    var formattedPrice = Convert.ToDecimal(@item.Price).ToString("N0");
+                                                    <p class="fs-16 fw-bold mb-0 text-danger">@formattedPrice VNĐ / Đêm </p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="fs-16 fw-bold mb-0 text-danger">@item.Price VNĐ / Đêm </p>
+                                                }
+                                            }
+                                            <p class="fs-14 fw-light mt-1  ">Đã bao gồm thuế và phí</p>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                
+                                    <div class=" d-flex align-items-center justify-content-center mb-2 px-2">
+                                        <a asp-controller="Room" asp-route-id="@item.RoomId" asp-action="Details" class="w-100 btn btn_transparent bg-primary text-white text-decoration-none">
+                                            Xem chỗ nghỉ
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <hr />
-                            <div class=" d-flex align-items-center justify-content-center mb-2 px-2">
-                                <a href="" class="w-100 btn btn_transparent bg-primary text-white text-decoration-none">
-                                    Xem chỗ nghỉ
-                                </a>
+                            <!-- Modal -->
+                            <div class="modal fade rounded-16" id="exampleModal-@item.FavouriteRoomId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <!-- Modal content -->
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            Are you sure you want to delete @item.Title ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form method="post" action="@Url.Action("RemoveFavoriteRooms", "Room", new { id = item.FavouriteRoomId })">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger rounded-3">Yes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="col-12">
+                <div class="pagination d-flex justify-content-center mt-5">
+                    @Html.PagedListPager(Model , page => Url.Action("FavoriteRooms" , new {page = page}))
                 </div>
-                
             </div>
         </div>
     </div>
-
 </div>
 
 <script>

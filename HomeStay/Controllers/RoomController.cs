@@ -137,15 +137,53 @@ namespace HomeStay.Controllers
 
         /* get FavoriteRooms */
         [HttpGet]
-        public IActionResult FavoriteRooms()
+        public async Task<IActionResult> FavoriteRooms(int? page)
         {
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
                 userClaims.SetUserClaims(TempData);
+                var idLogin = userClaims.FindFirst("CustomerId");
+
+                if(idLogin != null)
+                {
+                    var pageNumber = page == null || page < 0 ? 1 : page.Value;
+                    var pageSize = 6;
+                    IQueryable<FavouriteRoom> roomFavouriteQuery = _context.FavouriteRooms.AsNoTracking().Where(item => item.CustomerId == Convert.ToInt32(idLogin.Value)).OrderByDescending(item => item.RoomId);
+                    var listRoomsFavourite = await roomFavouriteQuery.ToListAsync();
+
+                    ViewBag.CountFavorite = listRoomsFavourite != null ? listRoomsFavourite.Count : 0;
+                    var models = new PagedList<FavouriteRoom>(listRoomsFavourite.AsQueryable(), pageNumber, pageSize);
+                    return View(models);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Auth");
             }
             return View();
         }
+
+
+        /* remove favourite room */
+        [HttpPost]
+        public async Task<IActionResult> RemoveFavoriteRooms(int id)
+        {
+            if (_context.FavouriteRooms == null)
+            {
+                return Problem("Entity set 'HomestayDBContext.FavouriteRooms'  is null.");
+            }
+            var favoriteRooms = await _context.FavouriteRooms.FindAsync(id);
+            if (favoriteRooms != null)
+            {
+                _context.FavouriteRooms.Remove(favoriteRooms);
+                _notifyService.Success($"Remove favouriteRooms successfully");
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("FavoriteRooms", "Room");
+        }
+
 
         /* handle fillter rooms category */
         [HttpGet]
@@ -168,11 +206,6 @@ namespace HomeStay.Controllers
             return Json(new { status = "Success", redirectUrl = url });
         }
 
-
-        // class data when add 
-       
-
-
         /* handle add to favorite room */
         [HttpPost]
         [Route("Room/AddFavoriteRoomsByUser")]
@@ -181,33 +214,25 @@ namespace HomeStay.Controllers
             try {
                 FavouriteRoom newFavourite = new FavouriteRoom
                  {
-                    CustomerId = favouriteRoom.CustomerId,
+                      CustomerId = favouriteRoom.CustomerId,
                       RoomId = favouriteRoom.RoomId,
                       Area = favouriteRoom.Area,
                       Avatar = favouriteRoom.Avatar,
                       Detail = favouriteRoom.Detail,
                       Price = favouriteRoom.Price,
                       Title = favouriteRoom.Title,
-                       /* CustomerId = 19,
-                        RoomId =44,
-                        Area = "Cà Mau city",
-                        Avatar = "SP020_20240115164812529.jpeg",
-                        Detail = "detail nha hihiihi",
-                        Price = 950000,
-                        Title = "Buon ngu qua",*/
                 };
-
                 var duplicateRoomId = _context.FavouriteRooms.AsNoTracking().SingleOrDefault(item => item.RoomId == favouriteRoom.RoomId && item.CustomerId == favouriteRoom.CustomerId);
                 if (duplicateRoomId != null )
                 {
-                     return Json(new { status = "Error", redirectUrl = "/Room" , message = "Phòng này bạn đã lưu nó vào danh sách yêu thích!!" } );
+                    _notifyService.Error($"Phòng này bạn đã lưu nó vào danh sách yêu thích!!");
+                    return Json(new { status = "Error", redirectUrl = "/Room" , message = "Phòng này bạn đã lưu nó vào danh sách yêu thích!!" } );
                 }
                 else
                   {
                     _context.FavouriteRooms.Add(newFavourite);
                     await _context.SaveChangesAsync();
-                    _notifyService.Success($"Create customer sucessfully ");
-                    
+                    _notifyService.Success($"Thêm vào yêu thích thành công");
                     return Json(new { status = "Success", redirectUrl = "/Room" });
 
                   }
@@ -220,6 +245,8 @@ namespace HomeStay.Controllers
             }
         }
 
+
+        // clone class when add if sometime has error 
         public class FavouriteClone
         {
             public int CustomerId { get; set; }
