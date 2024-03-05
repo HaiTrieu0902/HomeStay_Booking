@@ -59,15 +59,15 @@ body {
 }
 
 .fs-16{
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 .fs-14 {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .fs-20 {
-    font-size : 22px;
+    font-size : 22px !important;
 }
 .-ml-10 {
     margin-left : -10px;

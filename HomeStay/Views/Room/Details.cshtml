@@ -375,7 +375,7 @@
                                 </button>
                             </div>
                             <div class="room-slidebar">
-                                <form asp-action="">
+                                <div >
                                     <div class="room-slidebar_content space-bottom-16">
                                         <div class="room-slide_wrap">
                                             <p class="room-slidebar_price">
@@ -423,38 +423,32 @@
 
                                             <div class="booking-time space-bottom-18 mt-3">
                                                 <div class="form-group col-12">
-                                                    <label>Tổng số đêm ở: <span class="text-primary fst-italic">5 đêm</span></label>
+                                                    <label>Tổng số đêm ở: <span class="text-primary fs-14 fst-italic" id="totalNightsLabel">1 đêm</span></label>
                                                 </div>
                                             </div>
 
                                             <div class="booking-time space-bottom-18 mt-2">
                                                 <div class="form-group col-12">
-                                                    <label>Số tiền bạn cần thành toán: <span class="text-danger fst-italic">3.000.000 VNĐ</span> </label>
+                                                    <label>Số tiền bạn cần thành toán: <span class="text-danger fs-14 fst-italic" id="totalPriceLabel">0 </span><span class="text-danger fs-14  fst-italic">VNĐ</span> </label>
                                                 </div>
                                             </div>
-
 
                                             <div class="booking-time space-bottom-18 mt-3">
                                                 <div class="form-group col-12">
-                                                    <label for="AmountOfPeople">Chọn phương thức thanh toán </label>
-                                                    <select  class="form-control mt-1" >
-                                                        <option value="">Select value option</option>
-                                                        <option value="">CC MO</option>
-                                                        <option value="">CC 2</option>
-                                                        <option value="">CC 3</option>
+                                                    <label for="AmountOfPeople">Chọn phương thức thanh toán: </label>
+                                                    <select id="PaymentId" name="BankName" class="border-0 form-select-sm bg-light me-3" class="form-control mt-1" asp-items="ViewBag.ListPayment">
+                                                        <option value="">Mặc định</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <button class="btn bg-primary  w-100 mt-3 ">
+                                            <button data-room-id="@Model.RoomId" data-price="@Model.Price" onClick="onClickAddBooking(this)" class="btn bg-primary  w-100 mt-3 ">
                                                 <i class="fas fa-bolt text-white "></i>
                                                 <span class="text-white fw-bold fs-16">Đặt ngay</span>
                                             </button>
                                             <div class="space-bottom-16 "></div>
                                         </div>
                                     </div>
-                                </form>
-
-
+                                </div>
                                 <div class="room-slidebar_content ">
                                     <div class="room-slide_wrap ">
                                         <div class="room-slide_advise ">
@@ -567,4 +561,45 @@
         }
 
     };
+
 </script>
+
+@section Scripts {
+    <script>
+        function onClickAddBooking(button) {
+
+
+            var roomId = parseInt(button.getAttribute("data-room-id"));
+            var price = parseInt(button.getAttribute("data-price"));
+            var checkIn = new Date(document.getElementById("CheckIn").value);
+            var checkOut = new Date(document.getElementById("CheckOut").value);
+            var amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            var paymentId = document.getElementById("PaymentId").value;
+
+
+            var oneDay = 24 * 60 * 60 * 1000;
+            var totalNights = Math.round(Math.abs((checkOut - checkIn) / oneDay));
+
+            var totalPrice = price * (1 + (totalNights - 1) * 0.1);
+
+
+
+
+            document.getElementById("totalNightsLabel").innerText = totalNights;
+            document.getElementById("totalPriceLabel").innerText = totalPrice.toLocaleString();
+
+
+            var data = {
+                RoomId: roomId,
+                Price: price,
+                CheckIn: checkIn,
+                checkOut: checkOut,
+                AmountOfPeople: amountOfPeople,
+                PaymentId: paymentId,
+                CustomerId: @TempData["IdAccount"],
+            };
+            console.log("data", data)
+        }
+    </script>
+
+}

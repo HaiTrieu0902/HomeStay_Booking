@@ -73,8 +73,6 @@ namespace HomeStay.Controllers
             return View(models);
         }
 
-
-
         /* get ListRoom Room */
         [HttpGet]
         public async Task<IActionResult> ListRoom(int? page, int? categoryID = 0, string searchValue = "")
@@ -122,6 +120,7 @@ namespace HomeStay.Controllers
                 var room = _context.Rooms.FirstOrDefault(item => item.RoomId == id);
                 if (room != null)
                 {
+                    ViewData["ListPayment"] = new SelectList(_context.Payments, "PaymentId", "BankName");
                     return View(room);
                 }
                 else
@@ -133,7 +132,6 @@ namespace HomeStay.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
-
 
         /* get FavoriteRooms */
         [HttpGet]
@@ -177,12 +175,30 @@ namespace HomeStay.Controllers
             if (favoriteRooms != null)
             {
                 _context.FavouriteRooms.Remove(favoriteRooms);
-                _notifyService.Success($"Remove favouriteRooms successfully");
+                _notifyService.Success($"Xóa phòng ra khỏi danh sách yêu thích thành công");
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction("FavoriteRooms", "Room");
         }
+
+
+        /* create booking for user */
+        [HttpPost]
+        public async Task<IActionResult> CreateBooking([FromBody] BookingItemCLone bookingItem)
+        {
+            try
+            {
+               
+                return RedirectToAction("Index", $"Room/Details/${bookingItem.RoomId}");
+
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
+
 
 
         /* handle fillter rooms category */
@@ -257,6 +273,21 @@ namespace HomeStay.Controllers
             public string Area { get; set; } = null!;
             public string Avatar { get; set; } = null!;
         }
+
+
+        public class BookingItemCLone
+        {
+            public int? RoomId { get; set; }
+            public int CustomerId { get; set; }
+            public DateTime CheckIn { get; set; }
+            public DateTime CheckOut { get; set; }
+            public int AmountOfPeople { get; set; }
+            public int PaymentId { get; set; }
+            public int Price { get; set; }
+
+
+        }
+
 
     }
    
