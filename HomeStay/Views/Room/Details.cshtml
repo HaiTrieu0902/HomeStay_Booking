@@ -383,17 +383,17 @@
                                                     if (@Model.Price is decimal || @Model.Price is int || @Model.Price is double)
                                                     {
                                                         var formattedPrice = Convert.ToDecimal(@Model.Price).ToString("N0");
-                                                        <p class="room-slidebar_price">
-                                                            <span class="text-primary" style="font-weight: bold;">@formattedPrice VNĐ</span>
-                                                            <span class="text-primary " style="font-weight: bold;">/ đêm</span>
-                                                        </p>
+                                                            <p class="room-slidebar_price">
+                                                                <span class="text-primary" style="font-weight: bold;">@formattedPrice VNĐ</span>
+                                                                <span class="text-primary " style="font-weight: bold;">/ đêm</span>
+                                                            </p>
                                                     }
                                                     else
                                                     { 
-                                                    <p class="room-slidebar_price">
-                                                        <span class="text-primary" style="font-weight: bold;">@Model.Price VNĐ</span>
-                                                        <span class="text-primary " style="font-weight: bold;">/ đêm</span>
-                                                    </p>
+                                                        <p class="room-slidebar_price">
+                                                            <span class="text-primary" style="font-weight: bold;">@Model.Price VNĐ</span>
+                                                            <span class="text-primary " style="font-weight: bold;">/ đêm</span>
+                                                        </p>
                                                     }
                                                 }
                                             </p>
@@ -401,6 +401,7 @@
                                                 <div class="form-group col-12">
                                                     <label for="CheckIn">Ngày nhận phòng</label>
                                                     <input class="form-control mt-1" id="CheckIn" name="CheckIn" type="date">
+                                                  
                                                 </div>
                                             </div>
                                             
@@ -408,6 +409,8 @@
                                                 <div class="form-group col-12">
                                                     <label for="CheckOut">Ngày trả phòng</label>
                                                     <input class="form-control mt-1" id="CheckOut" name="CheckOut" type="date">
+                                                    <span class="form-message text-danger fs-14" id="notification-checkout">
+                                                    </span>
                                                 </div>
                                             </div>
 
@@ -417,28 +420,33 @@
                                                     <label for="AmountOfPeople">Số người dự kiến ( Tối đa : <span class="text-primary fs-6 fst-italic">@Model.Capacity</span> người ) </label>
                                                     <input class="form-control mt-1" id="AmountOfPeople" name="AmountOfPeople" type="number">
                                                      <i class="fa-solid fa-person position-absolute text-black icon_person-detail-room"></i>
+                                                    <span class="form-message text-danger fs-14" id="notification-amountPeople">
+                                                    </span>
                                                 </div>
                                             </div>
 
 
                                             <div class="booking-time space-bottom-18 mt-3">
                                                 <div class="form-group col-12">
-                                                    <label>Tổng số đêm ở: <span class="text-primary fs-14 fst-italic" id="totalNightsLabel">1 đêm</span></label>
+                                                    <label>Tổng số đêm ở: <span class="text-primary fs-16 fst-italic" id="totalNightsLabel">1 đêm</span></label>
                                                 </div>
                                             </div>
 
                                             <div class="booking-time space-bottom-18 mt-2">
                                                 <div class="form-group col-12">
-                                                    <label>Số tiền bạn cần thành toán: <span class="text-danger fs-14 fst-italic" id="totalPriceLabel">0 </span><span class="text-danger fs-14  fst-italic">VNĐ</span> </label>
+                                                    <label>Số tiền bạn cần thành toán: <span class="text-danger fs-16 fst-italic" id="totalPriceLabel">@Model.Price</span><span class="text-danger fs-16  fst-italic">&nbsp;VNĐ</span> 
+                                                     </label>
                                                 </div>
                                             </div>
 
                                             <div class="booking-time space-bottom-18 mt-3">
                                                 <div class="form-group col-12">
                                                     <label for="AmountOfPeople">Chọn phương thức thanh toán: </label>
-                                                    <select id="PaymentId" name="BankName" class="border-0 form-select-sm bg-light me-3" class="form-control mt-1" asp-items="ViewBag.ListPayment">
+                                                    <select id="PaymentId" name="BankName" class="border-1 rounded-10 w-100 form-select-sm bg-light me-3" class="form-control mt-1" asp-items="ViewBag.ListPayment">
                                                         <option value="">Mặc định</option>
                                                     </select>
+                                                    <span class="form-message text-danger fs-14" id="notification-payment">
+                                                    </span>
                                                 </div>
                                             </div>
                                             <button data-room-id="@Model.RoomId" data-price="@Model.Price" onClick="onClickAddBooking(this)" class="btn bg-primary  w-100 mt-3 ">
@@ -548,6 +556,16 @@
 
 
 <script>
+    /* tạo giá trị mặc định cho giá trị checkIn và checkOut */
+    var currentDate = new Date();
+    var formattedCurrentDate = currentDate.toISOString().split('T')[0]; 
+    var nextDay = new Date();
+    nextDay.setDate(currentDate.getDate() + 1);
+    var formattedNextDay = nextDay.toISOString().split('T')[0]; 
+    document.getElementById("CheckIn").value = formattedCurrentDate;
+    document.getElementById("CheckOut").value = formattedNextDay;
+
+    /* thu gọn  */
     const clickShort = document.querySelector('.show-pointer');
     const detailIntro_dot = document.querySelector('.dot');
     clickShort.onclick = () => {
@@ -561,45 +579,114 @@
         }
 
     };
-
 </script>
 
 @section Scripts {
     <script>
+        document.getElementById("totalPriceLabel").innerText = parseInt(@Model.Price).toLocaleString();
+
+        /* hàm check trước khi add */
+        function checkAmoutPeople() {
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            if (isNaN(amountOfPeople)) {
+                document.getElementById('notification-amountPeople').innerHTML = `Vui lòng nhập số lượng người đi`;
+            }
+            else if (amountOfPeople <= 0 || amountOfPeople > @Model.Capacity) {
+                document.getElementById('notification-amountPeople').innerHTML = `Số người dự kiến phải nằm trong khoảng cho phép`;
+            } else {
+                document.getElementById('notification-amountPeople').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+        function checkPayment() {
+            const paymentId = parseInt(document.getElementById("PaymentId").value);
+            console.log("paymentId", paymentId)
+            if (isNaN(paymentId)) {
+                document.getElementById('notification-payment').innerHTML = `Vui lòng nhập phương thức thanh toán`;
+            }
+            else {
+                document.getElementById('notification-payment').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+       
+        /* ajax thêm booking */
         function onClickAddBooking(button) {
-
-
-            var roomId = parseInt(button.getAttribute("data-room-id"));
-            var price = parseInt(button.getAttribute("data-price"));
-            var checkIn = new Date(document.getElementById("CheckIn").value);
-            var checkOut = new Date(document.getElementById("CheckOut").value);
-            var amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
-            var paymentId = document.getElementById("PaymentId").value;
-
-
-            var oneDay = 24 * 60 * 60 * 1000;
-            var totalNights = Math.round(Math.abs((checkOut - checkIn) / oneDay));
-
-            var totalPrice = price * (1 + (totalNights - 1) * 0.1);
-
-
-
-
-            document.getElementById("totalNightsLabel").innerText = totalNights;
-            document.getElementById("totalPriceLabel").innerText = totalPrice.toLocaleString();
-
-
+            checkAmoutPeople();
+            checkPayment();
+            const checkIn = new Date(document.getElementById("CheckIn").value);
+            const checkOut = new Date(document.getElementById("CheckOut").value);
+            const roomId = parseInt(button.getAttribute("data-room-id"));
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            const paymentId = parseInt(document.getElementById("PaymentId").value);
+            const oneDay = 24 * 60 * 60 * 1000;
+            let totalNights = Math.round((checkOut - checkIn) / oneDay);
+            const totalPrice = @Model.Price * (1 + (totalNights - 1) * 0.1);
             var data = {
                 RoomId: roomId,
-                Price: price,
+                TotalAmount: totalPrice,
                 CheckIn: checkIn,
                 checkOut: checkOut,
                 AmountOfPeople: amountOfPeople,
                 PaymentId: paymentId,
+                CountNight: totalNights,
                 CustomerId: @TempData["IdAccount"],
             };
-            console.log("data", data)
+            console.log("dattaa", data)
+            if (checkAmoutPeople() && checkPayment()) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Room/CreateBooking", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.status === 'Success') {
+                          // location.reload();
+                             window.location.href = result.redirectUrl;
+                        } else {
+                           //location.reload();
+                            window.location.href = result.redirectUrl;
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            }else {
+                console.log("không ổn rồi ông giáo ơi")
+            }
+        
+        }
+
+        // onBlur
+        document.getElementById("CheckOut").onchange = function () {
+            const checkIn = new Date(document.getElementById("CheckIn").value);
+            const checkOut = new Date(document.getElementById("CheckOut").value);
+            const oneDay = 24 * 60 * 60 * 1000;
+            let totalNights = Math.round((checkOut - checkIn) / oneDay);
+            const totalPrice = @Model.Price * (1 + (totalNights - 1) * 0.1);
+            document.getElementById("totalNightsLabel").innerText = totalNights;
+            document.getElementById("totalPriceLabel").innerText = totalPrice.toLocaleString();
+            if (totalNights <= 0) {
+                document.getElementById('notification-checkout').innerHTML = "Ngày trả phòng phải lớn hơn ngày hiện tại";
+            } else {
+                document.getElementById('notification-checkout').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+        document.getElementById("AmountOfPeople").onblur = function () {
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            if (isNaN(amountOfPeople)) {
+                document.getElementById('notification-amountPeople').innerHTML = `Vui lòng nhập số lượng người đi`;
+            }
+            else if (amountOfPeople <= 0 || amountOfPeople > @Model.Capacity) {
+                document.getElementById('notification-amountPeople').innerHTML = `Số người dự kiến phải nằm trong khoảng cho phép`;
+            } else {
+                document.getElementById('notification-amountPeople').innerHTML = "";
+                return true;
+            }
+            return false;
         }
     </script>
-
 }

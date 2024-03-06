@@ -73,37 +73,6 @@ namespace HomeStay.Controllers
             return View(models);
         }
 
-        /* get ListRoom Room */
-        [HttpGet]
-        public async Task<IActionResult> ListRoom(int? page, int? categoryID = 0, string searchValue = "")
-        {
-            try
-            {
-                var pageNumber = page == null || page < 0 ? 1 : page.Value;
-                var pageSize = 12;
-                IQueryable<Room> roomQuery = _context.Rooms.AsNoTracking().Include(r => r.Category);
-                if (categoryID != 0)
-                {
-                    roomQuery = roomQuery.Where(item => item.CategoryId == categoryID);
-                }
-                if (!string.IsNullOrEmpty(searchValue))
-                {
-                    roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue));
-                }
-
-                var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
-                var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
-                ViewBag.CurrentPage = pageNumber;
-                ViewBag.CurrentSearch = searchValue;
-                ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryID);
-                return View(models);
-            }
-            catch(Exception ex)
-            {
-                return RedirectToAction("Index", "Home");
-
-            }
-        }
 
         /* get Details Room */
         [HttpGet]
@@ -189,13 +158,27 @@ namespace HomeStay.Controllers
         {
             try
             {
-               
-                return RedirectToAction("Index", $"Room/Details/${bookingItem.RoomId}");
+                Booking newBooking = new Booking
+                {
+                   RoomId = bookingItem.RoomId,
+                   PaymentId = bookingItem.PaymentId,
+                   CheckIn = bookingItem.CheckIn,
+                   CheckOut = bookingItem.CheckOut,
+                   CountNight = bookingItem.CountNight,
+                   AmountOfPeople = bookingItem.AmountOfPeople,
+                   CustomerId = bookingItem.CustomerId,
+                   TotalAmount = bookingItem.TotalAmount
+                };
+                _context.Bookings.Add(newBooking);
+                await _context.SaveChangesAsync();
+                _notifyService.Success($"Bạn đã booking thành công");
+                return Json(new { status = "Success", redirectUrl = $"/Room" });
 
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Home");
+                _notifyService.Error($"Lỗi khi đặt phòng");
+                return Json(new { status = "Success", redirectUrl = $"/Room/Details/{bookingItem.RoomId}" });
             }
         }
 
@@ -283,8 +266,8 @@ namespace HomeStay.Controllers
             public DateTime CheckOut { get; set; }
             public int AmountOfPeople { get; set; }
             public int PaymentId { get; set; }
-            public int Price { get; set; }
-
+            public double TotalAmount { get; set; }
+            public int CountNight { get; set; }
 
         }
 
