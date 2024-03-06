@@ -32,16 +32,11 @@ namespace HomeStay.Areas.Admin.Controllers
             var listAccounts =  _context.Accounts.AsNoTracking().Include(item => item.Role).OrderByDescending(item => item.AccountId);
             PagedList<Account> models = new PagedList<Account>(listAccounts, pageNumber, pageSize);
             var customer = await _context.Accounts.FromSqlRaw("SELECT * FROM Account").ToListAsync();
-
-
-
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
                 userClaims.SetUserClaims(TempData);
             }
-          
-
             return View(models);
         }
 
