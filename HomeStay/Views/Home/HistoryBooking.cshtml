@@ -1,5 +1,111 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@* @using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<FavouriteRoom> *@
+@model IEnumerable<HomeStay.Models.Booking>
 @{
+    ViewData["Title"] = "List Booking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int countBooking = ViewBag.CountBooking;
+    double totalBooking = ViewBag.TotalBooking;
+
 }
+
+<div class="room_container mt-5">
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Lưu trú</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a class="text-decoration-none text-primary" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+            <li class="breadcrumb-item active text-white">Lịch sử đặt phòng</li>
+        </ol>
+    </div>
+
+    <div class="container-fluid fruite py-3">
+        <div class="container py-5">
+            <h1 class="mb-2 fs-4 room_title">Tất cả lịch đặt phòng của "@TempData["NameAccount"]"</h1>
+            <div class="d-flex align-items-center justify-content-between w-100">
+                <div>
+                    <i class="fa-solid fa-book text-danger"></i>
+                    <i class="ms-2"> Bạn đã đặt tổng cộng là @countBooking lịch trình</i>
+                </div>
+                <div>
+                    @{
+                        if (@totalBooking is decimal || @totalBooking is int || @totalBooking is double)
+                        {
+                            var formattedPrice = Convert.ToDecimal(@totalBooking).ToString("N0");
+                            <p class="fs-16 fw-bold mb-0 text-danger">Tổng tiền đã chi : @formattedPrice VNĐ</p>
+                        }
+                        else
+                        {
+                            <p class="fs-16 fw-bold mb-0 text-danger">@totalBooking VNĐ</p>
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+
+            <div class="row g-4 mt-2">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>ID</th>
+                        <th>Phòng Lưu Trú</th>
+                        <th>CHECK IN</th>
+                        <th>CHECK OUT</th>
+                        <th>SỐ ĐÊM Ở</th>
+                        <th>TỔNG TIỀN</th>
+                        <th>PT THANH TOÁN</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                    @{
+                        if(Model != null )
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>SSAP @item.BookingId  </td>
+                                    <td>@item.Room.Title</td>
+                                    <td>@item.CheckIn</td>
+                                    <td>@item.CheckOut</td>
+                                    <td>@item.CountNight</td>
+                                    <td>
+                                           @{
+                                                if (@item.TotalAmount is decimal || @item.TotalAmount is int || @item.TotalAmount is double)
+                                                {
+                                                    var formattedPrice = Convert.ToDecimal(@item.TotalAmount).ToString("N0");
+                                                    <p class="fs-16 fw-bold mb-0 text-danger">@formattedPrice VNĐ</p>
+                                                }
+                                                else
+                                                {
+                                                    <p class="fs-16 fw-bold mb-0 text-danger">@item.TotalAmount VNĐ</p>
+                                                }
+                                           }
+                                    
+
+                                    </td>
+                                    <td>@item.Payment.PaymentMethod</td>
+                                    <td>
+                                    <button class="btn btn_transparent  text-primary">
+                                        Đã book
+                                    </button>
+                                    </td>
+                                </tr>
+
+                                // Modal hiển thị chi tiết
+                            }
+                        }
+                    }
+                  
+                </table>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="col-12">
+              @*   <div class="pagination d-flex justify-content-center mt-5">
+                    @Html.PagedListPager(Model , page => Url.Action("FavoriteRooms" , new {page = page}))
+                </div> *@
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

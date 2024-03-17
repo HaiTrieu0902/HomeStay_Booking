@@ -72,7 +72,17 @@
                                             <i class="fa-regular fa-user me-2"></i> <span class="fs-16">Quản lý Tài khoản</span>
                                         </a>
                                     </li>
-                                    <li class="btn_transparent p-1 rounded-3"><i class="fa-regular fa-bookmark me-2"></i>  <span class="fs-16">Quản lý Booking</span></li>
+                                    <li class="btn_transparent p-1 rounded-3">
+
+                                        <a asp-area="" asp-controller="Home" asp-action="HistoryBooking" class="text-decoration-none text-black">
+                                            <i class="fa-regular fa-bookmark me-2"></i>
+                                            <span class="fs-16">Quản lý Booking</span>
+                                        </a>
+
+                                      
+                                        
+                                    
+                                    </li>
                                     <li class="btn_transparent p-1 rounded-3">
                                         <a asp-area="" asp-controller="Room" asp-action="FavoriteRooms" class="text-decoration-none text-black">
                                             <i class="fa-regular fa-heart me-1"></i>  <span class="fs-16">Yêu thích</span>

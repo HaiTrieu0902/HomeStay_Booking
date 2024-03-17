@@ -74,7 +74,6 @@ namespace HomeStay.Helper
             }
         }
 
-
         public static void SetUserClaims(this ClaimsIdentity userClaims, ITempDataDictionary tempData)
         {
             var usernameClaim = userClaims.FindFirst(ClaimTypes.NameIdentifier);

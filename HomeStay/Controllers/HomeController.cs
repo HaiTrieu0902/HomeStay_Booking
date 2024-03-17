@@ -2,11 +2,13 @@
 using HomeStay.Helper;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace HomeStay.Controllers
 {
@@ -67,6 +69,59 @@ namespace HomeStay.Controllers
             ViewBag.ListRooms = listRooms;
             return View(listRooms);
         }
+
+
+
+        /* View  Contact */
+        public async Task<IActionResult> HistoryBooking()
+        {
+
+
+
+
+
+
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+                var idLogin = userClaims.FindFirst("CustomerId");
+
+                if (idLogin != null)
+                {
+                    IQueryable<Booking> bookingQuery = _context.Bookings
+                                              .AsNoTracking()
+                                              .Include(r => r.Room)
+                                              .Include(r => r.Payment)
+                                              .Include(r => r.Customer)
+                                              .Where(item => item.CustomerId == Convert.ToInt32(idLogin.Value))
+                                              .OrderByDescending(item => item.BookingId)
+                                              .Take(1000);
+
+                    var listBookings = await bookingQuery.ToListAsync();
+                    double totalBookingPrice = listBookings.Sum(booking => booking.TotalAmount);
+                    ViewBag.TotalBooking = totalBookingPrice != null ? totalBookingPrice : 0;
+                    ViewBag.CountBooking = listBookings != null ? listBookings.Count : 0;
+                    ViewBag.ListRooms = listBookings;
+                    return View(listBookings);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            return View();
+
+
+
+
+
+
+
+
+           
+        }
+
 
         /* View  Privacy */
         public IActionResult Privacy()

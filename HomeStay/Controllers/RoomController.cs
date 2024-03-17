@@ -182,8 +182,6 @@ namespace HomeStay.Controllers
             }
         }
 
-
-
         /* handle fillter rooms category */
         [HttpGet]
         public IActionResult FillterRoomsCategory(string filter = "", string searchValue = "" , int? categoryId =0)
