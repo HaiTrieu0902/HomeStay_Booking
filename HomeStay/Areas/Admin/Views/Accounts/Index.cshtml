@@ -1,5 +1,5 @@
 ﻿@using X.PagedList.Mvc.Core;
-@model X.PagedList.IPagedList<Account>
+@model X.PagedList.IPagedList<ViewAccount>
 @{
     ViewData["Title"] = "Account";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
@@ -96,7 +96,7 @@
                         @item.Cccd
                     </td>
                     <td>
-                        @item.Role.RoleName
+                        @item.RoleName
                     </td>
                     <td>
                         <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.AccountId"> <i class="fa-solid fa-pen text-warning"></i> </a>
@@ -113,7 +113,7 @@
                                         Are you sure you want to delete @item.AccountName ?
                                     </div>
                                     <div class="modal-footer">
-                                        <form method="post" action="@Url.Action("DeleteCustomerNotView", "Customers", new { id = item.AccountId })">
+                                        <form method="post" action="@Url.Action("DeleteAccountNotView", "Accounts", new { id = item.AccountId })">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             <button type="submit" class="btn btn-danger rounded-3">Yes</button>
                                         </form>

@@ -59,9 +59,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
               
             }
-           
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
+            var role = await _context.GetRoleById(id);
             if (role == null)
             {
                 return NotFound();
@@ -94,8 +92,9 @@ namespace HomeStay.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(role);
-                await _context.SaveChangesAsync();
+                // _context.Add(role);
+                // await _context.SaveChangesAsync();
+                _context.CreateRole(role);
                 _notifyService.Success("Create sucessfully");
                 return RedirectToAction(nameof(Index));
             }
@@ -110,7 +109,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _context.GetRoleById(id);
         
             if (role == null)
             {
@@ -140,8 +139,7 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(role);
-                    await _context.SaveChangesAsync();
+                    _context.UpdateRole(role);
                     _notifyService.Success("Edit sucessfully");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -169,8 +167,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var role = await _context.Roles
-                .FirstOrDefaultAsync(m => m.RoleId == id);
+            var role = await _context.GetRoleById(id);
             if (role == null)
             {
                 return NotFound();
@@ -188,13 +185,13 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Roles'  is null.");
             }
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _context.GetRoleById(id);
             if (role != null)
             {
-                _context.Roles.Remove(role);
+                _context.DeleteRole(id);
             }
             
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
             _notifyService.Success("Delete sucessfully");
             return RedirectToAction(nameof(Index));
         }
@@ -208,13 +205,13 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Roles'  is null.");
             }
-            var role = await _context.Roles.FindAsync(id);
+            var role = await _context.GetRoleById(id);
             if (role != null)
             {
-                _context.Roles.Remove(role);
+                _context.DeleteRole(id);
             }
-
-            await _context.SaveChangesAsync();
+            
+            // await _context.SaveChangesAsync();
             _notifyService.Success("Delete sucessfully");
             return RedirectToAction(nameof(Index));
         }

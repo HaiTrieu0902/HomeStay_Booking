@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using NuGet.Common;
 
 namespace HomeStay.Models
 {
@@ -26,18 +28,244 @@ namespace HomeStay.Models
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Room> Rooms { get; set; } = null!;
         public virtual DbSet<RoomImagesDetail> RoomImagesDetails { get; set; } = null!;
+        public virtual DbSet<ViewAccount> ViewAccounts { get; set; } = null!;
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=HaiTrieu;Initial Catalog=HomestayDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-KHO76ED\\SQLEXPRESS;Initial Catalog=HomestayDB;Integrated Security=True");
             }
         }
+        // Home Controller
+        public List<Room> GetListRoomActive()
+        {
+            return this.Rooms.FromSqlRaw<Room>("EXECUTE GetActiveRooms").ToList();
+        }
+
+        public async Task<List<Booking>> GetHistoryBooking(int customerId)
+        {
+            SqlParameter parameter = new SqlParameter("@CustomerId", customerId);
+            return await this.Bookings.FromSqlRaw<Booking>("EXECUTE GetHistoryBooking @CustomerId", parameter).ToListAsync();
+        }
+
+        // Area
+        // AdminRoleController
+        public async Task<Role> GetRoleById(int? Id)
+        {
+            var roles = await this.Roles.FromSqlRaw<Role>("EXECUTE GetRoleById @Id", new SqlParameter("@Id", Id)).ToListAsync();
+            return roles.FirstOrDefault();
+        }
+
+        public void CreateRole(Role role)
+        {
+            this.Database.ExecuteSqlRaw("EXECUTE CreateRole @name", new SqlParameter("@name", role.RoleName));
+        }
+
+        public void UpdateRole(Role role)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter{ ParameterName= "@id" , Value = role.RoleId},
+                new SqlParameter{ ParameterName= "@name" , Value = role.RoleName},
+            };
+            this.Database.ExecuteSqlRaw("EXECUTE UpdateRole @id, @name", sqlParameters.ToArray());
+        }
+
+        public void DeleteRole(int id)
+        {
+            this.Database.ExecuteSqlRaw("EXECUTE DeleteRole @id", new SqlParameter("@id", id));
+        }
+
+        //Account Controller
+        public List<ViewAccount> GetListAccount()
+        {
+            return this.ViewAccounts.FromSqlRaw<ViewAccount>("EXECUTE GetListAccount").ToList();
+        }
+
+        public Account GetAccountById(int? id)
+        {
+            var account = this.Accounts.FromSqlRaw<Account>("EXECUTE GetAccountById @id", new SqlParameter("@Id", id)).ToList();
+            return account.FirstOrDefault();
+        }
+
+        public ViewAccount GetAccountVsCateGoryById(int? id)
+        {
+            var account = this.ViewAccounts.FromSqlRaw<ViewAccount>("EXECUTE GetAccountVsCateGoryById @id", new SqlParameter("@Id", id)).ToList();
+            return account.FirstOrDefault();
+        }
+
+        public void CreateAccount(Account acc)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@RoleId", acc.RoleId),
+                new SqlParameter("@AccountName", acc.AccountName),
+                new SqlParameter("@Email", acc.Email),
+                new SqlParameter("@PhoneNumber", acc.PhoneNumber),
+                new SqlParameter("@Active", acc.Active),
+                new SqlParameter("@Password", acc.Password),
+                new SqlParameter("@Cccd", acc.Cccd)
+            };
+            this.Database.ExecuteSqlRaw("EXECUTE CreateAccount @RoleId, @AccountName, @Email, @PhoneNumber, @Active, @Password, @Cccd ", sqlParameters.ToArray());
+        }
+
+        public void UpdateAccount(Account acc)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Accountid", acc.AccountId),
+                new SqlParameter("@RoleId", acc.RoleId),
+                new SqlParameter("@AccountName", acc.AccountName),
+                new SqlParameter("@Email", acc.Email),
+                new SqlParameter("@PhoneNumber", acc.PhoneNumber),
+                new SqlParameter("@Active", acc.Active),
+                new SqlParameter("@Password", acc.Password),
+                new SqlParameter("@Cccd", acc.Cccd)
+            };
+            this.Database.ExecuteSqlRaw("EXECUTE UpdateAccount @Accountid, @RoleId, @AccountName, @Email, @PhoneNumber, @Active, @Password, @Cccd ", sqlParameters.ToArray());
+        }
+
+        public void DeleteAccount(int? id)
+        {
+            this.Database.ExecuteSqlRaw("EXECUTE DeleteAccount @Id", new SqlParameter("@Id", id));
+        }
+
+        // Customer Controller
+        public List<Customer> GetListCustomer()
+        {
+            return this.Customers.FromSqlRaw<Customer>("EXECUTE GetListCustomer").ToList();
+        }
+
+        public Customer GetCustomerById(int? id)
+        {
+            var customers = this.Customers.FromSqlRaw<Customer>("EXECUTE GetCustomerById @id", new SqlParameter("@Id", id)).ToList();
+            return customers.FirstOrDefault();
+        }
+
+        public void CreateCustomer(Customer customer)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@FullName", customer.FullName),
+                new SqlParameter("@Birthday", customer.Birthday),
+                new SqlParameter("@Avatar", customer.Avatar),
+                new SqlParameter("@Address", customer.Address),
+                new SqlParameter("@PhoneNumber", customer.PhoneNumber),
+                new SqlParameter("@Active", customer.Active),
+                new SqlParameter("@Password", customer.Password),
+                new SqlParameter("@Email", customer.Email)
+            };
+
+            Database.ExecuteSqlRaw("EXECUTE CreateCustomer @FullName, @Birthday, @Avatar, @Address, @PhoneNumber, @Active, @Password, @Email", sqlParameters.ToArray());
+        }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@CustomerId", customer.CustomerId),
+                new SqlParameter("@FullName", customer.FullName),
+                new SqlParameter("@Birthday", customer.Birthday),
+                new SqlParameter("@Avatar", customer.Avatar),
+                new SqlParameter("@Address", customer.Address),
+                new SqlParameter("@PhoneNumber", customer.PhoneNumber),
+                new SqlParameter("@Active", customer.Active),
+                new SqlParameter("@Password", customer.Password),
+                new SqlParameter("@Email", customer.Email)
+            };
+
+            Database.ExecuteSqlRaw("EXECUTE UpdateCustomer @CustomerId, @FullName, @Birthday, @Avatar, @Address, @PhoneNumber, @Active, @Password, @Email", sqlParameters.ToArray());
+        }
+
+        public void DeleteCustomer(int? id)
+        {
+            this.Database.ExecuteSqlRaw("EXECUTE DeleteCustomer @CustomerId", new SqlParameter("@CustomerId", id));
+        }
+
+        // Area Room controller
+
+        public List<Room> GetListRoom(int? status, int? categoryID, string searchValue = "")
+        {
+            List<SqlParameter> sqlParameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Active", status.HasValue ? (object)status : DBNull.Value) ,
+                new SqlParameter("@CategoryId", categoryID.HasValue ? (object)categoryID : DBNull.Value),
+                new SqlParameter("@searchValue", searchValue),
+            };
+            return this.Rooms.FromSqlRaw("EXECUTE GetListRoom @Active, @CategoryId, @searchValue", sqlParameters.ToArray()).ToList();
+        }
+
+        public Room GetRoomById(int? id)
+        {
+            var room = this.Rooms.FromSqlRaw<Room>("EXECUTE GetRoomById @RoomId", new SqlParameter("@RoomId", id)).ToList();
+            return room.FirstOrDefault();
+        }
+
+        public void CreateRoom(Room room)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@Title", room.Title),
+                new SqlParameter("@Detail", room.Detail),
+                new SqlParameter("@Price", room.Price),
+                new SqlParameter("@Area", room.Area),
+                new SqlParameter("@Capacity", room.Capacity),
+                new SqlParameter("@Description", room.Description),
+                new SqlParameter("@Active", room.Active),
+                new SqlParameter("@Status", room.Status),
+                new SqlParameter("@CategoryId", room.CategoryId),
+                new SqlParameter("@Avatar", room.Avatar)
+            };
+
+            this.Database.ExecuteSqlRaw("EXECUTE CreateRoom @Title, @Detail, @Price, @Area, @Capacity, @Description, @Active, @Status, @CategoryId, @Avatar", parameters.ToArray());
+        }
+
+        public void UpdateRoom(Room room)
+        {
+            List<SqlParameter> parameters = new List<SqlParameter>
+            {
+                new SqlParameter("@RoomId", room.RoomId),
+                new SqlParameter("@Title", room.Title),
+                new SqlParameter("@Detail", room.Detail),
+                new SqlParameter("@Price", room.Price),
+                new SqlParameter("@Area", room.Area),
+                new SqlParameter("@Capacity", room.Capacity),
+                new SqlParameter("@Description", room.Description),
+                new SqlParameter("@Active", room.Active),
+                new SqlParameter("@Status", room.Status),
+                new SqlParameter("@CategoryId", room.CategoryId),
+                new SqlParameter("@Avatar", room.Avatar)
+            };
+            this.Database.ExecuteSqlRaw("EXECUTE UpdateRoom @RoomId, @Title, @Detail, @Price, @Area, @Capacity, @Description, @Active, @Status, @CategoryId, @Avatar", parameters.ToArray());
+        }
+
+        public void DeleteRoom (int? id) {
+            this.Database.ExecuteSqlRaw("EXECUTE DeleteRoom @RoomId", new SqlParameter("@RoomId", id));
+        }
+
+
+
+
+
+
+
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ViewAccount>(e =>
+            {
+                // Không có khóa chính
+                e.HasNoKey();
+            });
             modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("Account");
@@ -221,5 +449,7 @@ namespace HomeStay.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        // HomeController 
     }
 }

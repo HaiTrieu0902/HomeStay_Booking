@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace HomeStay.Models
 {
-    public partial class Account
+    public partial class ViewAccount
     {
         public int AccountId { get; set; }
         public int? RoleId { get; set; }
@@ -13,8 +13,7 @@ namespace HomeStay.Models
         public bool Active { get; set; }
         public string Password { get; set; } = null!;
         public string Cccd { get; set; } = null!;
-
-        // public string? RoleName { get; set; } = null!;
+        public string? RoleName { get; set; } = null!;
 
         public virtual Role? Role { get; set; }
     }

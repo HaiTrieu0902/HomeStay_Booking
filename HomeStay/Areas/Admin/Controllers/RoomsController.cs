@@ -25,7 +25,7 @@ namespace HomeStay.Areas.Admin.Controllers
         }
 
         // GET: Admin/Rooms
-        public async Task<IActionResult> Index(int? page , int? status, int? categoryID = 0 ,string searchValue =""  )
+        public async Task<IActionResult> Index(int? page , int? status, int? categoryID ,string searchValue =""  )
         {
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
@@ -47,28 +47,29 @@ namespace HomeStay.Areas.Admin.Controllers
             /* start logic */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 10;
-            IQueryable<Room> roomQuery = _context.Rooms.AsNoTracking().Include(r => r.Category);
-            if (categoryID != 0)
-            {
-                roomQuery = roomQuery.Where(item => item.CategoryId == categoryID);
-            }
+            List<Room> rooms = _context.GetListRoom(status,categoryID,searchValue);
+            // IQueryable<Room> roomQuery = _context.Rooms.AsNoTracking().Include(r => r.Category);
+            // if (categoryID != 0)
+            // {
+            //     roomQuery = roomQuery.Where(item => item.CategoryId == categoryID);
+            // }
 
-            if (status.HasValue)
-            {
-                bool isActive = status == 1;
-                roomQuery = roomQuery.Where(item => item.Active == isActive);
-            }
-            if (!string.IsNullOrEmpty(searchValue))
-            {
-                roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue));
-            }
+            // if (status.HasValue)
+            // {
+            //     bool isActive = status == 1;
+            //     roomQuery = roomQuery.Where(item => item.Active == isActive);
+            // }
+            // if (!string.IsNullOrEmpty(searchValue))
+            // {
+            //     roomQuery = roomQuery.Where(item => item.Title.Contains(searchValue) || item.Detail.Contains(searchValue));
+            // }
 
-            var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
-            var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
+            // var listRooms = await roomQuery.OrderByDescending(item => item.RoomId).ToListAsync();
+            var models = new PagedList<Room>(rooms, pageNumber, pageSize);
            /* ViewBag.CurrentPage = pageNumber;*/
             ViewBag.CurrentSearch = searchValue;
             ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName" , categoryID);
-            var customer = await _context.Rooms.FromSqlRaw("SELECT * FROM Room").ToListAsync();
+            // var customer = await _context.Rooms.FromSqlRaw("SELECT * FROM Room").ToListAsync();
             return View(models);
         }
 
@@ -80,9 +81,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms
-                .Include(r => r.Category)
-                .FirstOrDefaultAsync(m => m.RoomId == id);
+            var room = _context.GetRoomById(id);
             if (room == null)
             {
                 return NotFound();
@@ -126,9 +125,10 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 room.Avatar = "default.png";
             }
+            _context.CreateRoom(room);
 
-            _context.Add(room);
-            await _context.SaveChangesAsync();
+            // _context.Add(room);
+            // await _context.SaveChangesAsync();
             _notifyService.Success($"Create rooms successfully");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", room.CategoryId);
             return RedirectToAction(nameof(Index));
@@ -142,7 +142,8 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
            
-            var room = await _context.Rooms.FindAsync(id);
+            // var room = await _context.Rooms.FindAsync(id);
+            var room = _context.GetRoomById(id);
             if (room == null)
             {
                 return NotFound();
@@ -169,7 +170,8 @@ namespace HomeStay.Areas.Admin.Controllers
             try
 
             {
-                var roomOlder = _context.Rooms.FromSqlRaw($"SELECT * FROM Room Where RoomId = {id}").AsNoTracking().FirstOrDefault();
+                // var roomOlder = _context.Rooms.FromSqlRaw($"SELECT * FROM Room Where RoomId = {id}").AsNoTracking().FirstOrDefault();
+                var roomOlder = _context.GetRoomById(id);
                 if (fthumb != null)
                 {
                     string extention = Path.GetExtension(fthumb.FileName);
@@ -188,8 +190,9 @@ namespace HomeStay.Areas.Admin.Controllers
                         room.Avatar = "default.png";
                     }
                 }
-               _context.Update(room);
-               await _context.SaveChangesAsync();
+                _context.UpdateRoom(room);
+                //    _context.Update(room);
+                //    await _context.SaveChangesAsync();
                _notifyService.Success($"Update rooms successfully ");
             }
             catch (DbUpdateConcurrencyException)
@@ -217,9 +220,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Rooms
-                .Include(r => r.Category)
-                .FirstOrDefaultAsync(m => m.RoomId == id);
+            var room = _context.GetRoomById(id);
             if (room == null)
             {
                 return NotFound();
@@ -243,13 +244,14 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Rooms'  is null.");
             }
-            var room = await _context.Rooms.FindAsync(id);
+            var room = _context.GetRoomById(id);
             if (room != null)
             {
-                _context.Rooms.Remove(room);
+                // _context.Rooms.Remove(room);
+                _context.DeleteRoom(id);
             }
             
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -262,14 +264,15 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Rooms'  is null.");
             }
-            var room = await _context.Rooms.FindAsync(id);
+            var room = _context.GetRoomById(id);
             if (room != null)
             {
-                _context.Rooms.Remove(room);
-                _notifyService.Success($"Delete rooms successfully");
+                // _context.Rooms.Remove(room);
+                _context.DeleteRoom(id);
+                _notifyService.Success("Delete Complete");
             }
-
-            await _context.SaveChangesAsync();
+            
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

@@ -32,10 +32,10 @@ namespace HomeStay.Areas.Admin.Controllers
 
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 10;
-            var listCustomers = _context.Customers.AsNoTracking().OrderByDescending(item => item.CustomerId);
+            var listCustomers = _context.GetListCustomer();
             PagedList<Customer> models = new PagedList<Customer>(listCustomers, pageNumber, pageSize);
            /* ViewBag.CurrentPage = pageNumber;*/
-            var customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
+            // var customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
 
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
@@ -54,8 +54,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            var customer = _context.GetCustomerById(id);
             if (customer == null)
             {
                 return NotFound();
@@ -86,8 +85,9 @@ namespace HomeStay.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
-                await _context.SaveChangesAsync();
+                // _context.Add(customer);
+                // await _context.SaveChangesAsync();
+                _context.CreateCustomer(customer);
                 _notifyService.Success("Create customer sucessfully");
                 return RedirectToAction(nameof(Index));
             }
@@ -102,7 +102,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _context.GetCustomerById(id);
             if (customer == null)
             {
                 return NotFound();
@@ -130,8 +130,9 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+                    // _context.Update(customer);
+                    // await _context.SaveChangesAsync();
+                    _context.UpdateCustomer(customer);
                     _notifyService.Success("Update customer sucessfully");
                 }
                 catch (DbUpdateConcurrencyException)
@@ -177,13 +178,13 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Customers'  is null.");
             }
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = _context.GetAccountById(id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
+                _context.DeleteCustomer(id);
             }
 
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -201,12 +202,13 @@ namespace HomeStay.Areas.Admin.Controllers
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
             {
-                _context.Customers.Remove(customer);
+                // _context.Customers.Remove(customer);
+                _context.DeleteCustomer(id);
                 _notifyService.Success("Delete customer sucessfully");
 
             }
 
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

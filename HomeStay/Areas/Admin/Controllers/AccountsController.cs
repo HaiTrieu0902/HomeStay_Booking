@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using X.PagedList;
 using System.Security.Claims;
 using HomeStay.Helper;
+using System.Globalization;
 
 namespace HomeStay.Areas.Admin.Controllers
 {
@@ -29,9 +30,9 @@ namespace HomeStay.Areas.Admin.Controllers
         {
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 10;
-            var listAccounts =  _context.Accounts.AsNoTracking().Include(item => item.Role).OrderByDescending(item => item.AccountId);
-            PagedList<Account> models = new PagedList<Account>(listAccounts, pageNumber, pageSize);
-            var customer = await _context.Accounts.FromSqlRaw("SELECT * FROM Account").ToListAsync();
+            var listAccounts =  _context.GetListAccount();
+            PagedList<ViewAccount> models = new PagedList<ViewAccount>(listAccounts, pageNumber, pageSize);
+            // var customer = await _context.Accounts.FromSqlRaw("SELECT * FROM Account").ToListAsync();
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
@@ -48,9 +49,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var account = await _context.Accounts
-                .Include(a => a.Role)
-                .FirstOrDefaultAsync(m => m.AccountId == id);
+            var account = _context.GetAccountVsCateGoryById(id);
             if (account == null)
             {
                 return NotFound();
@@ -85,8 +84,9 @@ namespace HomeStay.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(account);
-                await _context.SaveChangesAsync();
+                _context.CreateAccount(account);
+                // _context.Add(account);
+                // await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
@@ -101,7 +101,7 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var account = await _context.Accounts.FindAsync(id);
+            var account =  _context.GetAccountById(id);
             if (account == null)
             {
                 return NotFound();
@@ -130,8 +130,9 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(account);
-                    await _context.SaveChangesAsync();
+                    _context.UpdateAccount(account);
+                    // _context.Update(account);
+                    // await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -157,9 +158,7 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var account = await _context.Accounts
-                .Include(a => a.Role)
-                .FirstOrDefaultAsync(m => m.AccountId == id);
+            var account = _context.GetAccountById(id);
             if (account == null)
             {
                 return NotFound();
@@ -177,13 +176,29 @@ namespace HomeStay.Areas.Admin.Controllers
             {
                 return Problem("Entity set 'HomestayDBContext.Accounts'  is null.");
             }
-            var account = await _context.Accounts.FindAsync(id);
+            var account = _context.GetAccountById(id);
             if (account != null)
             {
-                _context.Accounts.Remove(account);
+                _context.DeleteAccount(id);
             }
             
-            await _context.SaveChangesAsync();
+            // await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DeleteAccountNotView(int id)
+        {
+            if (_context.Accounts == null)
+            {
+                return Problem("Entity set 'HomestayDBContext.Accounts'  is null.");
+            }
+            var account = _context.GetAccountById(id);
+            if (account != null)
+            {
+                _context.DeleteAccount(id);
+            }
+            
+            // await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

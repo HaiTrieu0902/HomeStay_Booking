@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HomeStay.Models
 {
@@ -22,6 +23,9 @@ namespace HomeStay.Models
         public string Status { get; set; } = null!;
         public string Avatar { get; set; } = null!;
         public int CategoryId { get; set; }
+        [NotMapped]
+        public string? CategoryName { get; set; }
+
 
         public virtual Category Category { get; set; } = null!;
         public virtual RoomImagesDetail? RoomImagesDetail { get; set; }

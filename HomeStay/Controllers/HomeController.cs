@@ -1,4 +1,4 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
+﻿﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using HomeStay.Helper;
 using HomeStay.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -59,13 +59,7 @@ namespace HomeStay.Controllers
             {
                 userClaims.SetUserClaims(TempData);
             }
-            IQueryable<Room> roomQuery = _context.Rooms
-                                                .AsNoTracking()
-                                                .Include(r => r.Category)
-                                                .Where(item => item.Active == true)
-                                                .OrderByDescending(item => item.RoomId)
-                                                .Take(10);
-            var listRooms = await roomQuery.ToListAsync();
+            var listRooms =  _context.GetListRoomActive();
             ViewBag.ListRooms = listRooms;
             return View(listRooms);
         }
@@ -75,12 +69,6 @@ namespace HomeStay.Controllers
         /* View  Contact */
         public async Task<IActionResult> HistoryBooking()
         {
-
-
-
-
-
-
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
@@ -110,16 +98,7 @@ namespace HomeStay.Controllers
             {
                 return RedirectToAction("Login", "Auth");
             }
-            return View();
-
-
-
-
-
-
-
-
-           
+            return View();   
         }
 
 
