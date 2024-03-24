@@ -37,7 +37,7 @@ namespace HomeStay.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-KHO76ED\\SQLEXPRESS;Initial Catalog=HomestayDB;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=HaiTrieu;Initial Catalog=HomestayDB;Integrated Security=True");
             }
         }
         // Home Controller
@@ -246,16 +246,6 @@ namespace HomeStay.Models
         public void DeleteRoom (int? id) {
             this.Database.ExecuteSqlRaw("EXECUTE DeleteRoom @RoomId", new SqlParameter("@RoomId", id));
         }
-
-
-
-
-
-
-
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
