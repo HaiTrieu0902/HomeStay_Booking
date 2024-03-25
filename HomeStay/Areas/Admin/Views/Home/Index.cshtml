@@ -25,7 +25,7 @@
                     <div class="vr text-primary" ></div>
                     <div>
                         <p class="mt-0 fs-14 text-primary">Tổng số khác hàng mới</p>
-                        <h5 class="m-0 text-primary fw-bold">3212</h5>
+                        <h5 class="m-0 text-primary fw-bold">12</h5>
                     </div>
                 </div>
             </div>
@@ -44,12 +44,12 @@
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div>
                         <p class="mt-0 fs-14" style="color : #d1c6db">Tổng tài khoản quản lý</p>
-                        <h5 class="m-0  fw-bold" style="color : #d1c6db">1101</h5>
+                        <h5 class="m-0  fw-bold" style="color : #d1c6db">  @ViewData["LitsAccount"] </h5>
                     </div>
                     <div class="vr" style="background-color: #d1c6db"></div>
                     <div>
                         <p class="mt-0 fs-14 " style="color : #d1c6db">Tổng số tài khoản mới</p>
-                        <h5 class="m-0 fw-bold" style="color : #d1c6db">3212</h5>
+                        <h5 class="m-0 fw-bold" style="color : #d1c6db">0</h5>
                     </div>
                 </div>
             </div>
@@ -69,13 +69,13 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div>
-                        <p class="mt-0 fs-14 " style="color: #62cfa7">Tổng công việc quản lý</p>
-                        <h5 class="m-0 fw-bold" style="color: #62cfa7">1101</h5>
+                        <p class="mt-0 fs-14 " style="color: #62cfa7">Tổng khách hàng </p>
+                        <h5 class="m-0 fw-bold" style="color: #62cfa7"> @ViewData["listCustomer"]</h5>
                     </div>
                     <div class="vr" style="background-color: #62cfa7"></div>
                     <div>
                         <p class="mt-0 fs-14 " style="color: #62cfa7">Tổng số khác hàng mới</p>
-                        <h5 class="m-0  fw-bold" style="color: #62cfa7">3212</h5>
+                        <h5 class="m-0  fw-bold" style="color: #62cfa7">5</h5>
                     </div>
                 </div>
             </div>
@@ -93,14 +93,14 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div>
-                        <p class="mt-0 fs-14 " style="color: #90e1d8">Tổng công việc quản lý</p>
-                        <h5 class="m-0  fw-bold" style="color: #90e1d8">1101</h5>
+                        <p class="mt-0 fs-14 " style="color: #90e1d8">Tổng phòng quản lý</p>
+                        <h5 class="m-0  fw-bold" style="color: #90e1d8">@ViewData["listRoom"]</h5>
                     </div>
-                    <div class="vr" style="background-color: #90e1d8"></div>
+                  @*   <div class="vr" style="background-color: #90e1d8"></div>
                     <div>
                         <p class="mt-0 fs-14 " style="color: #90e1d8">Tổng số khác hàng mới</p>
                         <h5 class="m-0  fw-bold" style="color: #90e1d8">3212</h5>
-                    </div>
+                    </div> *@
                 </div>
             </div>
 
@@ -111,20 +111,20 @@
                         <i class="fa-solid fa-receipt text-white"></i>
                     </button>
                     <div>
-                        <h4 class="fs-20 fw-bold  m-0" style="color: #f3c8af">Workplace setup</h4>
-                        <span class="fs-14 text-black">Tạo hoặc quản lý các công việc của bạn</span>
+                        <h4 class="fs-20 fw-bold  m-0" style="color: #f3c8af">Booking setup</h4>
+                        <span class="fs-14 text-black">Tạo hoặc quản lý các lịch đặt booking của bạn</span>
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div>
                         <p class="mt-0 fs-14 " style="color: #f3c8af">Tổng công việc quản lý</p>
-                        <h5 class="m-0 fw-bold" style="color: #f3c8af">1101</h5>
+                        <h5 class="m-0 fw-bold" style="color: #f3c8af">@ViewData["listBooking"]</h5>
                     </div>
-                    <div class="vr" style="background-color : #f3c8af"></div>
+                 <div class="vr" style="background-color : #f3c8af"></div>
                     <div>
-                        <p class="mt-0 fs-14 " style="color: #f3c8af">Tổng số khác hàng mới</p>
-                        <h5 class="m-0 fw-bold" style="color: #f3c8af">3212</h5>
-                    </div>
+                        <p class="mt-0 fs-14 " style="color: #f3c8af">Tổng số lịch đặt mới</p>
+                        <h5 class="m-0 fw-bold" style="color: #f3c8af">10</h5>
+                    </div> 
                 </div>
             </div>
 
@@ -135,20 +135,16 @@
                         <i class="fa-solid fa-briefcase text-white"></i>
                     </button>
                     <div>
-                        <h4 class="fs-20 fw-bold m-0" style="color: #f58bdd">News setup</h4>
+                        <h4 class="fs-20 fw-bold m-0" style="color: #f58bdd">Tổng số tiền đã thu</h4>
                         <span class="fs-14 text-black">Tạo hoặc quản lý các công việc của bạn</span>
                     </div>
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-5">
                     <div>
-                        <p class="mt-0 fs-14 " style="color:#f58bdd">Tổng công việc quản lý</p>
-                        <h5 class="m-0  fw-bold" style="color: #f58bdd">1101</h5>
+                        <p class="mt-0 fs-14 " style="color:#f58bdd">Tổng tiền</p>
+                        <h5 class="m-0  fw-bold" style="color: #f58bdd">@ViewData["TotalAmount"] VND</h5>
                     </div>
-                    <div class="vr" style="color:#f58bdd"></div>
-                    <div>
-                        <p class="mt-0 fs-14 " style="color:#f58bdd">Tổng số khác hàng mới</p>
-                        <h5 class="m-0  fw-bold" style="color: #f58bdd">3212</h5>
-                    </div>
+                   
                 </div>
             </div>
         </div>

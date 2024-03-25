@@ -1,0 +1,225 @@
+﻿@model HomeStay.Models.Booking
+
+@{
+    ViewData["Title"] = "Edit Booking";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="mt-4">
+    <h4>QUẢN LÝ ĐẶT PHÒNG</h4>
+    <div class="header_sub-title">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item "><a href="#" class="text-decoration-none">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-12 border_container">
+        <div style="height : 70vh;overflow-y: auto;overflow-x: hidden;" class="px-1">
+            <div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="BookingId" />
+                <div class="row g-4">
+                    <div class="form-group col-6">
+                        <label asp-for="CustomerId" class="control-label">Khách hàng</label>
+                        <select asp-for="CustomerId" class="form-control" id="CustomerId" asp-items="ViewBag.ListCustomer" disabled></select>
+                        <span asp-validation-for="CustomerId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group col-6">
+                        <label asp-for="PaymentId" class="control-label">Phương thức thanh toán</label>
+                        <select asp-for="PaymentId" class="form-control" id="PaymentId" asp-items="ViewBag.ListPayment"></select>
+                        <span asp-validation-for="PaymentId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label asp-for="RoomId" class="control-label">Phòng Đặt</label>
+                        <select asp-for="RoomId" id="RoomId" class="form-control" asp-items="ViewBag.ListRoom"></select>
+                        <span asp-validation-for="RoomId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <label asp-for="AmountOfPeople" class="control-label">Số người ở</label>
+                        <input asp-for="AmountOfPeople" id="AmountOfPeople" class="form-control" />
+                        <span asp-validation-for="AmountOfPeople" id="notification-amountPeople" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-6">
+                        <label asp-for="CheckIn" class="control-label"></label>
+                        <input asp-for="CheckIn" id="CheckIn" type="date" class="form-control" />
+                        <span asp-validation-for="CheckIn"  class="text-danger"></span>
+                    </div>
+                     <div class="form-group col-6">
+                        <label asp-for="CheckOut" class="control-label"></label>
+                        <input asp-for="CheckOut" itemid="CheckOut" type="date" class="form-control" />
+                        <span asp-validation-for="CheckOut" id="notification-checkout" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group col-6">
+                        <div class="form-group col-12">
+                            <label>
+                               Giá phòng hiện tại:
+                                @{
+                                    if (@Model.Room.Price is decimal || @Model.Room.Price is int || @Model.Room.Price is double)
+                                    {
+                                        var formattedPrice = Convert.ToDecimal(@Model.Room.Price).ToString("N0");
+                                        <span class="text-danger fs-16 fst-italic" id="priceLabel">@formattedPrice</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger fs-16 fst-italic" id="priceLabel">@Model.Room.Price</span>
+                                    }
+                                }
+                                <span class="text-danger fs-16  fst-italic">&nbsp;VNĐ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <div class="form-group col-12">
+                            <label>
+                                Số tiền bạn cần thành toán:
+                                @{
+                                    if (@Model.TotalAmount is decimal || @Model.TotalAmount is int || @Model.TotalAmount is double)
+                                    {
+                                        var formattedPrice = Convert.ToDecimal(@Model.TotalAmount).ToString("N0");
+                                        <span class="text-danger fs-16 fst-italic" id="totalPriceLabel">@formattedPrice</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger fs-16 fst-italic" id="totalPriceLabel">@Model.TotalAmount</span>
+                                    }
+                                }
+                                <span class="text-danger fs-16  fst-italic">&nbsp;VNĐ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-6">
+                        <div class="booking-time space-bottom-18 ">
+                            <div class="form-group col-12">
+                                <label>Tổng số đêm ở: <span class="text-primary fs-16 fst-italic" id="totalNightsLabel">@Model.CountNight</span></label>
+                            </div>
+                        </div>
+                    </div>
+                   
+
+                    <div class="form-group mt-2">
+                        <button onClick="onClickAddBooking(this)"  class="btn btn-primary">Cập nhật</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="text-decoration-none text-primary">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.getElementById("totalPriceLabel").innerText = parseInt(@Model.TotalAmount).toLocaleString();
+        /* hàm check trước khi add */
+        function checkAmoutPeople() {
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            if (isNaN(amountOfPeople)) {
+                document.getElementById('notification-amountPeople').innerHTML = `Vui lòng nhập số lượng người đi`;
+            }
+            else if (amountOfPeople <= 0 || amountOfPeople > @Model.Room.Capacity) {
+                document.getElementById('notification-amountPeople').innerHTML = `Số người dự kiến phải nằm trong khoảng cho phép`;
+            } else {
+                document.getElementById('notification-amountPeople').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+      
+
+        /* ajax sửa booking */
+        function onClickAddBooking(button) {
+            checkAmoutPeople();
+            const checkIn = new Date(document.getElementById("CheckIn").value);
+            const checkOut = new Date(document.getElementById("CheckOut").value);
+            const roomId = parseInt(document.getElementById("RoomId").value);
+            const customerId = parseInt(document.getElementById("CustomerId").value);
+            const paymentId = parseInt(document.getElementById("PaymentId").value);
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            const oneDay = 24 * 60 * 60 * 1000;
+            let totalNights = Math.round((checkOut - checkIn) / oneDay);
+            const totalPrice = @Model.Room.Price * (1 + (totalNights - 1) * 0.1);
+            var data = {
+                BookingId: @Model.BookingId,
+                RoomId: roomId,
+                TotalAmount: totalPrice,
+                CheckIn: checkIn,
+                checkOut: checkOut,
+                AmountOfPeople: amountOfPeople,
+                PaymentId: paymentId,
+                CountNight: totalNights,
+                CustomerId: customerId,
+            };
+            if (checkAmoutPeople()) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Admin/Bookings/EditBookingAdmin", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.status === 'Success') {
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            window.location.href = result.redirectUrl;
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            } else {
+                console.log("không ổn rồi ông giáo ơi")
+            }
+            
+           
+            
+
+        }
+
+        // onBlur
+        document.getElementById("CheckOut").onchange = function () {
+            const checkIn = new Date(document.getElementById("CheckIn").value);
+            const checkOut = new Date(document.getElementById("CheckOut").value);
+            const oneDay = 24 * 60 * 60 * 1000;
+            let totalNights = Math.round((checkOut - checkIn) / oneDay);
+            const totalPrice = @Model.Room.Price * (1 + (totalNights - 1) * 0.1);
+            document.getElementById("totalNightsLabel").innerText = totalNights;
+            document.getElementById("totalPriceLabel").innerText = totalPrice.toLocaleString();
+            if (totalNights <= 0) {
+                document.getElementById('notification-checkout').innerHTML = "Ngày trả phòng phải lớn hơn ngày hiện tại";
+            } else {
+                document.getElementById('notification-checkout').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+        document.getElementById("AmountOfPeople").onblur = function () {
+            const amountOfPeople = parseInt(document.getElementById("AmountOfPeople").value);
+            if (isNaN(amountOfPeople)) {
+                document.getElementById('notification-amountPeople').innerHTML = `Vui lòng nhập số lượng người đi`;
+            }
+            else if (amountOfPeople <= 0 || amountOfPeople > @Model.Room.Capacity) {
+                document.getElementById('notification-amountPeople').innerHTML = `Số người dự kiến phải nằm trong khoảng cho phép`;
+            } else {
+                document.getElementById('notification-amountPeople').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+    </script>
+}
