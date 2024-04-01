@@ -1,0 +1,162 @@
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.IPagedList<Booking>
+
+@{
+    ViewData["Title"] = "Bookings";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section class="">
+    <div class="mt-4">
+        <h4>QUẢN LÝ ĐẶT PHÒNG</h4>
+        <div class="header_sub-title">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="account-actions-contain d-flex">
+        <div style="flex: 1;">
+            <div class="d-flex gap-3">
+                <div class="col-6">
+                    @*   <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                    <label>Active:</label>
+                    <select id="roles" class="border-0 form-select-sm bg-light me-3" class="form-control" asp-items="ViewBag.ListRole">
+                    <option value="">Default</option>
+                    </select>
+                    </div> *@
+                </div>
+                <div class="col-6">
+                    @*   <div class="bg-light ps-3 py-2  rounded-12 d-flex justify-content-between mb-4">
+                    <label>Role:</label>
+                    <select id="status" class="border-0 form-select-sm bg-light me-3">
+                    <option value="">Default</option>
+                    <option value="0">Active</option>
+                    <option value="1">Deative</option>
+                    </select>
+                    </div> *@
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-6"></div>
+      @*<div>
+            <a asp-action="Create" class="text-decoration-none btn bg-primary text-white">Thêm Khách Hàng</a>
+
+        </div> *@
+    </div>
+
+
+    <table class="table table-striped w-100 mt-2">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Khách hàng</th>
+                <th scope="col">Phòng</th>
+                <th scope="col">Check In</th>
+                <th scope="col">Check Out</th>
+                <th scope="col">Số đêm ở</th>
+                <th scope="col">Tổng tiền</th>
+                <th scope="col">Số người ở</th>
+                <th scope="col">PPTT</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.BookingId
+                        </td>
+                        <td>
+                            @item.Customer.FullName
+                        </td>
+                        <td>
+                            @item.Room.Title
+                        </td>
+                       
+                        <td>
+
+                            @item.CheckIn
+                          @*   @item.CheckIn.ToString("dd-MM-yyyy") *@
+                        </td>
+                        <td>
+                            @item.CheckOut
+                        </td>
+                        <td>
+                            @item.CountNight
+                        </td>
+                        <td>
+                            @{
+                                if (@item.TotalAmount is decimal || @item.TotalAmount is int || @item.TotalAmount is double)
+                                {
+                                    var formattedPrice = Convert.ToDecimal(@item.TotalAmount).ToString("N0");
+                                    <p class="fs-16 fw-bold mb-0 text-danger">@formattedPrice VNĐ</p>
+                                }
+                                else
+                                {
+                                    <p class="fs-16 fw-bold mb-0 text-danger">@item.TotalAmount VNĐ</p>
+                                }
+                            }
+
+
+                        </td>
+
+                        <td>
+                            @item.AmountOfPeople
+                        </td>
+                        <td>
+                            @item.Payment.PaymentMethod
+                        </td>
+                        <td>
+                            <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.BookingId"> <i class="fa-solid fa-pen text-warning"></i> </a>
+                            <a class="text-decoration-none" asp-action="Edit" asp-route-id="@item.BookingId"><i class="fa-solid fa-eye"></i></a>
+                            @*   <a asp-action="Delete" asp-route-id="@item.CustomerId"><i class="fa-solid fa-trash text-danger"></i></a> *@
+
+                          @*   <button type="button" class="button_none" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.CustomerId">
+                                <i class="fa-solid fa-trash text-danger"></i>
+                            </button>
+                            *@
+                         
+                          @*   <div class="modal fade rounded-16" id="exampleModal-@item.CustomerId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                             
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            Are you sure you want to delete 
+                                        </div>
+                                        <div class="modal-footer">
+                                            <form method="post" action="@Url.Action("DeleteCustomerNotView", "Customers", new { id = item.CustomerId })">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-danger rounded-3">Yes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+
+    
+</section>
+
+<div class="col-12">
+   <div class="pagination d-flex justify-content-center mt-5">
+     @Html.PagedListPager(Model , page => Url.Action("Index" , new {page = page}))
+    </div> 
+   
+</div>
+<script src="~/js/popper.js"></script>
