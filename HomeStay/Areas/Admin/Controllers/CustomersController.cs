@@ -33,6 +33,7 @@ namespace HomeStay.Areas.Admin.Controllers
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 10;
             var listCustomers = _context.GetListCustomer();
+             /*  var listCustomers = _context.Customers.AsNoTracking().OrderByDescending(item => item.CustomerId);*/
             PagedList<Customer> models = new PagedList<Customer>(listCustomers, pageNumber, pageSize);
            /* ViewBag.CurrentPage = pageNumber;*/
             // var customer = await _context.Customers.FromSqlRaw("SELECT * FROM Customer").ToListAsync();
