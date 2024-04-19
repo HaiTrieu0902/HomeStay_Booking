@@ -88,7 +88,11 @@
                                             <i class="fa-regular fa-heart me-1"></i>  <span class="fs-16">Yêu thích</span>
                                         </a>
                                     </li>
-                                    <li class="btn_transparent p-1 rounded-3"><i class="fa-solid fa-gear me-1"></i>   <span class="fs-16">Cài đặt</span></li>
+                                    <li class="btn_transparent p-1 rounded-3">
+                                        <a asp-area="" asp-controller="Home" asp-action="SettingUser" class="text-decoration-none text-black">
+                                            <i class="fa-solid fa-gear me-1"></i>   <span class="fs-16">Cài đặt</span>
+                                        </a>
+                                    </li>
                                     <li class="btn_transparent  p-1 rounded-3">
                                         <a asp-controller="Auth" asp-action="Logout" class="text-decoration-none text-danger">
                                             <i class="fa-solid fa-right-from-bracket me-1"></i>

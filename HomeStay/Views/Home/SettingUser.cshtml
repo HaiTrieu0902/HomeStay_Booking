@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="mt-5">
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Contact</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active text-white">Settings</li>
+        </ol>
+    </div>
+    <div class="container contact py-4">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Thông tin</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Đổi mật khẩu</button>
+            </li>
+           @*  <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</button>
+            </li> *@
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="col-12 border_container">
+                    <div>
+                        <span class="fw-bold">Email: </span>
+                        <span>@TempData["EmailAccount"]</span>
+                    </div>
+                    <div>
+                        <span class="fw-bold">Name: </span>
+                        <span>@TempData["NameAccount"]</span>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <div class="col-12 border_container">
+                    <div class="form-group col-5">
+                        <label for="currentPassword">Mật khẩu hiện tại</label>
+                        <input class="form-control mt-1" type="password" id="currentPassword" name="currentPassword">
+                        <span class="form-message text-danger fs-14" id="notification-currentPassword">
+                        </span>
+                    </div>
+                    <div class="form-group col-5">
+                        <label for="newPassword">Mật khẩu mới</label>
+                        <input class="form-control mt-1" type="password" id="newPassword" name="newPassword">
+                        <span class="form-message text-danger fs-14" id="notification-newPassword">
+                        </span>
+                    </div>
+                    <div class="form-group col-5">
+                        <label for="confirmPassword">Xác nhận mật khẩu</label>
+                        <input class="form-control mt-1" type="password" id="confirmPassword" name="confirmPassword">
+                        <span class="form-message text-danger fs-14" id="notification-confirmPassword">
+                        </span>
+                    </div>
+               
+                    <div class="account-form_button col-5 ">
+                        <button  class="acount-form--btn_primary" id="account-form__submit" onClick="changePassWord()">Đổi mật khẩu</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+           @*  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div> *@
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const newPassword = document.getElementById("newPassword");
+        const confirmPassword = document.getElementById("confirmPassword");
+
+        function checkPassword() {
+            var format = /[ `!$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            if (newPassword.value.trim() == "") {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu không được để trống!";
+            } else if (newPassword.value.length < 8) {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu tối thiểu 8 ký tự!";
+            } else if (!(format.test(newPassword.value))) {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu phải chứa ký tự đặc biệt";
+            } else {
+                document.getElementById('notification-newPassword').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+
+        function checkConfirmPassword() {
+            var format = /[ `!$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            if (newPassword.value.trim() == "") {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu không được để trống!";
+            } else if (newPassword.value.length < 8) {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu tối thiểu 8 ký tự!";
+            } else if (!(format.test(newPassword.value))) {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu phải chứa ký tự đặc biệt";
+            } else if (newPassword.value != confirmPassword.value) {
+                document.getElementById('notification-confirmPassword').innerHTML = `Vui lòng nhập mật khẩu trùng với mật khẩu mới`;
+            } else {
+                document.getElementById('notification-confirmPassword').innerHTML = "";
+                return true;
+            }
+            return false;
+           
+        }
+        function changePassWord() {
+            checkPassword();
+            checkConfirmPassword();
+            const currentPassword = document.getElementById("currentPassword").value;
+            var data = {
+                CurrentPassword: currentPassword,
+                NewPassword: newPassword.value,
+                ConfirmPassword: confirmPassword.value,
+                CustomerId: @TempData["IdAccount"],
+            };
+            if (checkPassword() && checkConfirmPassword()) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/Home/ChangePassWord", true);
+                xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        var result = JSON.parse(xhr.responseText);
+                        if (result.status === 'Success') {
+                            // location.reload();
+                            window.location.href = result.redirectUrl;
+                        } else {
+                            //location.reload();
+                            window.location.href = result.redirectUrl;
+                        }
+                    }
+                };
+                xhr.send(JSON.stringify(data));
+            }
+        }
+
+        newPassword.onblur = function () {
+            var format = /[ `!$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            if (newPassword.value.trim() == "") {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu không được để trống!";
+            } else if (newPassword.value.length < 8) {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu tối thiểu 8 ký tự!";
+            } else if (!(format.test(newPassword.value))) {
+                document.getElementById('notification-newPassword').innerHTML = "Mật khẩu phải chứa ký tự đặc biệt";
+            } else {
+                document.getElementById('notification-newPassword').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+
+        confirmPassword.onblur = function () {
+            var format = /[ `!$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+            if (newPassword.value.trim() == "") {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu không được để trống!";
+            } else if (newPassword.value.length < 8) {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu tối thiểu 8 ký tự!";
+            } else if (!(format.test(newPassword.value))) {
+                document.getElementById('notification-confirmPassword').innerHTML = "Mật khẩu phải chứa ký tự đặc biệt";
+            } else if (newPassword.value != confirmPassword.value) {
+                document.getElementById('notification-confirmPassword').innerHTML = `Vui lòng nhập mật khẩu trùng với mật khẩu mới`;
+            } else {
+                document.getElementById('notification-confirmPassword').innerHTML = "";
+                return true;
+            }
+            return false;
+        }
+
+    </script>
+}

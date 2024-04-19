@@ -23,6 +23,7 @@ namespace HomeStay.Controllers
 
         }
 
+
         /* Validate Phone */
         [AcceptVerbs("Get", "Post")]
         [AllowAnonymous]
@@ -276,7 +277,10 @@ namespace HomeStay.Controllers
             HttpContext.Session.Remove("CustomerId"); 
             return RedirectToAction("Login", "Auth"); 
         }
+
+
+
     }
 
-   
+
 }

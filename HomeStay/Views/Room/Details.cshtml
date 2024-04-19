@@ -634,7 +634,6 @@
                 CountNight: totalNights,
                 CustomerId: @TempData["IdAccount"],
             };
-            console.log("dattaa", data)
             if (checkAmoutPeople() && checkPayment()) {
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "/Room/CreateBooking", true);

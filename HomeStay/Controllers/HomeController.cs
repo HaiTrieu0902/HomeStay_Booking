@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
+using System.Web.Helpers;
 using X.PagedList;
 
 namespace HomeStay.Controllers
@@ -125,10 +126,70 @@ namespace HomeStay.Controllers
             return View();
         }
 
+
+        public IActionResult SettingUser()
+        {
+            var userClaims = User.Identity as ClaimsIdentity;
+            if (userClaims != null)
+            {
+                userClaims.SetUserClaims(TempData);
+            }
+            return View();
+        }
+
+
+        public async Task<IActionResult> ChangePassWord([FromBody] ModalChangePass item)
+        {
+            try
+            {
+                var customer = await _context.Customers.FindAsync(item.CustomerId);
+                if (customer != null)
+                {
+                     if(customer.Password != item.CurrentPassword)
+                     {
+                        _notifyService.Error($"Mật khẩu hiện tại không đúng , vui lòng thử lại");
+                        return Json(new { status = "Failed", redirectUrl = $"/Home/SettingUser" });
+                     } else
+                     {
+                        customer.Password = item.ConfirmPassword;
+                        await _context.SaveChangesAsync();
+                        _notifyService.Success($"Đã đổi mật khẩu thành công, vui lòng đăng xuất để thử lại");
+                        return Json(new { status = "Success", redirectUrl = $"/Home/SettingUser" });
+                     }
+                }
+                else
+                {
+                    _notifyService.Error($"Lỗi khi đổi mật khẩu");
+                    return Json(new { status = "Failed", redirectUrl = $"/Home/SettingUser", message = "Hiện tại không đổi được mật khẩu" });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _notifyService.Error($"Lỗi khi đổi mật khẩu");
+                return Json(new { status = "Success", redirectUrl = $"/Home/SettingUser" });
+            }
+        }
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
+
+
+
+    public class ModalChangePass
+    {
+        public int CustomerId { get; set; }
+       
+        public string ConfirmPassword { get; set; }
+
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+    }
+
 }
