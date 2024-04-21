@@ -23,28 +23,65 @@ namespace HomeStay.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+
+
             var userClaims = User.Identity as ClaimsIdentity;
             if (userClaims != null)
             {
                 userClaims.SetUserClaims(TempData);
+
+                // Kiểm tra xem role của người dùng có phải là admin không
+                var roleClaim = userClaims.FindFirst("Role");
+                if (roleClaim != null && (roleClaim.Value == "Admin" || roleClaim.Value == "Manager" || roleClaim.Value == "Super Admin"))
+                {
+                    // Nếu là admin, tiếp tục hiển thị trang Index
+                    var LitsAccount = _context.Accounts.Count();
+                    var listCustomers = _context.Customers.Count();
+                    var listRoom = _context.Rooms.Count();
+                    var ListBooking = _context.Bookings.Count();
+                    var totalAmount = _context.Bookings.Sum(b => b.TotalAmount);
+
+                    ViewData["LitsAccount"] = LitsAccount != null ? LitsAccount : 0;
+                    ViewData["listCustomer"] = listCustomers != null ? listCustomers : 0;
+                    ViewData["listRoom"] = listRoom != null ? listRoom : 0;
+                    ViewData["ListBooking"] = ListBooking != null ? ListBooking : 0;
+                    ViewData["TotalAmount"] = totalAmount;
+
+                    return View();
+                }
+                else
+                {
+                    _notifyService.Error("Bạn không có quyền vào trang Admin");
+                    return RedirectToAction("Login", "Auth", new { area = "" });
+                }
+            }
+            else
+            {
+                _notifyService.Error("Bạn không có quyền vào trang Admin");
+                return RedirectToAction("Login", "Auth", new { area = "" });
             }
 
-            var LitsAccount = _context.Accounts.Count();
-            var listCustomers = _context.Customers.Count();
-            var listRooom = _context.Rooms.Count();
-            var ListBooking = _context.Bookings.Count();
+            /*
+             * 
+             * 
 
+              var userClaims = User.Identity as ClaimsIdentity;
+             if (userClaims != null)
+             {
+                 userClaims.SetUserClaims(TempData);
+             }
+             var LitsAccount = _context.Accounts.Count();
+             var listCustomers = _context.Customers.Count();
+             var listRooom = _context.Rooms.Count();
+             var ListBooking = _context.Bookings.Count();
 
-
-            var totalAmount = _context.Bookings.Sum(b => b.TotalAmount);
-
-
-            ViewData["LitsAccount"] = LitsAccount != null ? LitsAccount :  0;
-            ViewData["listCustomer"] = listCustomers != null ? listCustomers : 0;
-            ViewData["listRoom"] = listRooom != null ? listRooom : 0;
-            ViewData["ListBooking"] = ListBooking != null ? ListBooking : 0;
-            ViewData["TotalAmount"] = totalAmount;
-            return View();
+             var totalAmount = _context.Bookings.Sum(b => b.TotalAmount);
+             ViewData["LitsAccount"] = LitsAccount != null ? LitsAccount :  0;
+             ViewData["listCustomer"] = listCustomers != null ? listCustomers : 0;
+             ViewData["listRoom"] = listRooom != null ? listRooom : 0;
+             ViewData["ListBooking"] = ListBooking != null ? ListBooking : 0;
+             ViewData["TotalAmount"] = totalAmount;
+             return View();*/
         }
 
         /* Logout */

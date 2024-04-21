@@ -83,7 +83,7 @@ namespace HomeStay.Controllers
                     if (!isEmail) return View(customer);
 
                     var localCustomer = _context.Customers.AsNoTracking().SingleOrDefault(item => item.Email.Trim() == customer.Email.Trim());
-                    var localAccountAdmin = _context.Accounts.AsNoTracking().SingleOrDefault(item => item.Email.Trim() == customer.Email.Trim());
+                    var localAccountAdmin = _context.Accounts.AsNoTracking().Include(item =>item.Role).SingleOrDefault(item => item.Email.Trim() == customer.Email.Trim());
 
                     if (localCustomer != null)
                     {
@@ -147,6 +147,7 @@ namespace HomeStay.Controllers
                             new Claim(ClaimTypes.NameIdentifier, localAccountAdmin.Email),
                             new Claim("CustomerId", localAccountAdmin.AccountId.ToString()),
                             new Claim("FullName", localAccountAdmin.AccountName),
+                            new Claim("Role", localAccountAdmin.Role.RoleName),
                             new Claim("Email", localAccountAdmin.Email),
                         };
                         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

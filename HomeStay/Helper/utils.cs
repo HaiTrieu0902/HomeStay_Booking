@@ -80,12 +80,14 @@ namespace HomeStay.Helper
             var idLogin = userClaims.FindFirst("CustomerId");
             var useLogin = userClaims.FindFirst("FullName");
             var emailLogin = userClaims.FindFirst("Email");
+            var role = userClaims.FindFirst("Role");
 
             if (usernameClaim != null)
             {
                 tempData["IdAccount"] = idLogin?.Value;
                 tempData["NameAccount"] = useLogin?.Value;
                 tempData["EmailAccount"] = emailLogin?.Value;
+                tempData["RoleAccount"] = role?.Value;
             }
         }
 
