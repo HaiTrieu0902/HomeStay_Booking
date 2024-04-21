@@ -39,7 +39,6 @@ namespace HomeStay.Controllers
             {
                 userClaims.SetUserClaims(TempData);
             }
-
             /* start func */
             var pageNumber = page == null || page < 0 ? 1 : page.Value;
             var pageSize = 9;
@@ -67,7 +66,7 @@ namespace HomeStay.Controllers
             var listRooms = await roomQuery.ToListAsync();
             var models = new PagedList<Room>(listRooms.AsQueryable(), pageNumber, pageSize);
 
-            ViewBag.CurrentSearch = searchValue;
+            ViewBag.CurrentSearch = searchValue != null ? searchValue :  " ";
             ViewBag.CurrentCategory = categoryId;
             ViewData["ListCategory"] = new SelectList(_context.Categories, "CategoryId", "CategoryName", categoryId);
             return View(models);

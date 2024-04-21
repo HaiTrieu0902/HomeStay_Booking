@@ -204,6 +204,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="customerId" value="@TempData["IdAccount"]" />
 </div>
 
 @section Scripts {
@@ -278,6 +279,8 @@
             var area = button.getAttribute("data-area");
             var detail = button.getAttribute("data-detail");
             var title = button.getAttribute("data-title");
+            var customerId = document.getElementById("customerId").value;
+           
             var data = {
                 RoomId: roomId,
                 Title: title,
@@ -285,9 +288,10 @@
                 Price: price,
                 Area: area,
                 Detail: detail,
-                CustomerId: @TempData["IdAccount"],
+                //CustomerId: @TempData["IdAccount"],
+                CustomerId: customerId,
             };
-            console.log(JSON.stringify(data))
+            console.log("data",JSON.stringify(data))
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/Room/AddFavoriteRoomsByUser", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -304,25 +308,7 @@
                 }
             };
             xhr.send(JSON.stringify(data));
-            /*
-            $.ajax({
-                url: '/Room/AddFavoriteRoomsByUser',
-                type: 'POST',
-                data: JSON.stringify(data),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (result) {
-                    if (result.status === 'Success') {
-                        location.reload();
-                    } else {
-
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("xhr", xhr)
-                }
-             }); */
-
+           
         }
     </script>
 }
