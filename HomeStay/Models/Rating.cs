@@ -5,6 +5,7 @@ namespace HomeStay.Models
 {
     public partial class Rating
     {
+        public int RatingId { get; set; }
         public int? CustomerId { get; set; }
         public int? BookingId { get; set; }
         public int Rating1 { get; set; }

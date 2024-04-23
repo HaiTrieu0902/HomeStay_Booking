@@ -70,12 +70,22 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Status)
         </dd>
+        @*
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CreateAt):
+        </dt>
+        @{
+        string formattedDate = Model.CreateAt.HasValue ? Model.CreateAt.Value.ToString("dd-MM-yyyy") : "Ngày tạo không khả dụng";
+        }
+        @Html.DisplayFor(model => formattedDate)
+
+        *@
 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Category):
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
+            @Html.DisplayFor(model => model.Category.CategoryName)
         </dd>
 
         <dt class = "col-sm-2">

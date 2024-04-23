@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using System.Web.Helpers;
 using X.PagedList;
+using static HomeStay.Controllers.RoomController;
 
 namespace HomeStay.Controllers
 {
@@ -103,6 +104,47 @@ namespace HomeStay.Controllers
         }
 
 
+
+
+        [HttpPost]
+        [Route("Home/CreateRatingUser")]
+        public async Task<IActionResult> CreateRatingUser([FromBody] RatingClone rating)
+        {
+            try
+            {
+                Rating newRating = new Rating
+                {
+                    CustomerId = 19,
+                    BookingId  = 5,
+                    Rating1 = 3,
+                    Comment = rating.Comment,
+
+                };
+                var duplicateBookingId = _context.Ratings.AsNoTracking().SingleOrDefault(item => item.BookingId == rating.BookingId && item.CustomerId == rating.CustomerId);
+                if (duplicateBookingId != null)
+                {
+                    _notifyService.Error($"Phòng này bạn đã đánh giá rồi!!");
+                    return Json(new { status = "Error", redirectUrl = "/Home/HistoryBooking", message = "Phòng này bạn đã đánh giá rồi!!" });
+                }
+                else
+                {
+                    _context.Ratings.Add(newRating);
+                    await _context.SaveChangesAsync();
+                    _notifyService.Success($"Thêm vào yêu thích thành công");
+                    return Json(new { status = "Success", redirectUrl = "/Home/HistoryBooking" });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _notifyService.Error($"Lỗi khi đánh giá");
+                return Json(new { status = "Error", redirectUrl = "/Home/HistoryBooking", message = "Đã có lỗi xảy ra ở đây" });
+            }
+        }
+
+
+
         /* View  Privacy */
         public IActionResult Privacy()
 
@@ -191,5 +233,16 @@ namespace HomeStay.Controllers
         public string CurrentPassword { get; set; }
         public string NewPassword { get; set; }
     }
+
+    public partial class RatingClone
+    {
+
+        public int CustomerId { get; set; }
+        public int BookingId { get; set; }
+        public int Rating1 { get; set; }
+        public string Comment { get; set; } = null!;
+      
+    }
+
 
 }

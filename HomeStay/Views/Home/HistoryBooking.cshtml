@@ -77,22 +77,64 @@
                                                     <p class="fs-16 fw-bold mb-0 text-danger">@item.TotalAmount VNĐ</p>
                                                 }
                                            }
-                                    
-
                                     </td>
                                     <td>@item.Payment.PaymentMethod</td>
                                     <td>
-                                    <button class="btn btn_transparent  text-primary">
-                                        Đã book
-                                    </button>
+                                        <button class="btn btn_transparent  text-primary">
+                                            Đã book
+                                        </button>
+                                        <button type="button" class="btn-primary btn text-white" data-bs-toggle="modal" data-bs-target="#exampleModal-@item.Room.RoomId">
+                                            Đánh giá ngay
+                                        </button>
+
+
+                                        <!-- Modal -->
+                                        <div class="modal fade rounded-16" id="exampleModal-@item.Room.RoomId" tabindex="-1" aria-labelledby="exampleModalLabel-@item.CustomerId" aria-hidden="true">
+                                            <!-- Modal content -->
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        Đánh giá phòng: <span class="fw-bold text-danger fs-16"> @item.Room.Title</span>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="row g-4 ">
+                                                          <div class="col-12">
+                                                                <img src="@Url.Content("~/img/rooms/" + item.Room.Avatar)" class="img-fluid w-100 rounded-top" style="height : 300px;" alt="">
+
+                                                           </div>
+                                                            <div class="col-12">
+                                                                <div class="d-flex  justify-content-between align-content-center ">
+                                                                    <span>Số đêm ở: <span class="fw-bold text-primary">@item.CountNight</span></span>
+                                                                    <span>Giá tiền: <span  class="text-danger fw-bold">@item.Room.Price VND</span> </span>
+                                                                </div> 
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <input class="form-control mb-2" id="rating-@item.BookingId" placeholder="Nhập số sao đánh giá" type="number" min="0" max="5" step="0.5" pattern="[0-5](\.\d+)?" required />
+                                                                <textarea class="form-control" id="comment-@item.BookingId" placeholder="nhập dánh giá của bạn"></textarea>
+                                                            </div>
+
+                                                            <div class="col-12">
+                                                                <div class="d-flex gap-4">
+                                                                    <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Close</button>
+                                                                    <button data-booking-id="@item.BookingId" type="submit" class="btn btn-primary rounded-3 w-50" onclick="onClickAddRating(this)">Đánh giá</button>
+                                                                </div>
+                                                            </div>
+
+                                                     </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </td>
                                 </tr>
 
-                                // Modal hiển thị chi tiết
+                              
                             }
                         }
                     }
-                  
+                    <input type="hidden" id="customerId" value="@TempData["IdAccount"]" />
                 </table>
             </div>
         </div>
@@ -106,6 +148,38 @@
     </div>
 </div>
 
-<script>
+@section Scripts {
+    <script>
+        // Thực hiện ajax thêm vào giỏ hàng
+        function onClickAddRating(button) {
+            var bookingId = parseInt(button.getAttribute("data-booking-id"));
+            var customerId = parseInt(document.getElementById("customerId").value);
+            var ratingInput = document.getElementById("rating-" + bookingId).value;
+            var commentInput = document.getElementById("comment-" + bookingId).value;
+            var data = {
+                BookingId: bookingId,
+                Rating1: ratingInput,
+                Comment: commentInput,
+                CustomerId: customerId,
+            };
+            console.log("data", data)
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/Home/CreateRatingUser", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.status === 'Success') {
+                      //  location.reload();
+                      //  window.location.href = result.redirectUrl;
+                    } else {
+                       // location.reload();
+                    //  window.location.href = result.redirectUrl;
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(data));
 
-</script>
+        }
+    </script>
+}

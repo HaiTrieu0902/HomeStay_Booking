@@ -36,7 +36,6 @@ namespace HomeStay.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=HaiTrieu;Initial Catalog=HomestayDB;Integrated Security=True");
             }
         }
@@ -218,10 +217,12 @@ namespace HomeStay.Models
                 new SqlParameter("@Active", room.Active),
                 new SqlParameter("@Status", room.Status),
                 new SqlParameter("@CategoryId", room.CategoryId),
-                new SqlParameter("@Avatar", room.Avatar)
+                new SqlParameter("@Avatar", room.Avatar),
+              //  new SqlParameter("@createAt", room.CreateAt)
+              //@createAt
             };
 
-            this.Database.ExecuteSqlRaw("EXECUTE CreateRoom @Title, @Detail, @Price, @Area, @Capacity, @Description, @Active, @Status, @CategoryId, @Avatar", parameters.ToArray());
+            this.Database.ExecuteSqlRaw("EXECUTE CreateRoom @Title, @Detail, @Price, @Area, @Capacity, @Description, @Active, @Status, @CategoryId, @Avatar ", parameters.ToArray());
         }
 
         public void UpdateRoom(Room room)
@@ -243,7 +244,8 @@ namespace HomeStay.Models
             this.Database.ExecuteSqlRaw("EXECUTE UpdateRoom @RoomId, @Title, @Detail, @Price, @Area, @Capacity, @Description, @Active, @Status, @CategoryId, @Avatar", parameters.ToArray());
         }
 
-        public void DeleteRoom (int? id) {
+        public void DeleteRoom(int? id)
+        {
             this.Database.ExecuteSqlRaw("EXECUTE DeleteRoom @RoomId", new SqlParameter("@RoomId", id));
         }
 
@@ -395,7 +397,9 @@ namespace HomeStay.Models
                 entity.ToTable("Room");
 
                 entity.Property(e => e.Area).HasMaxLength(255);
-
+               // entity.Property(e => e.CreateAt)
+                 //     .HasColumnType("datetime")
+                    //  .HasColumnName("createAt");
                 entity.Property(e => e.Avatar).HasMaxLength(100);
 
                 entity.Property(e => e.Description).HasMaxLength(255);

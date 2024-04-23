@@ -81,7 +81,12 @@ namespace HomeStay.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var room = _context.GetRoomById(id);
+           // var room = _context.GetRoomById(id);
+           // var room = await _context.Rooms.Include(item => item.Category).FindAsync(id);
+
+            var room = await _context.Rooms.AsNoTracking().Include(item => item.Category)
+              .FirstOrDefaultAsync(m => m.RoomId == id);
+
             if (room == null)
             {
                 return NotFound();
@@ -119,6 +124,8 @@ namespace HomeStay.Areas.Admin.Controllers
                 string originalFileName = Path.GetFileNameWithoutExtension(fthumb.FileName);
                 string fileName = $"{originalFileName}_{DateTime.Now.ToString("yyyyMMddHHmmssfff")}{extention}";
                 room.Avatar = await utils.UploadImage(fthumb, @"rooms", fileName);
+                // CreateAt
+                // room.CreateAt = DateTime.Now;
             }
 
             if (string.IsNullOrEmpty(room.Avatar))

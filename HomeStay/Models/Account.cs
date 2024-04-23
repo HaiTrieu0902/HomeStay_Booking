@@ -14,8 +14,6 @@ namespace HomeStay.Models
         public string Password { get; set; } = null!;
         public string Cccd { get; set; } = null!;
 
-        // public string? RoleName { get; set; } = null!;
-
         public virtual Role? Role { get; set; }
     }
 }
